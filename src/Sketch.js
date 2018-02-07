@@ -27,10 +27,10 @@ class Sketch extends Component {
         highTreshold: 20,
         lowTreshold: 50,
         coord: {
-            x: 2,
-            z: 1,
+            x: 0,
+            z: 0,
         },
-        rotation: 0,
+        rotation: 3,
         scale: {
             x: 2,
             y: 2,
@@ -94,6 +94,7 @@ class Sketch extends Component {
 
         return (
             <div>
+              {console.log('>>>>>>------',)}
                 <SketchRenderer
                     coordX={coordX}
                     coordZ={coordZ}
