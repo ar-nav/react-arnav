@@ -1,5 +1,5 @@
 {
-  "name": "sketch-by-phone",
+  "name": "ar-nav",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -9,7 +9,10 @@
     "react": "15.5.4",
     "react-dom": "15.5.4",
     "react-media": "1.5.1",
-    "react-tap-event-plugin": "2.0.1"
+    "react-navigation": "^1.0.0",
+    "react-redux": "^5.0.6",
+    "react-tap-event-plugin": "2.0.1",
+    "redux": "^3.7.2"
   },
   "devDependencies": {
     "enzyme": "2.8.2",
