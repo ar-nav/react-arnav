@@ -21,6 +21,10 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
       } = this.props;
       
       const renderer = this.renderer = initializeRenderer(this.canvas);
+
+      // const renderer = new THREE.WebGLRenderer();
+			// 	renderer.setPixelRatio( window.devicePixelRatio );
+			// 	renderer.setSize( window.innerWidth, window.innerHeight );
       
       const scene = new Scene();
       const camera = new Camera();
@@ -56,21 +60,22 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
       this.mesh.position.z = coordZ;
       this.mesh.scale.x = scaleX;
       this.mesh.scale.y = scaleY;
-      
-      let elf
+      // markerRoot.add(this.mesh);
+
+      let wolf
       // loading manager
-				var loadingManager = new THREE.LoadingManager( function() {
-					scene.add( elf );
-				} );
+				// var loadingManager = new THREE.LoadingManager( function() {
+        //   scene.add( wolf );
+        //   markerRoot.add( wolf )
+				// } );
 				// collada
-        var loader = new ColladaLoader( loadingManager );
-        loader.options.localImageMode = true
-				loader.load( './assets/wolf.dae', function ( collada ) {
-					elf = collada.scene;
+        var loader = new ColladaLoader(  );
+        // loader.options.localImageMode = true
+				loader.load( 'https://raw.githubusercontent.com/ar-nav/react-arnav/3d-model/src/assets/directional-generic-marker.dae', function ( collada ) {
+          wolf = collada.scene;
+          scene.add(wolf)
+          markerRoot.add(wolf)
 				} );
-
-
-          markerRoot.add(this.mesh);
 
           // render the scene
           onRenderFcts.push(function(){
