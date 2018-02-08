@@ -34,7 +34,7 @@ class Sketch extends Component {
         lowTreshold: 50,
         coord: {
             x: 0,
-            z: 0,
+            z: 5,
         },
         rotation: 0,
         scale: {
@@ -46,8 +46,8 @@ class Sketch extends Component {
           lng: 0
         },
         targetLoc: {
-          lat: -20,
-          lng: 12,
+          lat: 0,
+          lng: 1,
         }
     };
 
@@ -125,7 +125,7 @@ class Sketch extends Component {
                     onMarkerFound={this.handleMarkerFound}
                 />
                 {!markerFound && <MarkerSearch />}
-                {markerFound && <MoveControl
+                {/* {markerFound && <MoveControl
                     coordX={coordX}
                     coordZ={coordZ}
                     scaleX={scaleX}
@@ -134,10 +134,10 @@ class Sketch extends Component {
                     onTranslateChange={this.handleTranslateChange}
                     onZoomChange={this.handleZoomChange}
                     onRotationChange={this.handleRotationChange}
-                /> }
-                {markerFound && showTips && <Tips onHide={this.handleHideTips} />}
+                /> } */}
+                {/* {markerFound && showTips && <Tips onHide={this.handleHideTips} />} */}
                 <RaisedButton style={styles.backButton} onClick={this.handleBack} label="Back" />
-                <Settings
+                {/* <Settings
                     opacity={opacity}
                     blur={blur}
                     lowTreshold={lowTreshold}
@@ -148,7 +148,7 @@ class Sketch extends Component {
                     onBlurChange={this.handleBlurChange}
                     onLowTresholdChange={this.handleLowTresholdChange}
                     onHighTresholdChange={this.handleHighTresholdChange}
-                />
+                /> */}
             </div>
         );
     }

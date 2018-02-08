@@ -62,20 +62,26 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
       this.mesh.scale.y = scaleY;
       // markerRoot.add(this.mesh);
 
-      let wolf
+      let arrow
       // loading manager
 				// var loadingManager = new THREE.LoadingManager( function() {
-        //   scene.add( wolf );
-        //   markerRoot.add( wolf )
+        //   scene.add( arrow );
+        //   markerRoot.add( arrow )
 				// } );
 				// collada
-        var loader = new ColladaLoader(  );
-        // loader.options.localImageMode = true
-				loader.load( 'https://raw.githubusercontent.com/ar-nav/react-arnav/3d-model/src/assets/directional-generic-marker.dae', function ( collada ) {
-          wolf = collada.scene;
-          scene.add(wolf)
-          markerRoot.add(wolf)
-				} );
+        var loader = new ColladaLoader( );
+        loader.options.localImageMode = true
+				loader.load( 'assets/arrow.dae', function ( collada ) {
+          console.log ('>>>>>>---',rotation)
+          arrow = collada.scene;
+          arrow.rotation.y = rotation + Math.PI/2
+          arrow.rotation.z = 0
+          arrow.rotation.x = 0.4
+          arrow.position.set(0,2,0)
+          arrow.scale.set(2,2,2)
+          scene.add(arrow)
+          markerRoot.add(arrow)
+				});
 
           // render the scene
           onRenderFcts.push(function(){
