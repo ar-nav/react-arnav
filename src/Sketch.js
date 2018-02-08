@@ -1,158 +1,157 @@
-// /* eslint jsx-a11y/img-redundant-alt: off */
-// import React, { Component } from 'react';
-// import isEqual from 'lodash.isequal';
-// import RaisedButton from 'material-ui/RaisedButton';
+/* eslint jsx-a11y/img-redundant-alt: off */
+import React, { Component } from 'react';
+import isEqual from 'lodash.isequal';
+import RaisedButton from 'material-ui/RaisedButton';
 
-// import Settings from './Settings';
-// import SketchRenderer from './SketchRenderer';
-// import MoveControl from './MoveControl';
-// import MarkerSearch from './MarkerSearch';
-// import Tips from './Tips';
+import Settings from './Settings';
+import SketchRenderer from './SketchRenderer';
+import MoveControl from './MoveControl';
+import MarkerSearch from './MarkerSearch';
+import Tips from './Tips';
 
-// const styles = {
-//     backButton: {
-//         zIndex: 1000,
-//         position: 'absolute',
-//         right: '1rem',
-//         top: '1rem',
-//     }
-// }
+const styles = {
+    backButton: {
+        zIndex: 1000,
+        position: 'absolute',
+        right: '1rem',
+        top: '1rem',
+    }
+}
 
-// const getAngle = (targetLoc, currentLoc) => {
-//   let deltaLat = targetLoc.lat - currentLoc.lat
-//   let deltaLng = targetLoc.lng - currentLoc.lng
-//   return Math.atan2(deltaLng, deltaLat)
-// }
-// class Sketch extends Component {
-//     state = {
-//         showTips: true,
-//         markerFound: false,
-//         opacity: 1,
-//         isDetectingEdge: false,
-//         blur: 2,
-//         highTreshold: 20,
-//         lowTreshold: 50,
-//         coord: {
-//             x: 0,
-//             z: 0,
-//         },
-//         rotation: 0,
-//         scale: {
-//             x: 2,
-//             y: 2,
-//         },
-//         currentLoc: {
-//           lat: 0,
-//           lng: 0
-//         },
-//         targetLoc: {
-//           lat: -20,
-//           lng: 12,
-//         }
-//     };
+const getAngle = (targetLoc, currentLoc) => {
+  let deltaLat = targetLoc.lat - currentLoc.lat
+  let deltaLng = targetLoc.lng - currentLoc.lng
+  return Math.atan2(deltaLng, deltaLat)
+}
+class Sketch extends Component {
+    state = {
+        showTips: true,
+        markerFound: false,
+        opacity: 1,
+        isDetectingEdge: false,
+        blur: 2,
+        highTreshold: 20,
+        lowTreshold: 50,
+        coord: {
+            x: 0,
+            z: 0,
+        },
+        rotation: 0,
+        scale: {
+            x: 2,
+            y: 2,
+        },
+        currentLoc: {
+          lat: 0,
+          lng: 0
+        },
+        targetLoc: {
+          lat: -20,
+          lng: 12,
+        }
+    };
 
-//     renderer = null;
+    renderer = null;
 
-//     shouldComponentUpdate(nextProps, state) {
-//         return !isEqual(state, this.state);
-//     }
+    shouldComponentUpdate(nextProps, state) {
+        return !isEqual(state, this.state);
+    }
 
-//     handleBack = () => {
-//         setTimeout(() => {
-//             // We can't reset the AR.js created elements (no dispose, reset or destroy methods available)
-//             window.location.reload();
-//         }, 500);
-//     }
+    handleBack = () => {
+        setTimeout(() => {
+            // We can't reset the AR.js created elements (no dispose, reset or destroy methods available)
+            window.location.reload();
+        }, 500);
+    }
 
-//     handleTranslateChange = ({ x, z }) => this.setState({ coord: { x, z } });
+    handleTranslateChange = ({ x, z }) => this.setState({ coord: { x, z } });
 
-//     handleZoomChange = ({ x, y }) => this.setState({ scale: { x, y } });
+    handleZoomChange = ({ x, y }) => this.setState({ scale: { x, y } });
 
-//     handleRotationChange = (rotation) => this.setState({ rotation });
+    handleRotationChange = (rotation) => this.setState({ rotation });
 
-//     handleOpacityChange = (event, opacity) => this.setState({ opacity });
+    handleOpacityChange = (event, opacity) => this.setState({ opacity });
 
-//     handleDetectEdgeChange = () => this.setState({ isDetectingEdge: !this.state.isDetectingEdge });
+    handleDetectEdgeChange = () => this.setState({ isDetectingEdge: !this.state.isDetectingEdge });
 
-//     handleBlurChange = (event, blur) => this.setState({ blur });
+    handleBlurChange = (event, blur) => this.setState({ blur });
 
-//     handleLowTresholdChange = (event, lowTreshold) => this.setState({ lowTreshold });
+    handleLowTresholdChange = (event, lowTreshold) => this.setState({ lowTreshold });
 
-//     handleHighTresholdChange = (event, highTreshold) => this.setState({ highTreshold });
+    handleHighTresholdChange = (event, highTreshold) => this.setState({ highTreshold });
 
-//     handleHideTips = () => this.setState({ showTips: false });
+    handleHideTips = () => this.setState({ showTips: false });
 
-//     handleMarkerFound = () => this.setState({ markerFound: true });
+    handleMarkerFound = () => this.setState({ markerFound: true });
 
-//     render() {
-//         const {
-//             markerFound,
-//             showTips,
-//             opacity,
-//             isDetectingEdge,
-//             blur,
-//             lowTreshold,
-//             highTreshold,
-//             coord: {
-//                 x: coordX,
-//                 z: coordZ,
-//             },
-//             scale: {
-//                 x: scaleX,
-//                 y: scaleY,
-//             },
-//             // rotation,
-//         } = this.state;
+    render() {
+        const {
+            markerFound,
+            showTips,
+            opacity,
+            isDetectingEdge,
+            blur,
+            lowTreshold,
+            highTreshold,
+            coord: {
+                x: coordX,
+                z: coordZ,
+            },
+            scale: {
+                x: scaleX,
+                y: scaleY,
+            },
+            // rotation,
+        } = this.state;
 
-//         const rotation = getAngle(this.state.targetLoc, this.state.currentLoc)
-//         const { image, blackImage } = this.props;
+        const rotation = getAngle(this.state.targetLoc, this.state.currentLoc)
+        const { image, blackImage } = this.props;
 
-//         return (
-//             <div>
-//               {console.log('>>>>>>------',)}
-//                 <SketchRenderer
-//                     coordX={coordX}
-//                     coordZ={coordZ}
-//                     scaleX={scaleX}
-//                     scaleY={scaleY}
-//                     rotation={rotation}
-//                     opacity={opacity}
-//                     isDetectingEdge={isDetectingEdge}
-//                     blur={blur}
-//                     lowTreshold={lowTreshold}
-//                     highTreshold={highTreshold}
-//                     image={image}
-//                     blackImage={blackImage}
-//                     onMarkerFound={this.handleMarkerFound}
-//                 />
-//                 {!markerFound && <MarkerSearch />}
-//                 {markerFound && <MoveControl
-//                     coordX={coordX}
-//                     coordZ={coordZ}
-//                     scaleX={scaleX}
-//                     scaleY={scaleY}
-//                     rotation={rotation}
-//                     onTranslateChange={this.handleTranslateChange}
-//                     onZoomChange={this.handleZoomChange}
-//                     onRotationChange={this.handleRotationChange}
-//                 /> }
-//                 {markerFound && showTips && <Tips onHide={this.handleHideTips} />}
-//                 <RaisedButton style={styles.backButton} onClick={this.handleBack} label="Back" />
-//                 <Settings
-//                     opacity={opacity}
-//                     blur={blur}
-//                     lowTreshold={lowTreshold}
-//                     highTreshold={highTreshold}
-//                     isDetectingEdge={isDetectingEdge}
-//                     onOpacityChange={this.handleOpacityChange}
-//                     onDetectEdgeChange={this.handleDetectEdgeChange}
-//                     onBlurChange={this.handleBlurChange}
-//                     onLowTresholdChange={this.handleLowTresholdChange}
-//                     onHighTresholdChange={this.handleHighTresholdChange}
-//                 />
-//             </div>
-//         );
-//     }
-// }
+        return (
+            <div>
+                <SketchRenderer
+                    coordX={coordX}
+                    coordZ={coordZ}
+                    scaleX={scaleX}
+                    scaleY={scaleY}
+                    rotation={rotation}
+                    opacity={opacity}
+                    isDetectingEdge={isDetectingEdge}
+                    blur={blur}
+                    lowTreshold={lowTreshold}
+                    highTreshold={highTreshold}
+                    image={image}
+                    blackImage={blackImage}
+                    onMarkerFound={this.handleMarkerFound}
+                />
+                {!markerFound && <MarkerSearch />}
+                {markerFound && <MoveControl
+                    coordX={coordX}
+                    coordZ={coordZ}
+                    scaleX={scaleX}
+                    scaleY={scaleY}
+                    rotation={rotation}
+                    onTranslateChange={this.handleTranslateChange}
+                    onZoomChange={this.handleZoomChange}
+                    onRotationChange={this.handleRotationChange}
+                /> }
+                {markerFound && showTips && <Tips onHide={this.handleHideTips} />}
+                <RaisedButton style={styles.backButton} onClick={this.handleBack} label="Back" />
+                <Settings
+                    opacity={opacity}
+                    blur={blur}
+                    lowTreshold={lowTreshold}
+                    highTreshold={highTreshold}
+                    isDetectingEdge={isDetectingEdge}
+                    onOpacityChange={this.handleOpacityChange}
+                    onDetectEdgeChange={this.handleDetectEdgeChange}
+                    onBlurChange={this.handleBlurChange}
+                    onLowTresholdChange={this.handleLowTresholdChange}
+                    onHighTresholdChange={this.handleHighTresholdChange}
+                />
+            </div>
+        );
+    }
+}
 
-// export default Sketch;
+export default Sketch;
