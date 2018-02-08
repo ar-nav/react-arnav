@@ -1,10 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from 'material-ui/styles'
+import Autosuggest from 'react-autosuggest'
+import match from 'autosuggest-highlight/match'
+import parse from 'autosuggest-highlight/parse'
 import TextField from 'material-ui/TextField'
 import Paper from 'material-ui/Paper'
 import { MenuItem } from 'material-ui/Menu'
-import Downshift from 'downshift'
+import { withStyles } from 'material-ui/styles'
+
+import { fetchSuggestions } from '../store/action'
+import { connect } from 'react-redux'
 
 const suggestions = [
   { label: 'Afghanistan' },
@@ -44,119 +49,170 @@ const suggestions = [
 ]
 
 function renderInput(inputProps) {
-  const { InputProps, classes, ref, ...other } = inputProps
+  const { classes, ref, ...other } = inputProps
 
   return (
     <TextField
-      label="Search Place"
+      label="Search a Place"
       fullWidth
-      {...other}
       inputRef={ref}
       InputProps={{
         classes: {
-          // input: classes.input,
+          input: classes.input,
         },
-        ...InputProps,
+        ...other,
       }}
     />
   )
 }
 
-function renderSuggestion(params) {
-  const {
-    suggestion,
-    index,
-    itemProps,
-    highlightedIndex,
-    selectedItem,
-  } = params
-  const isHighlighted = highlightedIndex === index
-  const isSelected = selectedItem === suggestion.label
+function renderSuggestion(suggestion, { query, isHighlighted }) {
+  const matches = match(suggestion.label, query)
+  const parts = parse(suggestion.label, matches)
 
   return (
-    <MenuItem
-      {...itemProps}
-      key={suggestion.label}
-      selected={isHighlighted}
-      onClick={ () =>  alert(suggestion.label) }
-      component="div"
-      style={{
-        fontWeight: isSelected ? 500 : 400,
-      }}
-    >
-      {suggestion.label}
+    <MenuItem selected={isHighlighted} component="div">
+      <div>
+        {parts.map((part, index) => {
+          return part.highlight ? (
+            <span key={String(index)} style={{ fontWeight: 300 }}>
+              {part.text}
+            </span>
+          ) : (
+            <strong key={String(index)} style={{ fontWeight: 500 }}>
+              {part.text}
+            </strong>
+          )
+        })}
+      </div>
     </MenuItem>
   )
 }
 
-function getSuggestions(inputValue) {
-  let count = 0
-
-  return suggestions.filter(suggestion => {
-    const keep =
-      (!inputValue ||
-        suggestion.label.toLowerCase().includes(inputValue.toLowerCase())) &&
-      count < 5
-
-    if (keep) {
-      count += 1
-    }
-
-    return keep
-  })
-}
-
-const styles = {
-  container: {
-    flexGrow: 1,
-    height: 200,
-    // width: 200,
-  },
-}
-
-function IntegrationDownshift(props) {
-  const { classes } = props
+function renderSuggestionsContainer(options) {
+  const { containerProps, children } = options
 
   return (
-    <Downshift>
-      {({
-        getInputProps,
-        getItemProps,
-        isOpen,
-        inputValue,
-        selectedItem,
-        highlightedIndex,
-      }) => (
-        <div className={classes.container}>
-          {renderInput({
-            fullWidth: true,
-            classes,
-            InputProps: getInputProps({
-              placeholder: 'Search a country (start with a)',
-              id: 'integration-downshift',
-            }),
-          })}
-          {isOpen ? (
-            <Paper square>
-              {getSuggestions(inputValue).map((suggestion, index) =>
-                renderSuggestion({
-                  suggestion,
-                  index,
-                  itemProps: getItemProps({ item: suggestion.label }),
-                  highlightedIndex,
-                  selectedItem,
-                })
-              )}
-            </Paper>
-          ) : null}
-        </div>
-      )}
-    </Downshift>
+    <Paper {...containerProps} square>
+      {children}
+    </Paper>
   )
 }
 
-IntegrationDownshift.propTypes = {
+function getSuggestionValue(suggestion) {
+  return suggestion.label
+}
+
+function getSuggestions(value) {
+  const inputValue = value.trim().toLowerCase()
+  const inputLength = inputValue.length
+  let count = 0
+
+  return inputLength === 0
+    ? []
+    : suggestions.filter(suggestion => {
+        const keep =
+          count < 5 &&
+          suggestion.label.toLowerCase().slice(0, inputLength) === inputValue
+
+        if (keep) {
+          count += 1
+        }
+
+        return keep
+      })
+}
+
+const styles = theme => ({
+  container: {
+    flexGrow: 1,
+    position: 'relative',
+    height: 200,
+  },
+  suggestionsContainerOpen: {
+    position: 'absolute',
+    marginTop: theme.spacing.unit,
+    marginBottom: theme.spacing.unit * 3,
+    left: 0,
+    right: 0,
+  },
+  suggestion: {
+    display: 'block',
+  },
+  suggestionsList: {
+    margin: 0,
+    padding: 0,
+    listStyleType: 'none',
+  },
+})
+
+class IntegrationAutosuggest extends React.Component {
+  state = {
+    value: '',
+    suggestions: [],
+  }
+
+  handleSuggestionsFetchRequested = ({ value }) => {
+    this.setState({
+      suggestions: getSuggestions(value),
+    })
+  }
+
+  handleSuggestionsClearRequested = () => {
+    this.setState({
+      suggestions: [],
+    })
+  }
+
+  handleChange = (event, { newValue }) => {
+    this.props.fetchSuggestions(newValue)
+    this.setState({
+      value: newValue,
+    })
+  }
+
+  render() {
+    const { classes } = this.props
+
+    return (
+      <Autosuggest
+        theme={{
+          container: classes.container,
+          suggestionsContainerOpen: classes.suggestionsContainerOpen,
+          suggestionsList: classes.suggestionsList,
+          suggestion: classes.suggestion,
+        }}
+        renderInputComponent={renderInput}
+        suggestions={this.state.suggestions}
+        onSuggestionsFetchRequested={this.handleSuggestionsFetchRequested}
+        onSuggestionsClearRequested={this.handleSuggestionsClearRequested}
+        renderSuggestionsContainer={renderSuggestionsContainer}
+        getSuggestionValue={getSuggestionValue}
+        renderSuggestion={renderSuggestion}
+        inputProps={{
+          classes,
+          placeholder: 'Search a place',
+          value: this.state.value,
+          onChange: this.handleChange,
+        }}
+      />
+    )
+  }
+}
+
+IntegrationAutosuggest.propTypes = {
   classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(IntegrationDownshift)
+const placeAutoCompleteWithStyles = withStyles(styles)(IntegrationAutosuggest)
+
+const mapStateToProps = state => ({ ...state })
+
+const mapDispatchToProps = dispatch => ({
+  fetchSuggestions: (query) =>
+    dispatch(fetchSuggestions(query, { lat: -6.266, long: 106.7828454 })),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  placeAutoCompleteWithStyles
+)
