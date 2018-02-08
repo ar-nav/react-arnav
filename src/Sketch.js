@@ -1,21 +1,22 @@
 /* eslint jsx-a11y/img-redundant-alt: off */
 import React, { Component } from 'react';
 import isEqual from 'lodash.isequal';
-import RaisedButton from 'material-ui/RaisedButton';
+import Button from 'material-ui/Button'
 
 
-import Settings from './Settings';
+// import Settings from './Settings';
 import SketchRenderer from './SketchRenderer';
-import MoveControl from './MoveControl';
+// import MoveControl from './MoveControl';
 import MarkerSearch from './MarkerSearch';
-import Tips from './Tips';
+// import Tips from './Tips';
 
 const styles = {
     backButton: {
-        zIndex: 1000,
+        zIndex: 2001,
         position: 'absolute',
-        right: '1rem',
-        top: '1rem',
+        right: '3rem',
+        top: '3rem',
+        marginTop: 10
     }
 }
 
@@ -49,13 +50,19 @@ class Sketch extends Component {
         targetLoc: {
           latitude: -6.26097,
           longitude: 106.78145,
-        }
+        },
+        removeSketchRenderer: false
     };
 
     renderer = null;
 
     shouldComponentUpdate(nextProps, state) {
         return !isEqual(state, this.state);
+    }
+
+    componentWillUnmount() {
+      console.log('will unmount')
+      this.setState({removeSketchRenderer: true})
     }
 
     handleBack = () => {
@@ -107,52 +114,38 @@ class Sketch extends Component {
 
         // const rotation = getAngle(this.state.targetLoc, this.state.currentLoc)
         const { image, blackImage } = this.props;
-
-        return (
+        if (!this.state.removeSketchRenderer) {
+          return (
             <div>
-                <SketchRenderer
-                    coordX={coordX}
-                    coordZ={coordZ}
-                    scaleX={scaleX}
-                    scaleY={scaleY}
-                    rotation={rotation}
-                    opacity={opacity}
-                    isDetectingEdge={isDetectingEdge}
-                    blur={blur}
-                    lowTreshold={lowTreshold}
-                    highTreshold={highTreshold}
-                    image={image}
-                    blackImage={blackImage}
-                    onMarkerFound={this.handleMarkerFound}
-                    targetLoc={this.state.targetLoc}
-                />
-                {!markerFound && <MarkerSearch />}
-                {/* {markerFound && <MoveControl
-                    coordX={coordX}
-                    coordZ={coordZ}
-                    scaleX={scaleX}
-                    scaleY={scaleY}
-                    rotation={rotation}
-                    onTranslateChange={this.handleTranslateChange}
-                    onZoomChange={this.handleZoomChange}
-                    onRotationChange={this.handleRotationChange}
-                /> } */}
-                {/* {markerFound && showTips && <Tips onHide={this.handleHideTips} />} */}
-                <RaisedButton style={styles.backButton} onClick={this.handleBack} label="Back" />
-                {/* <Settings
-                    opacity={opacity}
-                    blur={blur}
-                    lowTreshold={lowTreshold}
-                    highTreshold={highTreshold}
-                    isDetectingEdge={isDetectingEdge}
-                    onOpacityChange={this.handleOpacityChange}
-                    onDetectEdgeChange={this.handleDetectEdgeChange}
-                    onBlurChange={this.handleBlurChange}
-                    onLowTresholdChange={this.handleLowTresholdChange}
-                    onHighTresholdChange={this.handleHighTresholdChange}
-                /> */}
+              <SketchRenderer
+                  coordX={coordX}
+                  coordZ={coordZ}
+                  scaleX={scaleX}
+                  scaleY={scaleY}
+                  rotation={rotation}
+                  opacity={opacity}
+                  isDetectingEdge={isDetectingEdge}
+                  blur={blur}
+                  lowTreshold={lowTreshold}
+                  highTreshold={highTreshold}
+                  image={image}
+                  blackImage={blackImage}
+                  onMarkerFound={this.handleMarkerFound}
+                  targetLoc={this.state.targetLoc}
+                  
+              />
+              {!markerFound && <MarkerSearch />}
+              <button style={styles.backButton}
+                onClick={() => this.props.history.push('/finish')}
+              >Finish</button>
             </div>
         );
+        } else {
+          return (
+            <div></div>
+          )
+        }
+        
     }
 }
 

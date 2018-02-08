@@ -26,6 +26,9 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
       } 
       
     }
+    componentWillUnmount () {
+      console.log('sketch renderer will unmount')
+    }
 
     componentDidMount() {
       const {
@@ -85,7 +88,7 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
         var loader = new ColladaLoader( );
         loader.options.localImageMode = true
 				loader.load( 'https://raw.githubusercontent.com/ar-nav/react-arnav/3d-model/src/assets/directional-generic-marker.dae', function ( collada ) {
-          console.log ('>>>>>>---',rotation)
+          // console.log ('>>>>>>---',rotation)
           arrow = collada.scene;
           arrow.name = 'PANAH'
           arrow.rotation.y = getAngle(targetLoc, currentLoc) + Math.PI/2
@@ -104,7 +107,7 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
               longitude: (this.props.coords===null) ? 0 : this.props.coords.longitude
             }
             if (scene.children[1].children[1]) {
-              console.log('---angle',getAngle(targetLoc, newCurrentLoc), targetLoc, newCurrentLoc)
+              // console.log('---angle',getAngle(targetLoc, newCurrentLoc), targetLoc, newCurrentLoc)
               scene.children[1].children[1].rotation.y = getAngle(targetLoc, newCurrentLoc) + Math.PI/2
             }
               renderer.render(scene, camera);
@@ -169,7 +172,7 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
         render() {
             return (
               <div>
-                {console.log(this.props.coord)}
+                {/* {console.log(this.props.coord)} */}
                 <canvas id="root" ref={this.storeRef} />
                 <div style={{backgroundColor:'red'}}>
                   {this.props.coords

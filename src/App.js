@@ -11,6 +11,7 @@ import DestinationPage from './components/Destination'
 import DirectionPage from './components/ArahanPage'
 import FinishPage from './components/FinishPage'
 import NoMatch from './components/NoMatch'
+import Sketch from './Sketch'
 
 import AppBar from './components/AppBar'
 import MainDrawer from './components/MainDrawer'
@@ -26,31 +27,29 @@ class App extends Component {
     this.setState({ image, whiteImage, blackImage })
   }
 
-    render() {
-        const { image, whiteImage, blackImage } = this.state;
-        console.log(this.state)
-        return (
-          <Provider store= { store } >
-            <MuiThemeProvider>
-                <div>
-                  <div style={styles.container}>
-                      {/* {!image && <FileSelection onFileSelected={this.handleFileSelected} />} */}
-                      {<Sketch image={image} whiteImage={whiteImage} blackImage={blackImage} />}
-                  </div>
-                  <Router>
-                    <Switch>
-                      <Route exact path="/" render={() => <LoginPage/>}/>
-                      <Route path="/pick" render={() => <PickDestination/>}/>
-                      <Route path="/arahan" render={() => <ArahanPage/>}/>
-                      <Route path="/finish" render={() => <FinishPage/>}/>
-                      <Route render={() => <NoMatch/>}/>
-                    </Switch>
-                </Router>
-                </div>
-            </MuiThemeProvider>
-          </Provider>
-        )
-    }
+  render() {
+    // const { image, whiteImage, blackImage } = this.state
+    console.log(this.state)
+    return (
+      <Provider store={store}>
+        <MuiThemeProvider theme={theme}>
+          <Router>
+            <div>
+              <AppBar />
+              <MainDrawer />
+              <Switch>
+                <Route exact path="/" render={() => <HomePage />} />
+                <Route path="/destination" component={DestinationPage} />
+                <Route path="/direction" component={Sketch} />
+                <Route path="/finish" render={() => <FinishPage />} />
+                <Route render={() => <NoMatch />} />
+              </Switch>
+            </div>
+          </Router>
+        </MuiThemeProvider>
+      </Provider>
+    )
+  }
 }
 
 export default App
