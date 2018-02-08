@@ -1946,6 +1946,10 @@ double-ended-queue@^2.1.0-0:
   version "2.1.0-0"
   resolved "https://registry.yarnpkg.com/double-ended-queue/-/double-ended-queue-2.1.0-0.tgz#103d3527fd31528f40188130c841efdd78264e5c"
 
+downshift@^1.28.0:
+  version "1.28.0"
+  resolved "https://registry.yarnpkg.com/downshift/-/downshift-1.28.0.tgz#4d2d153ee6a45fcdba0a7121a7858aff42dd0bf3"
+
 duplexer2@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/duplexer2/-/duplexer2-0.1.4.tgz#8b12dab878c0d69e3e7891051662a32fc6bddcc1"
@@ -5374,6 +5378,14 @@ react-event-listener@^0.5.1:
     fbjs "^0.8.16"
     prop-types "^15.6.0"
     warning "^3.0.0"
+
+react-facebook-login@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/react-facebook-login/-/react-facebook-login-4.0.0.tgz#f2384dd36d197a9ce6decc2f3189bc9e4ccac57d"
+
+react-google-login-component@^0.9.2:
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/react-google-login-component/-/react-google-login-component-0.9.2.tgz#c4edf72c0dad55b4f11215e358a5e31b42e55acd"
 
 react-jss@^8.1.0:
   version "8.2.1"

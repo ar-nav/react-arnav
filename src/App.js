@@ -38,7 +38,7 @@ class App extends Component {
               <MainDrawer />
               <Switch>
                 <Route exact path="/" render={() => <HomePage />} />
-                <Route path="/destination" render={() => <DestinationPage />} />
+                <Route path="/destination" component={DestinationPage} />
                 <Route path="/direction" render={() => <DirectionPage />} />
                 <Route path="/finish" render={() => <FinishPage />} />
                 <Route render={() => <NoMatch />} />

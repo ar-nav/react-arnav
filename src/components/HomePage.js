@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import LoginPage from './LoginPage'
 
 class HomePage extends Component {
   constructor(props) {
@@ -15,7 +16,7 @@ class HomePage extends Component {
   render() {
     return (
       <div>
-        Home
+        <LoginPage/>
       </div>
     )
   }
