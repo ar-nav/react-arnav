@@ -3,12 +3,23 @@ import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types';
-import FacebookLogin from 'react-facebook-login';
-import { GoogleLogin } from 'react-google-login-component'
+import firebase from "firebase";
 import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button'
+import Icon from 'material-ui/Icon'
 
-const styles = {
+let config = {
+  apiKey: "AIzaSyBfhHdyNVEK_Nb2MxU6c9skmj-Odgs6gyI",
+  authDomain: "example-189109.firebaseapp.com"
+};
+firebase.initializeApp(config);
+
+let googleProvider = new firebase.auth.GoogleAuthProvider();
+let facebookProvider = new firebase.auth.FacebookAuthProvider();
+let twitterProvider = new firebase.auth.TwitterAuthProvider();
+let githubProvider = new firebase.auth.GithubAuthProvider();
+
+const styles = theme =>( {
   container: {
       position: 'fixed',
       top: 0,
@@ -17,7 +28,7 @@ const styles = {
       bottom: 0,
       fontFamily: "'Roboto', sans-serif",
   },
-};
+})
 
 class LoginPage extends Component {
   constructor (props) {
@@ -28,43 +39,50 @@ class LoginPage extends Component {
     console.log(this.props)
   }
 
-  responseFacebook(response) {
-    console.log(response)
+  handleClick(provider) {
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        var token = result.credential.accessToken;
+        // The signed-in user info.
+        var user = result.user;
+        console.log(this.props.history)
+        this.props.history.push('/destination')
+        // ...
+      })
+      .catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+        console.log(error)
+        // ...
+      });
   }
 
-  responseGoogle = (googleUser) => {
-    var id_token = googleUser.getAuthResponse().id_token;
-    console.log({accessToken: id_token})
-    this.props.history.push('/destination')
-  }
- 
   render() {
+    const { classes } = this.props;
+
     return (
       <div>
-      {/* <FacebookLogin
-        appId="593802020971036"
-        autoLoad={true}
-        fields="name,email,picture"
-        callback={this.responseFacebook}
-        style={styles.container}
-      /> */}
-      {/* <Button variant="raised"> */}
-      <GoogleLogin socialId="590843646533-5fluslllasoua91h3ljptoaun55laiin.apps.googleusercontent.com"
-        className="MuiButtonBase-root-47 MuiButton-root-102 MuiButton-raised-107"
-        scope="profile"
-        fetchBasicProfile={false}
-        responseHandler={this.responseGoogle}
-        buttonText="Login With Google"
-        />
-      {/* </Button> */}
-      <br/>
-      <br/>
-      <Button variant="raised"  color="secondary">
-        Home
-      </Button>
+        <Button variant="raised"  color="secondary"  onClick={() => { this.handleClick(facebookProvider)}}>
+          Facebook
+        </Button>
+        <Button variant="raised"  color="secondary"  onClick={() => {this.handleClick(googleProvider)}}>
+          Google
+        </Button>
+        <Button variant="raised"  color="secondary"  onClick={() => { this.handleClick(twitterProvider)}}>
+          Twitter
+        </Button>
+        <Button variant="raised" color="secondary" onClick={() => { this.handleClick(githubProvider)}}>
+        Github
+        </Button>
       </div>
-
-
     )
   }
 }
