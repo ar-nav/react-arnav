@@ -1,9 +1,18 @@
 /* globals THREE, requestAnimationFrame */
 import React, { Component } from 'react';
+import {geolocated} from 'react-geolocated';
+
+
 import initializeRenderer from './utils/initializeRenderer';
 import { initializeArToolkit, getMarker } from './utils/arToolkit';
 import detectEdge from './utils/detectEdge';
 import ColladaLoader from 'three-collada-loader'
+
+const getAngle = (targetLoc, currentLoc) => {
+  let deltaLat = targetLoc.lat - currentLoc.lat
+  let deltaLng = targetLoc.lng - currentLoc.lng
+  return Math.atan2(deltaLng, deltaLat)
+}
 
 export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRenderer, getMarker, requestAnimationFrame, detectEdge }) => {
   const { Camera, DoubleSide, Group, Mesh, MeshBasicMaterial, PlaneGeometry, Scene, Texture } = THREE;
@@ -60,32 +69,36 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
       this.mesh.position.z = coordZ;
       this.mesh.scale.x = scaleX;
       this.mesh.scale.y = scaleY;
-      // markerRoot.add(this.mesh);
+      markerRoot.add(this.mesh);
 
       let arrow
-      // loading manager
-				// var loadingManager = new THREE.LoadingManager( function() {
-        //   scene.add( arrow );
-        //   markerRoot.add( arrow )
-				// } );
-				// collada
+      let currentLoc = {
+        lat: (this.props.coords===null) ? 0 : this.props.coords.latitude,
+        lng: (this.props.coords===null) ? 0 : this.props.coords.longitude
+      }
+      let targetLoc = this.props.targetLoc
         var loader = new ColladaLoader( );
         loader.options.localImageMode = true
-				loader.load( 'assets/arrow.dae', function ( collada ) {
+				loader.load( 'https://raw.githubusercontent.com/ar-nav/react-arnav/3d-model/src/assets/directional-generic-marker.dae', function ( collada ) {
           console.log ('>>>>>>---',rotation)
           arrow = collada.scene;
-          arrow.rotation.y = rotation + Math.PI/2
-          arrow.rotation.z = 0
-          arrow.rotation.x = 0.4
+          arrow.name = 'PANAH'
+          arrow.rotation.y = getAngle(targetLoc, currentLoc) + Math.PI/2
+          arrow.rotation.z = 0 //Math.abs(rotation)*0.7 ||0.2
+          arrow.rotation.x = 0.4 //Math.abs(rotation)*0.7 ||0.2
           arrow.position.set(0,2,0)
-          arrow.scale.set(2,2,2)
+          arrow.scale.set(2,1,0.8)
           scene.add(arrow)
           markerRoot.add(arrow)
 				});
 
           // render the scene
           onRenderFcts.push(function(){
+            if (scene.children[1].children[1]) {
+              scene.children[1].children[1].rotation.y = getAngle(targetLoc, currentLoc) + Math.PI/2
+            }
               renderer.render(scene, camera);
+              console.log('----scene', scene.children[1])
           });
 
           // run the rendering loop
@@ -145,17 +158,48 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
 
         render() {
             return (
+              <div>
+                {console.log(this.props.coord)}
                 <canvas id="root" ref={this.storeRef} />
+                <div style={{backgroundColor:'red'}}>
+                  {this.props.coords
+                  ? <table>
+                    <tbody>
+                    <tr><td>latitude</td><td>{this.props.coords.latitude}</td></tr>
+                    <tr><td>longitude</td><td>{this.props.coords.longitude}</td></tr>
+                    <tr><td>altitude</td><td>{this.props.coords.altitude}</td></tr>
+                    <tr><td>heading</td><td>{this.props.coords.heading}</td></tr>
+                    <tr><td>speed</td><td>{this.props.coords.speed}</td></tr>
+                    </tbody>
+                  </table>
+                  : <div>Getting the location data&hellip; </div>}
+                </div>
+              </div>
             );
         }
     }
 };
 
-export default sketchRendererFactory({
-    THREE,
-    initializeArToolkit,
-    getMarker,
-    initializeRenderer,
-    requestAnimationFrame: requestAnimationFrame,
-    detectEdge,
-});
+// export default sketchRendererFactory({
+//     THREE,
+//     initializeArToolkit,
+//     getMarker,
+//     initializeRenderer,
+//     requestAnimationFrame: requestAnimationFrame,
+//     detectEdge,
+// });
+
+export default geolocated({
+  positionOptions: {
+    enableHighAccuracy: true,
+  },
+  userDecisionTimeout: 5000,
+  watchPosition: true ,
+})(sketchRendererFactory({
+  THREE,
+  initializeArToolkit,
+  getMarker,
+  initializeRenderer,
+  requestAnimationFrame: requestAnimationFrame,
+  detectEdge,
+}));

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import isEqual from 'lodash.isequal';
 import RaisedButton from 'material-ui/RaisedButton';
 
+
 import Settings from './Settings';
 import SketchRenderer from './SketchRenderer';
 import MoveControl from './MoveControl';
@@ -42,12 +43,12 @@ class Sketch extends Component {
             y: 2,
         },
         currentLoc: {
-          lat: 0,
+          lat: 10,
           lng: 0
         },
         targetLoc: {
-          lat: 0,
-          lng: 1,
+          lat: -6.26111,
+          lng: 106.78143,
         }
     };
 
@@ -123,6 +124,7 @@ class Sketch extends Component {
                     image={image}
                     blackImage={blackImage}
                     onMarkerFound={this.handleMarkerFound}
+                    targetLoc={this.state.targetLoc}
                 />
                 {!markerFound && <MarkerSearch />}
                 {/* {markerFound && <MoveControl
