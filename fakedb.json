@@ -1,0 +1,28 @@
+{
+  "places": [
+    {
+      "id": 1,
+      "name": "Hacktiv 8",
+      "loc": {
+        "lat": "",
+        "long": ""
+      }
+    },
+    {
+      "id": 2,
+      "name": "Delta",
+      "loc": {
+        "lat": "",
+        "long": ""
+      }
+    },
+    {
+      "id": 3,
+      "name": "Pondok Indah Mall",
+      "loc": {
+        "lat": "",
+        "long": ""
+      }
+    }
+  ]
+}
