@@ -42,13 +42,13 @@ class Sketch extends Component {
             x: 2,
             y: 2,
         },
-        currentLoc: {
-          lat: 10,
-          lng: 0
-        },
+        // currentLoc: {
+        //   lat: 10,
+        //   lng: 0
+        // },
         targetLoc: {
-          lat: -6.26111,
-          lng: 106.78143,
+          latitude: -6.26097,
+          longitude: 106.78145,
         }
     };
 
@@ -102,10 +102,10 @@ class Sketch extends Component {
                 x: scaleX,
                 y: scaleY,
             },
-            // rotation,
+            rotation,
         } = this.state;
 
-        const rotation = getAngle(this.state.targetLoc, this.state.currentLoc)
+        // const rotation = getAngle(this.state.targetLoc, this.state.currentLoc)
         const { image, blackImage } = this.props;
 
         return (

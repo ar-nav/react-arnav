@@ -1,7 +1,7 @@
 /* globals THREE, requestAnimationFrame */
 import React, { Component } from 'react';
 import {geolocated} from 'react-geolocated';
-
+import geolib from 'geolib'
 
 import initializeRenderer from './utils/initializeRenderer';
 import { initializeArToolkit, getMarker } from './utils/arToolkit';
@@ -9,8 +9,8 @@ import detectEdge from './utils/detectEdge';
 import ColladaLoader from 'three-collada-loader'
 
 const getAngle = (targetLoc, currentLoc) => {
-  let deltaLat = targetLoc.lat - currentLoc.lat
-  let deltaLng = targetLoc.lng - currentLoc.lng
+  let deltaLat = targetLoc.latitude - currentLoc.latitude
+  let deltaLng = targetLoc.longitude - currentLoc.longitude
   return Math.atan2(deltaLng, deltaLat)
 }
 
@@ -18,6 +18,15 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
   const { Camera, DoubleSide, Group, Mesh, MeshBasicMaterial, PlaneGeometry, Scene, Texture } = THREE;
   
   return class SketchRenderer extends Component {
+
+    getDistance(startLoc, endLoc) {
+      if( startLoc.latitude && startLoc.longitude && endLoc.latitude && endLoc.longitude) {
+        let parsedStartLoc = {latitude: startLoc.latitude, longitude: startLoc.longitude}
+        return geolib.getDistance(parsedStartLoc, endLoc)
+      } 
+      
+    }
+
     componentDidMount() {
       const {
         opacity,
@@ -30,10 +39,6 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
       } = this.props;
       
       const renderer = this.renderer = initializeRenderer(this.canvas);
-
-      // const renderer = new THREE.WebGLRenderer();
-			// 	renderer.setPixelRatio( window.devicePixelRatio );
-			// 	renderer.setSize( window.innerWidth, window.innerHeight );
       
       const scene = new Scene();
       const camera = new Camera();
@@ -73,8 +78,8 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
 
       let arrow
       let currentLoc = {
-        lat: (this.props.coords===null) ? 0 : this.props.coords.latitude,
-        lng: (this.props.coords===null) ? 0 : this.props.coords.longitude
+        latitude: (this.props.coords===null) ? 0 : this.props.coords.latitude,
+        longitude: (this.props.coords===null) ? 0 : this.props.coords.longitude
       }
       let targetLoc = this.props.targetLoc
         var loader = new ColladaLoader( );
@@ -93,12 +98,17 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
 				});
 
           // render the scene
-          onRenderFcts.push(function(){
+          onRenderFcts.push(() => {
+            let newCurrentLoc = {
+              latitude: (this.props.coords===null) ? 0 : this.props.coords.latitude,
+              longitude: (this.props.coords===null) ? 0 : this.props.coords.longitude
+            }
             if (scene.children[1].children[1]) {
-              scene.children[1].children[1].rotation.y = getAngle(targetLoc, currentLoc) + Math.PI/2
+              console.log('---angle',getAngle(targetLoc, newCurrentLoc), targetLoc, newCurrentLoc)
+              scene.children[1].children[1].rotation.y = getAngle(targetLoc, newCurrentLoc) + Math.PI/2
             }
               renderer.render(scene, camera);
-              console.log('----scene', scene.children[1])
+              // console.log('----scene', scene.children[1])
           });
 
           // run the rendering loop
@@ -170,6 +180,7 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
                     <tr><td>altitude</td><td>{this.props.coords.altitude}</td></tr>
                     <tr><td>heading</td><td>{this.props.coords.heading}</td></tr>
                     <tr><td>speed</td><td>{this.props.coords.speed}</td></tr>
+                    <tr><td>distance</td><td>{this.getDistance(this.props.coords, this.props.targetLoc)}</td></tr>
                     </tbody>
                   </table>
                   : <div>Getting the location data&hellip; </div>}
