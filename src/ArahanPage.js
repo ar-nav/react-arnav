@@ -5,7 +5,7 @@ class ArahanPage extends Component {
   render() {
     return (
       <div>
-        
+        Arahan Page
       </div>
     );
   }

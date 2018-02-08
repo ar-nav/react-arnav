@@ -17,6 +17,12 @@ const styles = {
         top: '1rem',
     }
 }
+
+const getAngle = (targetLoc, currentLoc) => {
+  let deltaLat = targetLoc.lat - currentLoc.lat
+  let deltaLng = targetLoc.lng - currentLoc.lng
+  return Math.atan2(deltaLng, deltaLat)
+}
 class Sketch extends Component {
     state = {
         showTips: true,
@@ -30,10 +36,18 @@ class Sketch extends Component {
             x: 0,
             z: 0,
         },
-        rotation: 3,
+        rotation: 0,
         scale: {
             x: 2,
             y: 2,
+        },
+        currentLoc: {
+          lat: 0,
+          lng: 0
+        },
+        targetLoc: {
+          lat: -20,
+          lng: 12,
         }
     };
 
@@ -87,9 +101,10 @@ class Sketch extends Component {
                 x: scaleX,
                 y: scaleY,
             },
-            rotation,
+            // rotation,
         } = this.state;
 
+        const rotation = getAngle(this.state.targetLoc, this.state.currentLoc)
         const { image, blackImage } = this.props;
 
         return (

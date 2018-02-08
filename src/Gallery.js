@@ -26,6 +26,7 @@ const defaultImages = [
     require('./assets/drawing5.png'),
     require('./assets/drawing6.png'),
     require('./assets/drawing7.png'),
+    require('./assets/sun-dial-arrow.json')
 ];
 
 const Gallery = ({ images = defaultImages, onClose, onSelected }) => (

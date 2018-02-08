@@ -5,7 +5,7 @@ class FinishPage extends Component {
   render() {
     return (
       <div>
-        
+        Finish Page
       </div>
     );
   }

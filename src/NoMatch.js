@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class PickDestination extends Component {
+class NoMatch extends Component {
   render() {
     return (
       <div>
-        Pick Dest Page
+        
       </div>
     );
   }
 }
 
-PickDestination.propTypes = {
+NoMatch.propTypes = {
 
 };
 
-export default PickDestination;
+export default NoMatch;
