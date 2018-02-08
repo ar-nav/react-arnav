@@ -94,47 +94,18 @@ class Sketch extends Component {
 
         return (
             <div>
-              {console.log('>>>>>>------',)}
-                <SketchRenderer
-                    coordX={coordX}
-                    coordZ={coordZ}
-                    scaleX={scaleX}
-                    scaleY={scaleY}
-                    rotation={rotation}
-                    opacity={opacity}
-                    isDetectingEdge={isDetectingEdge}
-                    blur={blur}
-                    lowTreshold={lowTreshold}
-                    highTreshold={highTreshold}
-                    image={image}
-                    blackImage={blackImage}
-                    onMarkerFound={this.handleMarkerFound}
-                />
-                {!markerFound && <MarkerSearch />}
-                {markerFound && <MoveControl
-                    coordX={coordX}
-                    coordZ={coordZ}
-                    scaleX={scaleX}
-                    scaleY={scaleY}
-                    rotation={rotation}
-                    onTranslateChange={this.handleTranslateChange}
-                    onZoomChange={this.handleZoomChange}
-                    onRotationChange={this.handleRotationChange}
-                /> }
-                {markerFound && showTips && <Tips onHide={this.handleHideTips} />}
-                <RaisedButton style={styles.backButton} onClick={this.handleBack} label="Back" />
-                <Settings
-                    opacity={opacity}
-                    blur={blur}
-                    lowTreshold={lowTreshold}
-                    highTreshold={highTreshold}
-                    isDetectingEdge={isDetectingEdge}
-                    onOpacityChange={this.handleOpacityChange}
-                    onDetectEdgeChange={this.handleDetectEdgeChange}
-                    onBlurChange={this.handleBlurChange}
-                    onLowTresholdChange={this.handleLowTresholdChange}
-                    onHighTresholdChange={this.handleHighTresholdChange}
-                />
+            <a-scene stats embedded arjs='sourceType: webcam; detectionMode: mono; maxDetectionRate: 30; canvasWidth: 240; canvasHeight: 180'>
+
+          
+            <a-box position='0 0.5 0' material='opacity: 0.5; side: double'>
+                <a-torus-knot radius='0.26' radius-tubular='0.05'>
+                    <a-animation attribute="rotation" to="360 0 0" dur="3000" easing='linear' repeat="indefinite"></a-animation>
+                </a-torus-knot>
+            </a-box>
+    
+            <a-marker-camera preset='hiro'></a-marker-camera>
+        </a-scene>
+    
             </div>
         );
     }

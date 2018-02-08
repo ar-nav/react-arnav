@@ -6,7 +6,7 @@ import detectEdge from './utils/detectEdge';
 
 export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRenderer, getMarker, requestAnimationFrame, detectEdge }) => {
     const { Camera, DoubleSide, Group, Mesh, MeshBasicMaterial, PlaneGeometry, Scene, Texture } = THREE;
-
+    
     return class SketchRenderer extends Component {
         componentDidMount() {
             const {
@@ -36,6 +36,7 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
             const geometry = new PlaneGeometry(1, 1, 1);
 
             this.image = this.props.image;
+            console.log(this.image)
             this.blackImage = this.props.blackImage;
 
             const texture = new Texture(this.image);
