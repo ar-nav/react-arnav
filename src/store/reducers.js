@@ -18,7 +18,6 @@ const reducer = (state = initialState, action) => {
         drawerOpen: action.payload.toggle,
       }
     case 'STORE_TARGET_LOCATION':
-      console.log(action.payload.targetLocation, 'boom')
       return {
         ...state,
         targetLocation: action.payload.targetLocation

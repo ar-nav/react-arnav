@@ -9,19 +9,23 @@ import detectEdge from './utils/detectEdge';
 import ColladaLoader from 'three-collada-loader'
 
 const getAngle = (targetLoc, currentLoc) => {
-  // let deltaLat = targetLoc.latitude - currentLoc.latitude
-  // let deltaLng = targetLoc.longitude - currentLoc.longitude
-  
-  let result = geolib.getCompassDirection(currentLoc ,targetLoc ).bearing
-  // console.log('------get angle result', result)
-  return result
+  let parsedTargetLoc = {
+    latitude: targetLoc.latitude,
+    longitude: targetLoc.longitude
+  }
+  if ((parsedTargetLoc === undefined) || (currentLoc === undefined)){
+    return 0
+  } else {
+    let result = geolib.getCompassDirection(currentLoc ,parsedTargetLoc ).bearing
+    result = -result *Math.PI/180
+    return result
+  }
 }
 
 export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRenderer, getMarker, requestAnimationFrame, detectEdge }) => {
   const { Camera, DoubleSide, Group, Mesh, MeshBasicMaterial, PlaneGeometry, Scene, Texture } = THREE;
   
   return class SketchRenderer extends Component {
-
     getDistance(startLoc, endLoc) {
       if( startLoc.latitude && startLoc.longitude && endLoc.latitude && endLoc.longitude) {
         let parsedStartLoc = {latitude: startLoc.latitude, longitude: startLoc.longitude}
@@ -50,7 +54,7 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
       const markerRoot = new Group();
       scene.add(markerRoot);
       const onRenderFcts = [];
-      const arToolkitContext = this.arToolkitContext = initializeArToolkit(renderer, camera, onRenderFcts);
+      const arToolkitContext = initializeArToolkit(renderer, camera, onRenderFcts);
       const marker = getMarker(arToolkitContext, markerRoot);
       
       marker.addEventListener('markerFound', onMarkerFound);
@@ -88,13 +92,12 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
         var loader = new ColladaLoader( );
         loader.options.localImageMode = true
 				loader.load( 'https://raw.githubusercontent.com/ar-nav/react-arnav/3d-model/src/assets/directional-generic-marker.dae', function ( collada ) {
-          // console.log ('>>>>>>---',rotation)
           arrow = collada.scene;
           arrow.name = 'PANAH'
-          arrow.rotation.y = -getAngle(targetLoc, currentLoc) + Math.PI/2
+          arrow.rotation.y = getAngle(targetLoc, currentLoc) + Math.PI/2
           arrow.rotation.z = 0 //Math.abs(rotation)*0.7 ||0.2
           arrow.rotation.x = 0 //Math.abs(rotation)*0.4 ||0.2
-          arrow.position.set(0,1.6,0)
+          arrow.position.set(0,0,0)
           arrow.scale.set(2,1,1)
           scene.add(arrow)
           markerRoot.add(arrow)
@@ -107,11 +110,9 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
               longitude: (this.props.coords===null) ? 0 : this.props.coords.longitude
             }
             if (scene.children[1].children[1]) {
-              // console.log('---angle',getAngle(targetLoc, newCurrentLoc), targetLoc, newCurrentLoc)
-              scene.children[1].children[1].rotation.y = -getAngle(targetLoc, newCurrentLoc) + Math.PI/2
+              scene.children[1].children[1].rotation.y = getAngle(targetLoc, newCurrentLoc) + Math.PI/2
             }
               renderer.render(scene, camera);
-              // console.log('----scene', scene.children[1])
           });
 
           // run the rendering loop
@@ -129,7 +130,7 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
                   onRenderFct(deltaMsec / 1000, nowMsec / 1000);
               });
           }
-          this.myReq = requestAnimationFrame(animate);
+          requestAnimationFrame(animate);
         }
 
         componentWillUnmount() {
@@ -182,6 +183,7 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
                     <tr><td>altitude</td><td>{this.props.coords.altitude}</td></tr>
                     <tr><td>heading</td><td>{this.props.coords.heading}</td></tr>
                     <tr><td>speed</td><td>{this.props.coords.speed}</td></tr>
+                    <tr><td>Bearing (rad)</td><td>{getAngle(this.props.coords ,this.props.targetLoc)}</td></tr>
                     <tr><td>distance</td><td>{this.getDistance(this.props.coords, this.props.targetLoc)}</td></tr>
                     </tbody>
                   </table>
