@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
+import { Link } from 'react-router-dom'
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 import { CircularProgress } from 'material-ui/Progress'
-import purple from 'material-ui/colors/purple'
+import {storeTargetLocation} from "../store/action";
 
 const renderSuggestion = ({ formattedSuggestion }) => (
   <div className="Demo__suggestion-item">
@@ -60,6 +60,10 @@ class SearchBar extends Component {
     .then(({ lat, lng }) => {
       console.log('ini address', address)
       console.log('Geocode Success', { lat, lng })
+      this.props.storeTargetLocation({
+        latitude: lat,
+        longitude: lng
+      })
       this.setState({
         geocodeResults: this.renderGeocodeSuccess(lat, lng),
         loading: false,
@@ -134,7 +138,8 @@ class SearchBar extends Component {
           <CircularProgress  color="secondary" />
         )}
         {this.state.geocodeResults && (
-          <div className="geocoding-results">{this.state.geocodeResults}</div>
+          <div className="geocoding-results">{this.state.geocodeResults}<Link to="/direction">Go Here</Link></div>
+
         )}
       </div>
     )
@@ -143,9 +148,9 @@ class SearchBar extends Component {
 
 const mapStateToProps = state => ({ ...state })
 
-// const mapDispatchToProps = dispatch => ({
-//   fetchSuggestions: (query) =>
-//     dispatch(fetchSuggestions(query, { lat: -6.266, long: 106.7828454 })),
-// })
+const mapDispatchToProps = dispatch => ({
+  storeTargetLocation: (latLong) =>
+    dispatch(storeTargetLocation(latLong)),
+})
 
-export default connect(mapStateToProps, null)(SearchBar)
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBar)
