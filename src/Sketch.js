@@ -142,7 +142,8 @@ class Sketch extends Component {
               }
               {!markerFound && <MarkerSearch />}
               <button style={styles.backButton}
-                onClick={() => this.props.history.push('/finish')}
+                // onClick={() => this.props.history.push('/finish')}
+                onCLick = {() => window.location.replace('/finish')}
               >Finish</button>
           </div>
         );

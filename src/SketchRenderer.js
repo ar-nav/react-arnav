@@ -90,9 +90,9 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
           arrow.name = 'PANAH'
           arrow.rotation.y = getAngle(targetLoc, currentLoc) + Math.PI/2
           arrow.rotation.z = 0 //Math.abs(rotation)*0.7 ||0.2
-          arrow.rotation.x = 0.4 //Math.abs(rotation)*0.7 ||0.2
-          arrow.position.set(0,2,0)
-          arrow.scale.set(2,1,0.8)
+          arrow.rotation.x = 0 //Math.abs(rotation)*0.4 ||0.2
+          arrow.position.set(0,1.6,0)
+          arrow.scale.set(2,1,1)
           scene.add(arrow)
           markerRoot.add(arrow)
 				});
