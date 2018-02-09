@@ -29,7 +29,7 @@ function ButtonAppBar(props) {
   const { classes } = props
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="absolute">
         <Toolbar>
           <IconButton onClick={() => props.openDrawer()} className={classes.menuButton} color="inherit" aria-label="Menu">
             <MenuIcon />

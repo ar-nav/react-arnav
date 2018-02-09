@@ -11,6 +11,7 @@ import DestinationPage from './components/Destination'
 import DirectionPage from './components/ArahanPage'
 import FinishPage from './components/FinishPage'
 import NoMatch from './components/NoMatch'
+import Sketch from './Sketch'
 
 import AppBar from './components/AppBar'
 import MainDrawer from './components/MainDrawer'
@@ -36,13 +37,15 @@ class App extends Component {
             <div>
               <AppBar />
               <MainDrawer />
+              <div style={{marginTop: '100px'}}>
               <Switch>
                 <Route exact path="/" render={() => <HomePage />} />
                 <Route path="/destination" component={DestinationPage} />
-                <Route path="/direction" render={() => <DirectionPage />} />
+                <Route path="/direction" component={Sketch} />
                 <Route path="/finish" render={() => <FinishPage />} />
                 <Route render={() => <NoMatch />} />
               </Switch>
+              </div>
             </div>
           </Router>
         </MuiThemeProvider>

@@ -32,8 +32,9 @@ const styles = {
 export default () => (
     <div style={styles.container}>
         <div style={styles.content}>
-            Looking for Hiro Marker
+            Find nearest HIRO Marker <br/>
             <img style={styles.img} alt="Hiro marker example" src={hiro} />
         </div>
+        
     </div>
 );
