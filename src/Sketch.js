@@ -35,7 +35,7 @@ class Sketch extends Component {
             y: 2,
         },
         targetLoc: this.props.targetLocation,
-        removeSketchRenderer: true
+       
     };
 
     renderer = null;
@@ -43,16 +43,7 @@ class Sketch extends Component {
     shouldComponentUpdate(nextProps, state) {
         return !isEqual(state, this.state);
     }
-
-    componentWillUnmount() {
-      this.setState({removeSketchRenderer: true})
-    }
-
-    componentDidMount() {
-      this.setState({removeSketchRenderer: false})
-    }
     
-
     handleBack = () => {
         setTimeout(() => {
             // We can't reset the AR.js created elements (no dispose, reset or destroy methods available)
@@ -104,7 +95,6 @@ class Sketch extends Component {
      
           return (
             <div>
-              {!this.state.removeSketchRenderer && 
                 <SketchRenderer
                     coordX={coordX}
                     coordZ={coordZ}
@@ -121,7 +111,6 @@ class Sketch extends Component {
                     onMarkerFound={this.handleMarkerFound}
                     targetLoc={this.state.targetLoc}
                 />
-              }
               {!markerFound && <MarkerSearch />}
               <button style={styles.backButton}
                 onClick = {() => window.location.replace('/finish')}

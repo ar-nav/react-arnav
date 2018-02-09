@@ -9,7 +9,6 @@ import detectEdge from './utils/detectEdge';
 import ColladaLoader from 'three-collada-loader'
 
 const getAngle = (targetLoc, currentLoc) => {
-  console.log('ANGLE------------',targetLoc, currentLoc)
   let parsedTargetLoc = {
     latitude: targetLoc.latitude,
     longitude: targetLoc.longitude
@@ -111,11 +110,9 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
               longitude: (this.props.coords===null) ? 0 : this.props.coords.longitude
             }
             if (scene.children[1].children[1]) {
-              // console.log('---angle',getAngle(targetLoc, newCurrentLoc), targetLoc, newCurrentLoc)
               scene.children[1].children[1].rotation.y = getAngle(targetLoc, newCurrentLoc) + Math.PI/2
             }
               renderer.render(scene, camera);
-              // console.log('----scene', scene.children[1])
           });
 
           // run the rendering loop
