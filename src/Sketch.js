@@ -1,14 +1,10 @@
 /* eslint jsx-a11y/img-redundant-alt: off */
 import React, { Component } from 'react';
 import isEqual from 'lodash.isequal';
-import Button from 'material-ui/Button'
+import { connect } from 'react-redux'
 
-
-// import Settings from './Settings';
 import SketchRenderer from './SketchRenderer';
-// import MoveControl from './MoveControl';
 import MarkerSearch from './MarkerSearch';
-// import Tips from './Tips';
 
 const styles = {
     backButton: {
@@ -20,11 +16,6 @@ const styles = {
     }
 }
 
-const getAngle = (targetLoc, currentLoc) => {
-  let deltaLat = targetLoc.lat - currentLoc.lat
-  let deltaLng = targetLoc.lng - currentLoc.lng
-  return Math.atan2(deltaLng, deltaLat)
-}
 class Sketch extends Component {
     state = {
         showTips: true,
@@ -43,14 +34,7 @@ class Sketch extends Component {
             x: 2,
             y: 2,
         },
-        // currentLoc: {
-        //   lat: 10,
-        //   lng: 0
-        // },
-        targetLoc: {
-          latitude: -6.26097,
-          longitude: 106.78145,
-        },
+        targetLoc: this.props.targetLocation,
         removeSketchRenderer: true
     };
 
@@ -61,7 +45,6 @@ class Sketch extends Component {
     }
 
     componentWillUnmount() {
-      console.log('will unmount')
       this.setState({removeSketchRenderer: true})
     }
 
@@ -121,7 +104,6 @@ class Sketch extends Component {
      
           return (
             <div>
-              {console.log('isremovesketch-----------',this.state.removeSketchRenderer)}
               {!this.state.removeSketchRenderer && 
                 <SketchRenderer
                     coordX={coordX}
@@ -142,12 +124,16 @@ class Sketch extends Component {
               }
               {!markerFound && <MarkerSearch />}
               <button style={styles.backButton}
-                // onClick={() => this.props.history.push('/finish')}
-                onCLick = {() => window.location.replace('/finish')}
+                onClick = {() => window.location.replace('/finish')}
               >Finish</button>
           </div>
         );
     }
 }
 
-export default Sketch;
+const mapStateToProps = state => ({ ...state })
+
+const mapDispatchToProps = dispatch => ({
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sketch)

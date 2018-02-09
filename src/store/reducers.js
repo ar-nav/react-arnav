@@ -1,6 +1,6 @@
 const initialState = {
   drawerOpen: false,
-  targetLocation: {latitude: null, longitude: null},
+  targetLocation: {latitude: -6.2615663, longitude: 106.78280080000002},
   suggestions: [
     {label: 'Afghanistan'},
     {label: 'Aland Islands'},

@@ -9,9 +9,12 @@ import detectEdge from './utils/detectEdge';
 import ColladaLoader from 'three-collada-loader'
 
 const getAngle = (targetLoc, currentLoc) => {
-  let deltaLat = targetLoc.latitude - currentLoc.latitude
-  let deltaLng = targetLoc.longitude - currentLoc.longitude
-  return Math.atan2(deltaLng, deltaLat)
+  // let deltaLat = targetLoc.latitude - currentLoc.latitude
+  // let deltaLng = targetLoc.longitude - currentLoc.longitude
+  
+  let result = geolib.getCompassDirection(currentLoc ,targetLoc ).bearing
+  // console.log('------get angle result', result)
+  return result
 }
 
 export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRenderer, getMarker, requestAnimationFrame, detectEdge }) => {
@@ -88,7 +91,7 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
           // console.log ('>>>>>>---',rotation)
           arrow = collada.scene;
           arrow.name = 'PANAH'
-          arrow.rotation.y = getAngle(targetLoc, currentLoc) + Math.PI/2
+          arrow.rotation.y = -getAngle(targetLoc, currentLoc) + Math.PI/2
           arrow.rotation.z = 0 //Math.abs(rotation)*0.7 ||0.2
           arrow.rotation.x = 0 //Math.abs(rotation)*0.4 ||0.2
           arrow.position.set(0,1.6,0)
@@ -105,7 +108,7 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
             }
             if (scene.children[1].children[1]) {
               // console.log('---angle',getAngle(targetLoc, newCurrentLoc), targetLoc, newCurrentLoc)
-              scene.children[1].children[1].rotation.y = getAngle(targetLoc, newCurrentLoc) + Math.PI/2
+              scene.children[1].children[1].rotation.y = -getAngle(targetLoc, newCurrentLoc) + Math.PI/2
             }
               renderer.render(scene, camera);
               // console.log('----scene', scene.children[1])
@@ -130,7 +133,6 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
         }
 
         componentWillUnmount() {
-          console.log('sketch renderer will unmount', this.scene, this.camera, this.arToolkitContext)
             this.renderer.dispose();
         }
 
@@ -171,7 +173,7 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
             return (
               <div>
                 <canvas id="arpage" ref={this.storeRef} />
-                <div style={{backgroundColor:'#0000ff6f', marginTop:100, color:'yellow', zIndex:2002, position:'absolute'}}>
+                <div style={{backgroundColor:'#0000ff6f', marginTop:0, color:'yellow', zIndex:2002, position:'absolute'}}>
                   {this.props.coords
                   ? <table>
                     <tbody>

@@ -37,6 +37,7 @@ class App extends Component {
             <div>
               <AppBar />
               <MainDrawer />
+              <div style={{marginTop: '100px'}}>
               <Switch>
                 <Route exact path="/" render={() => <HomePage />} />
                 <Route path="/destination" component={DestinationPage} />
@@ -44,6 +45,7 @@ class App extends Component {
                 <Route path="/finish" render={() => <FinishPage />} />
                 <Route render={() => <NoMatch />} />
               </Switch>
+              </div>
             </div>
           </Router>
         </MuiThemeProvider>
