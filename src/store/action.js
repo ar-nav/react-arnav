@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_KEY = 'AIzaSyArtScYJhuzm0RKAxCEt6cTqG1QmrM8r9s'
+// const API_KEY = 'AIzaSyArtScYJhuzm0RKAxCEt6cTqG1QmrM8r9s'
 
 
 export const toggleDrawer = (toggle) => (

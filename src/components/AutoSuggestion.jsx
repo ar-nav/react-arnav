@@ -110,10 +110,10 @@ class SearchBar extends Component {
       value: this.state.address,
       onChange: this.handleChange,
       onBlur: () => {
-        console.log('Blur event!')
+        // console.log('Blur event!')
       },
       onFocus: () => {
-        console.log('Focused!')
+        // console.log('Focused!')
       },
       autoFocus: true,
       placeholder: 'Search Places',
@@ -124,6 +124,7 @@ class SearchBar extends Component {
     // const { classes } = this.props
     return (
       <div>
+        
         <PlacesAutocomplete
           renderSuggestion={renderSuggestion}
           renderFooter={renderFooter}
