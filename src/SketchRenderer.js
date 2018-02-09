@@ -26,9 +26,6 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
       } 
       
     }
-    componentWillUnmount () {
-      console.log('sketch renderer will unmount')
-    }
 
     componentDidMount() {
       const {
@@ -43,14 +40,14 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
       
       const renderer = this.renderer = initializeRenderer(this.canvas);
       
-      const scene = new Scene();
-      const camera = new Camera();
+      const scene = this.scene = new Scene();
+      const camera = this.camera = new Camera();
       scene.add(camera);
       
       const markerRoot = new Group();
       scene.add(markerRoot);
       const onRenderFcts = [];
-      const arToolkitContext = initializeArToolkit(renderer, camera, onRenderFcts);
+      const arToolkitContext = this.arToolkitContext = initializeArToolkit(renderer, camera, onRenderFcts);
       const marker = getMarker(arToolkitContext, markerRoot);
       
       marker.addEventListener('markerFound', onMarkerFound);
@@ -129,10 +126,11 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
                   onRenderFct(deltaMsec / 1000, nowMsec / 1000);
               });
           }
-          requestAnimationFrame(animate);
+          this.myReq = requestAnimationFrame(animate);
         }
 
         componentWillUnmount() {
+          console.log('sketch renderer will unmount', this.scene, this.camera, this.arToolkitContext)
             this.renderer.dispose();
         }
 
@@ -172,9 +170,8 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
         render() {
             return (
               <div>
-                {/* {console.log(this.props.coord)} */}
-                <canvas id="root" ref={this.storeRef} />
-                <div style={{backgroundColor:'red'}}>
+                <canvas id="arpage" ref={this.storeRef} />
+                <div style={{backgroundColor:'#0000ff6f', marginTop:100, color:'yellow', zIndex:2002, position:'absolute'}}>
                   {this.props.coords
                   ? <table>
                     <tbody>

@@ -51,7 +51,7 @@ class Sketch extends Component {
           latitude: -6.26097,
           longitude: 106.78145,
         },
-        removeSketchRenderer: false
+        removeSketchRenderer: true
     };
 
     renderer = null;
@@ -64,6 +64,11 @@ class Sketch extends Component {
       console.log('will unmount')
       this.setState({removeSketchRenderer: true})
     }
+
+    componentDidMount() {
+      this.setState({removeSketchRenderer: false})
+    }
+    
 
     handleBack = () => {
         setTimeout(() => {
@@ -95,7 +100,6 @@ class Sketch extends Component {
     render() {
         const {
             markerFound,
-            showTips,
             opacity,
             isDetectingEdge,
             blur,
@@ -114,38 +118,34 @@ class Sketch extends Component {
 
         // const rotation = getAngle(this.state.targetLoc, this.state.currentLoc)
         const { image, blackImage } = this.props;
-        if (!this.state.removeSketchRenderer) {
+     
           return (
             <div>
-              <SketchRenderer
-                  coordX={coordX}
-                  coordZ={coordZ}
-                  scaleX={scaleX}
-                  scaleY={scaleY}
-                  rotation={rotation}
-                  opacity={opacity}
-                  isDetectingEdge={isDetectingEdge}
-                  blur={blur}
-                  lowTreshold={lowTreshold}
-                  highTreshold={highTreshold}
-                  image={image}
-                  blackImage={blackImage}
-                  onMarkerFound={this.handleMarkerFound}
-                  targetLoc={this.state.targetLoc}
-                  
-              />
+              {console.log('isremovesketch-----------',this.state.removeSketchRenderer)}
+              {!this.state.removeSketchRenderer && 
+                <SketchRenderer
+                    coordX={coordX}
+                    coordZ={coordZ}
+                    scaleX={scaleX}
+                    scaleY={scaleY}
+                    rotation={rotation}
+                    opacity={opacity}
+                    isDetectingEdge={isDetectingEdge}
+                    blur={blur}
+                    lowTreshold={lowTreshold}
+                    highTreshold={highTreshold}
+                    image={image}
+                    blackImage={blackImage}
+                    onMarkerFound={this.handleMarkerFound}
+                    targetLoc={this.state.targetLoc}
+                />
+              }
               {!markerFound && <MarkerSearch />}
               <button style={styles.backButton}
                 onClick={() => this.props.history.push('/finish')}
               >Finish</button>
-            </div>
+          </div>
         );
-        } else {
-          return (
-            <div></div>
-          )
-        }
-        
     }
 }
 
