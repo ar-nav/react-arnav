@@ -8,7 +8,7 @@ import Paper from 'material-ui/Paper'
 import { MenuItem } from 'material-ui/Menu'
 import { withStyles } from 'material-ui/styles'
 
-import { fetchSuggestions } from '../store/action'
+import { fetchSuggestions, fetchDetailTarget } from '../../store/action'
 import { connect } from 'react-redux'
 
 const suggestions = [
@@ -99,10 +99,6 @@ function renderSuggestionsContainer(options) {
   )
 }
 
-function getSuggestionValue(suggestion) {
-  return suggestion.description
-}
-
 function getSuggestions(value) {
   const inputValue = value.trim().toLowerCase()
   const inputLength = inputValue.length
@@ -171,6 +167,11 @@ class IntegrationAutosuggest extends React.Component {
     })
   }
 
+  getSuggestionValue = (suggestion) => {
+    this.props.fetchDetailTarget(suggestion.place_id)
+    return suggestion.description
+  }
+
   render() {
     const { classes } = this.props
     return (
@@ -186,7 +187,7 @@ class IntegrationAutosuggest extends React.Component {
         onSuggestionsFetchRequested={this.handleSuggestionsFetchRequested}
         onSuggestionsClearRequested={this.handleSuggestionsClearRequested}
         renderSuggestionsContainer={renderSuggestionsContainer}
-        getSuggestionValue={getSuggestionValue}
+        getSuggestionValue={this.getSuggestionValue}
         renderSuggestion={renderSuggestion}
         inputProps={{
           classes,
@@ -210,6 +211,7 @@ const mapStateToProps = state => ({ ...state })
 const mapDispatchToProps = dispatch => ({
   fetchSuggestions: (query) =>
     dispatch(fetchSuggestions(query, { lat: -6.266, long: 106.7828454 })),
+  fetchDetailTarget: (id) => dispatch(fetchDetailTarget(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(

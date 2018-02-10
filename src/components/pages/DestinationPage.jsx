@@ -8,7 +8,7 @@ import Typography from 'material-ui/Typography'
 
 import MainAppBar from '../common/MainAppBar'
 import MainContainer from '../common/MainContainer'
-import GeneralMapPage from '../GeneralMapPage'
+import GeneralMapTabPage from '../destination/GeneralMapTabPage'
 import EventsTabPage from '../destination/EventsTabPage'
 
 function TabContainer({ children, dir }) {
@@ -71,7 +71,7 @@ class Destination extends React.Component {
         >
           <TabContainer dir={theme.direction}>
             <MainContainer>
-              <GeneralMapPage />
+              <GeneralMapTabPage />
             </MainContainer>
           </TabContainer>
           <TabContainer dir={theme.direction}>
