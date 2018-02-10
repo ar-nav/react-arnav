@@ -69,9 +69,9 @@ class FullWidthTabs extends React.Component {
           onChangeIndex={this.handleChangeIndex}
         >
           <TabContainer dir={theme.direction}>
-          <MainContainer>
-            <AutoSuggestion />
-          </MainContainer>
+            <MainContainer>
+              <AutoSuggestion />
+            </MainContainer>
           </TabContainer>
           <TabContainer dir={theme.direction}>Item Two</TabContainer>
           <TabContainer dir={theme.direction}>Item Three</TabContainer>
