@@ -6,9 +6,10 @@ import AppBar from 'material-ui/AppBar'
 import Tabs, { Tab } from 'material-ui/Tabs'
 import Typography from 'material-ui/Typography'
 
-import MainContainer from './MainContainer'
-import GeneralMapPage from './GeneralMapPage'
-import EventsPage from './EventsPage'
+import MainAppBar from '../common/MainAppBar'
+import MainContainer from '../common/MainContainer'
+import GeneralMapPage from '../GeneralMapPage'
+import EventsTabPage from '../destination/EventsTabPage'
 
 function TabContainer({ children, dir }) {
   return (
@@ -50,7 +51,7 @@ class Destination extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="static" color="default" className={classes.navigator}>
+        <MainAppBar title='Choose Destination'>
           <Tabs
             value={this.state.value}
             onChange={this.handleChange}
@@ -59,10 +60,10 @@ class Destination extends React.Component {
             centered={true}
             fullWidth
           >
-            <Tab label="Maps" />
-            <Tab label="Event" />
+            <Tab label="Map" />
+            <Tab label="Events" />
           </Tabs>
-        </AppBar>
+        </MainAppBar>
         <SwipeableViews
           axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
           index={this.state.value}
@@ -75,7 +76,7 @@ class Destination extends React.Component {
           </TabContainer>
           <TabContainer dir={theme.direction}>
             <MainContainer>
-              <EventsPage />
+              <EventsTabPage />
             </MainContainer>
           </TabContainer>
           <TabContainer dir={theme.direction}>Item Three</TabContainer>

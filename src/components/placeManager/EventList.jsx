@@ -20,7 +20,7 @@ class EventList extends Component {
     return (
       <div className={classes.root}>
       <List component="nav">
-        {events.map(event => <EventListItem {...event}/>)}
+        {events.map((event, i) => <EventListItem key={i} {...event}/>)}
       </List>
     </div>
     );

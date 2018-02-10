@@ -14,7 +14,7 @@ import DoneIcon from 'material-ui-icons/Done'
 import DirectionsWalk from 'material-ui-icons/DirectionsWalk'
 import BeachAccessIcon from 'material-ui-icons/BeachAccess'
 
-import { toggleDrawer } from '../store/action'
+import { toggleDrawer } from '../../store/action'
 
 const styles = {
   list: {

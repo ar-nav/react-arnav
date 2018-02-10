@@ -9,7 +9,7 @@ import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 
-import {toggleDrawer} from '../store/action'
+import {toggleDrawer} from '../../store/action'
 
 const styles = {
   root: {
@@ -28,7 +28,7 @@ function ButtonAppBar(props) {
   const { classes } = props
   return (
     <div className={classes.root}>
-      <AppBar position="absolute">
+      <AppBar position="static" color="default">
         <Toolbar>
           <IconButton onClick={() => props.openDrawer()} className={classes.menuButton} color="inherit" aria-label="Menu">
             <MenuIcon />

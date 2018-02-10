@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import LoginComponent from './LoginComponent'
+import LoginComponent from '../auth/LoginComponent'
 
 class LoginPage extends Component {
   
