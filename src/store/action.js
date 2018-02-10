@@ -69,3 +69,9 @@ export const fetchSuggestions = (query, {lat, long}) => {
       .catch(err => console.error(err))
   }
 }
+
+export const fetchDetailTarget = (id) => {
+  return (dispatch, state) => {
+    console.log('ini di actions', id)
+  }
+}
