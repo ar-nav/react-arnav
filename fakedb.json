@@ -1,8 +1,19 @@
 {
+  "events": [
+   {
+    "id": "e1",
+    "name": "GIAS Expo"
+   },
+   {
+    "id": "e2",
+    "name": "Wibu Meetup"
+   }
+  ],
   "places": [
     {
       "id": 1,
-      "name": "Hacktiv 8",
+      "eventId": "e1",
+      "name": "Ferarri",
       "loc": {
         "lat": "",
         "long": ""

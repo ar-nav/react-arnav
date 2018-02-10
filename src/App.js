@@ -2,18 +2,19 @@ import React, { Component } from 'react'
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-
+import './assets/css/main.css'
 // import FileSelection from './FileSelection'
 // import Sketch from './Sketch'
 import store from './store'
-import HomePage from './components/HomePage'
-import DestinationPage from './components/Destination'
-import FinishPage from './components/FinishPage'
-import NoMatch from './components/NoMatch'
-import Sketch from './Sketch'
+import HomePage from './components/pages/HomePage'
+import DestinationPage from './components/pages/DestinationPage'
+import FinishPage from './components/pages/FinishPage'
+import NoMatchPage from './components/pages/NoMatchPage'
+import SketchPage from './Sketch'
+import PlacesManagerPage from './components/pages/PlacesManagerPage'
 
 import AppBar from './components/AppBar'
-import MainDrawer from './components/MainDrawer'
+import MainDrawer from './components/common/MainDrawer'
 
 const theme = createMuiTheme()
 
@@ -34,15 +35,15 @@ class App extends Component {
         <MuiThemeProvider theme={theme}>
           <Router>
             <div>
-              <AppBar />
               <MainDrawer />
-              <div style={{marginTop: '100px'}}>
+              <div>
               <Switch>
-                <Route exact path="/" render={() => <HomePage />} />
+                <Route exact path="/" component={HomePage} />
                 <Route path="/destination" component={DestinationPage} />
-                <Route path="/direction" component={Sketch} />
-                <Route path="/finish" render={() => <FinishPage />} />
-                <Route render={() => <NoMatch />} />
+                <Route path="/manager" component={PlacesManagerPage} />
+                <Route path="/direction" component={SketchPage} />
+                <Route path="/finish" component={FinishPage} />
+                <Route component={NoMatchPage} />
               </Switch>
               </div>
             </div>

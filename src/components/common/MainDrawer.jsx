@@ -14,7 +14,7 @@ import DoneIcon from 'material-ui-icons/Done'
 import DirectionsWalk from 'material-ui-icons/DirectionsWalk'
 import BeachAccessIcon from 'material-ui-icons/BeachAccess'
 
-import { toggleDrawer } from '../store/action'
+import { toggleDrawer } from '../../store/action'
 
 const styles = {
   list: {
@@ -65,7 +65,15 @@ class TemporaryDrawer extends React.Component {
             </ListItemIcon>
             <ListItemText primary="Direction" />
           </ListItem>
-
+          <ListItem
+            button
+            onClick={() => this.props.history.push('/manager')}
+          >
+            <ListItemIcon>
+              <DirectionsWalk />
+            </ListItemIcon>
+            <ListItemText primary="Manager" />
+          </ListItem>
           <ListItem button onClick={() => this.props.history.push('/finish')}>
             <ListItemIcon>
               <DoneIcon />

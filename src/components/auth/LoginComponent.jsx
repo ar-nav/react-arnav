@@ -87,19 +87,6 @@ class LoginComponent extends Component {
     const { classes } = this.props
     return (
       <div>
-        <Card className={classes.card}>
-          <CardContent>
-            <Typography className={classes.title}>Logo</Typography>
-          </CardContent>
-          <CardActions>
-            <Button size="small">Learn More</Button>
-          </CardActions>
-        </Card>
-
-        <div className={classes.contain}>
-          <h1>LOGIN</h1>
-        </div>
-
         <div className={classes.paper}>
           <div className={classes.paper}>
             <Grid container wrap="nowrap">
