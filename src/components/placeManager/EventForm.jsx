@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
-class PlaceManagerPage extends Component {
+import { withStyles } from 'material-ui/styles';
+
+class EventForm extends Component {
   render() {
     return (
       <div>
-        <h1>Place Manager</h1>
+        <h1>Event Form</h1>
       </div>
     );
   }
 }
 
-export default PlaceManagerPage;
+export default EventForm;

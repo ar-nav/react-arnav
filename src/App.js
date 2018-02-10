@@ -11,7 +11,7 @@ import DestinationPage from './components/Destination'
 import FinishPage from './components/FinishPage'
 import NoMatchPage from './components/NoMatch'
 import SketchPage from './Sketch'
-import PlacesManagerPage from './components/PlacesManagerPage'
+import PlacesManagerPage from './components/pages/PlacesManagerPage'
 
 import AppBar from './components/AppBar'
 import MainDrawer from './components/MainDrawer'

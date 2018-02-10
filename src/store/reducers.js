@@ -6,6 +6,7 @@ const initialState = {
     {description: 'Aland Islands'},
     {description: 'Albania'},
   ],
+  events: []
 }
 
 const reducer = (state = initialState, action) => {
