@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import AutoSuggestion from './AutoSuggestion'
 import MapContain from './MapContain'
 
-class GeneralMapPage extends Component {
+class GeneralMapTabPage extends Component {
   render() {
     const style = {
       width: '100%',
@@ -21,4 +21,4 @@ class GeneralMapPage extends Component {
   }
 }
 
-export default GeneralMapPage
+export default GeneralMapTabPage

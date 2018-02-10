@@ -8,7 +8,7 @@ import Paper from 'material-ui/Paper'
 import { MenuItem } from 'material-ui/Menu'
 import { withStyles } from 'material-ui/styles'
 
-import { fetchSuggestions, fetchDetailTarget } from '../store/action'
+import { fetchSuggestions, fetchDetailTarget } from '../../store/action'
 import { connect } from 'react-redux'
 
 const suggestions = [
