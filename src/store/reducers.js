@@ -23,9 +23,8 @@ const reducer = (state = initialState, action) => {
         targetLocation: action.payload.targetLocation
       }
     case 'GET_SUGGESTIONS':
-    console.log(action.payload)
       return {
-        ...state, suggestions: action.payload
+        ...state, suggestions: action.payload.query
       }
     default:
       return state

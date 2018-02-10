@@ -7,7 +7,7 @@ import Tabs, { Tab } from 'material-ui/Tabs'
 import Typography from 'material-ui/Typography'
 
 import AutoSuggestion from './AutoSuggestion.jsx'
-import LoginComponent from './LoginComponent.jsx'
+// import LoginComponent from './LoginComponent.jsx'
 import MainContainer from './MainContainer'
 
 function TabContainer({ children, dir }) {
@@ -69,9 +69,9 @@ class FullWidthTabs extends React.Component {
           onChangeIndex={this.handleChangeIndex}
         >
           <TabContainer dir={theme.direction}>
-          <MainContainer>
-            <AutoSuggestion />
-          </MainContainer>
+            <MainContainer>
+              <AutoSuggestion />
+            </MainContainer>
           </TabContainer>
           <TabContainer dir={theme.direction}>Item Two</TabContainer>
           <TabContainer dir={theme.direction}>Item Three</TabContainer>
