@@ -36,7 +36,6 @@ function ButtonAppBar(props) {
           <Typography variant="title" color="inherit" className={classes.flex}>
             Title
           </Typography>
-         
         </Toolbar>
       </AppBar>
     </div>
