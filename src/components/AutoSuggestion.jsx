@@ -12,40 +12,40 @@ import { fetchSuggestions } from '../store/action'
 import { connect } from 'react-redux'
 
 const suggestions = [
-  { label: 'Afghanistan' },
-  { label: 'Aland Islands' },
-  { label: 'Albania' },
-  { label: 'Algeria' },
-  { label: 'American Samoa' },
-  { label: 'Andorra' },
-  { label: 'Angola' },
-  { label: 'Anguilla' },
-  { label: 'Antarctica' },
-  { label: 'Antigua and Barbuda' },
-  { label: 'Argentina' },
-  { label: 'Armenia' },
-  { label: 'Aruba' },
-  { label: 'Australia' },
-  { label: 'Austria' },
-  { label: 'Azerbaijan' },
-  { label: 'Bahamas' },
-  { label: 'Bahrain' },
-  { label: 'Bangladesh' },
-  { label: 'Barbados' },
-  { label: 'Belarus' },
-  { label: 'Belgium' },
-  { label: 'Belize' },
-  { label: 'Benin' },
-  { label: 'Bermuda' },
-  { label: 'Bhutan' },
-  { label: 'Bolivia, Plurinational State of' },
-  { label: 'Bonaire, Sint Eustatius and Saba' },
-  { label: 'Bosnia and Herzegovina' },
-  { label: 'Botswana' },
-  { label: 'Bouvet Island' },
-  { label: 'Brazil' },
-  { label: 'British Indian Ocean Territory' },
-  { label: 'Brunei Darussalam' },
+  { description: 'Afghanistan' },
+  { description: 'Aland Islands' },
+  { description: 'Albania' },
+  { description: 'Algeria' },
+  { description: 'American Samoa' },
+  { description: 'Andorra' },
+  { description: 'Angola' },
+  { description: 'Anguilla' },
+  { description: 'Antarctica' },
+  { description: 'Antigua and Barbuda' },
+  { description: 'Argentina' },
+  { description: 'Armenia' },
+  { description: 'Aruba' },
+  { description: 'Australia' },
+  { description: 'Austria' },
+  { description: 'Azerbaijan' },
+  { description: 'Bahamas' },
+  { description: 'Bahrain' },
+  { description: 'Bangladesh' },
+  { description: 'Barbados' },
+  { description: 'Belarus' },
+  { description: 'Belgium' },
+  { description: 'Belize' },
+  { description: 'Benin' },
+  { description: 'Bermuda' },
+  { description: 'Bhutan' },
+  { description: 'Bolivia, Plurinational State of' },
+  { description: 'Bonaire, Sint Eustatius and Saba' },
+  { description: 'Bosnia and Herzegovina' },
+  { description: 'Botswana' },
+  { description: 'Bouvet Island' },
+  { description: 'Brazil' },
+  { description: 'British Indian Ocean Territory' },
+  { description: 'Brunei Darussalam' },
 ]
 
 function renderInput(inputProps) {
@@ -67,13 +67,13 @@ function renderInput(inputProps) {
 }
 
 function renderSuggestion(suggestion, { query, isHighlighted }) {
-  const matches = match(suggestion.label, query)
-  const parts = parse(suggestion.label, matches)
+  const matches = match(suggestion.description, query)
+  const parts = parse(suggestion.description, matches)
 
   return (
     <MenuItem selected={isHighlighted} component="div">
       <div>
-        {this.props.state.suggestions.map((part, index) => {
+        {parts.map((part, index) => {
           return part.highlight ? (
             <span key={String(index)} style={{ fontWeight: 300 }}>
               {part.text}
@@ -100,7 +100,7 @@ function renderSuggestionsContainer(options) {
 }
 
 function getSuggestionValue(suggestion) {
-  return suggestion.label
+  return suggestion.description
 }
 
 function getSuggestions(value) {
@@ -113,7 +113,7 @@ function getSuggestions(value) {
     : suggestions.filter(suggestion => {
         const keep =
           count < 5 &&
-          suggestion.label.toLowerCase().slice(0, inputLength) === inputValue
+          suggestion.description.toLowerCase().slice(0, inputLength) === inputValue
 
         if (keep) {
           count += 1
@@ -173,7 +173,6 @@ class IntegrationAutosuggest extends React.Component {
 
   render() {
     const { classes } = this.props
-
     return (
       <Autosuggest
         theme={{
@@ -183,7 +182,7 @@ class IntegrationAutosuggest extends React.Component {
           suggestion: classes.suggestion,
         }}
         renderInputComponent={renderInput}
-        suggestions={this.state.suggestions}
+        suggestions={this.props.suggestions}
         onSuggestionsFetchRequested={this.handleSuggestionsFetchRequested}
         onSuggestionsClearRequested={this.handleSuggestionsClearRequested}
         renderSuggestionsContainer={renderSuggestionsContainer}

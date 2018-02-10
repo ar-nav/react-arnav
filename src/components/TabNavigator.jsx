@@ -7,7 +7,7 @@ import Tabs, { Tab } from 'material-ui/Tabs'
 import Typography from 'material-ui/Typography'
 
 import AutoSuggestion from './AutoSuggestion.jsx'
-import LoginComponent from './LoginComponent.jsx'
+// import LoginComponent from './LoginComponent.jsx'
 import MainContainer from './MainContainer'
 
 function TabContainer({ children, dir }) {
