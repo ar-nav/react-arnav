@@ -26,40 +26,32 @@ const getAngle = (targetLoc, currentLoc) => {
 }
 
 const compassHeading = (alpha, beta, gamma) => {
-
   // Convert degrees to radians
-  var alphaRad = alpha * (Math.PI / 180);
-  var betaRad = beta * (Math.PI / 180);
-  var gammaRad = gamma * (Math.PI / 180);
-
+  let alphaRad = alpha * (Math.PI / 180);
+  let betaRad = beta * (Math.PI / 180);
+  let gammaRad = gamma * (Math.PI / 180);
   // Calculate equation components
-  var cA = Math.cos(alphaRad);
-  var sA = Math.sin(alphaRad);
-  var cB = Math.cos(betaRad);
-  var sB = Math.sin(betaRad);
-  var cG = Math.cos(gammaRad);
-  var sG = Math.sin(gammaRad);
-
+  let cA = Math.cos(alphaRad);
+  let sA = Math.sin(alphaRad);
+  // let cB = Math.cos(betaRad);
+  let sB = Math.sin(betaRad);
+  let cG = Math.cos(gammaRad);
+  let sG = Math.sin(gammaRad);
   // Calculate A, B, C rotation components
-  var rA = -cA * sG - sA * sB * cG;
-  var rB = -sA * sG + cA * sB * cG;
-  var rC = -cB * cG;
-
+  let rA = -cA * sG - sA * sB * cG;
+  let rB = -sA * sG + cA * sB * cG;
+  // let rC = -cB * cG;
   // Calculate compass heading
-  var compassHeading = Math.atan(rA / rB);
-
+  let compassHeading = Math.atan(rA / rB);
   // Convert from half unit circle to whole unit circle
   if (rB < 0) {
     compassHeading += Math.PI;
   } else if (rA < 0) {
     compassHeading += 2 * Math.PI;
   }
-
   // Convert radians to degrees
   compassHeading *= 180 / Math.PI;
-
   return compassHeading;
-
 }
 
 export const sketchRendererFactory = ({
@@ -72,13 +64,8 @@ export const sketchRendererFactory = ({
 }) => {
   const {
     Camera,
-    DoubleSide,
     Group,
-    Mesh,
-    MeshBasicMaterial,
-    PlaneGeometry,
     Scene,
-    Texture
   } = THREE;
 
   return class SketchRenderer extends Component {
@@ -101,32 +88,19 @@ export const sketchRendererFactory = ({
         }
         return geolib.getDistance(parsedStartLoc, endLoc)
       }
-
     }
 
     getCompassHeading() {
-      let result
-      let webkitAlpha
       window.addEventListener('deviceorientationabsolute', (evt) => {
         var heading = null;
-        // if(evt.absolute === true && evt.alpha !== null) {
         heading = compassHeading(evt.alpha, evt.beta, evt.gamma);
-        // } console.log('->>>>>>>',heading)
-        result = heading
-        // Do something with 'heading'...
+        let result = heading
         this.setState({compassHeading: result})
       }, {absolute: true});
-
     }
 
     componentDidMount() {
       const {
-        opacity,
-        coordX,
-        coordZ,
-        scaleX,
-        scaleY,
-        rotation,
         onMarkerFound
       } = this.props;
 
@@ -217,7 +191,6 @@ export const sketchRendererFactory = ({
       this
         .renderer
         .dispose();
-      // this.arToolkitContext = undef ined
       let video = document.getElementsByTagName('video')[0]
 
       video.pause()
@@ -227,35 +200,6 @@ export const sketchRendererFactory = ({
 
     storeRef = node => {
       this.canvas = node;
-    }
-
-    componentDidUpdate() {
-      // const {coordX, coordZ, scaleX, scaleY, rotation} = this.props;
-      // this.mesh.position.x = coordX;
-      // this.mesh.position.z = coordZ;
-      // this.mesh.scale.x = scaleX;
-      // this.mesh.scale.y = scaleY;
-      // this.mesh.rotation.z = rotation;
-      // this.mesh.needsUpdate = true;
-
-    //   const {blackImage, image} = this.props;
-    //   const {opacity, isDetectingEdge, blur, lowTreshold, highTreshold} = this.props;
-    //   if (isDetectingEdge) {
-    //     this.material.opacity = 1;
-    //     const alphaImage = detectEdge(image, {blur, lowTreshold, highTreshold});
-    //     const alphaTexture = new Texture(alphaImage);
-    //     alphaTexture.needsUpdate = true;
-    //     this.material.alphaMap = alphaTexture;
-    //     this.material.map.image = blackImage;
-    //     this.material.map.needsUpdate = true;
-    //   } else {
-    //     this.material.opacity = opacity;
-    //     this.material.alphaMap = null;
-    //     const texture = new Texture(image);
-    //     texture.needsUpdate = true;
-    //     this.material.map = texture;
-    //   }
-    //   this.material.needsUpdate = true;
     }
 
     render() {
@@ -277,7 +221,8 @@ export const sketchRendererFactory = ({
               style={{
                 MsTransform: `rotate(${-this.state.compassHeading + 90 - this.state.arrowRotation}deg)`, /* IE 9 */
                 WebkitTransform: `rotate(${-this.state.compassHeading +90 - this.state.arrowRotation}deg)`, /* Safari */
-                transform: `rotate(${-this.state.compassHeading + 90 - this.state.arrowRotation}deg)`,
+                transform: `rotate(${-
+                  this.state.compassHeading + 90 - this.state.arrowRotation}deg)`,
                 width: 50,
                 marginLeft: 300,
               }}
