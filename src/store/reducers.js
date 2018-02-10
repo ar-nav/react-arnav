@@ -27,6 +27,10 @@ const reducer = (state = initialState, action) => {
       return {
         ...state, suggestions: action.payload.query
       }
+    case 'GET_DETAIL_SUGGESTION':
+      return {
+        
+      }
     default:
       return state
   }

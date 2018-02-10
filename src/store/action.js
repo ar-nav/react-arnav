@@ -70,8 +70,26 @@ export const fetchSuggestions = (query, {lat, long}) => {
   }
 }
 
+export const getDetailSuggestion = (detail) => ({
+  type: 'GET_DETAIL_SUGGESTION',
+  payload: detail
+})
+
 export const fetchDetailTarget = (id) => {
   return (dispatch, state) => {
     console.log('ini di actions', id)
+    const linkURL = 'https://us-central1-ecommerce-790b1.cloudfunctions.net/function-1'
+    axios.post(linkURL, {
+      place: id
+    }, {
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    })
+      .then(resp => {
+        console.log(resp.data.result)
+        dispatch(getDetailSuggestion(resp.data.result))
+      })
+      .catch(err => console.error(err))
   }
 }
