@@ -1,13 +1,19 @@
 /* globals THREE, requestAnimationFrame */
-import React, {Component} from 'react';
-import {geolocated} from 'react-geolocated';
+import React, {Component} from 'react'
+import {geolocated} from 'react-geolocated'
 import geolib from 'geolib'
-
-import yerrow from "./assets/yellow.png"
-import initializeRenderer from './utils/initializeRenderer';
-import {initializeArToolkit, getMarker} from './utils/arToolkit';
-import detectEdge from './utils/detectEdge';
+import Switch from 'material-ui/Switch'
+import InfoIcon from 'material-ui-icons/Info'
+import { FormControlLabel, FormGroup } from 'material-ui/Form'
+import Button from 'material-ui/Button'
+import Menu, { MenuItem } from 'material-ui/Menu'
 import ColladaLoader from 'three-collada-loader'
+
+import yerrow from "../../assets/green-arrow.png"
+import initializeRenderer from '../../utils/initializeRenderer'
+import {initializeArToolkit, getMarker} from '../../utils/arToolkit'
+import detectEdge from '../../utils/detectEdge'
+
 
 const getAngle = (targetLoc, currentLoc) => {
   let parsedTargetLoc = {
@@ -73,7 +79,10 @@ export const sketchRendererFactory = ({
       super(props)
       this.state = {
         compassHeading: 0,
-        arrowRotation: 0
+        arrowRotation: 0,
+        isShowInfo: false,
+        isShowHud: true,
+        anchorEl: null
       }
       this.getCompassHeading = this
         .getCompassHeading
@@ -202,6 +211,14 @@ export const sketchRendererFactory = ({
       this.canvas = node;
     }
 
+    handleClick = event => {
+      this.setState({ anchorEl: event.currentTarget });
+    };
+  
+    handleClose = () => {
+      this.setState({ anchorEl: null });
+    };
+
     render() {
       return (
         <div>
@@ -209,24 +226,28 @@ export const sketchRendererFactory = ({
           <div
             style={{
             marginTop: 0,
-            color: 'yellow',
+            padding: '10px',
+            color: '#32792F',
             zIndex: 2002,
-            position: 'absolute'
+            position: 'absolute',
+            display: this.state.isShowHud ? 'block': 'none',
+            backgroundColor: '#FFFFFF8f',
+            right:'0rem'
           }}>
             <img
               id="yerrow"
               src={yerrow}
               alt={"yellow arrow"}
-              // className = {yerrowStyle}
               style={{
                 MsTransform: `rotate(${-this.state.compassHeading + 90 - this.state.arrowRotation}deg)`, /* IE 9 */
                 WebkitTransform: `rotate(${-this.state.compassHeading +90 - this.state.arrowRotation}deg)`, /* Safari */
                 transform: `rotate(${-
                   this.state.compassHeading + 90 - this.state.arrowRotation}deg)`,
-                width: 50,
-                marginLeft: 300,
-              }}
+                  width: 50
+                }}
             />
+            <h3>{this.props.coords && this.getDistance(this.props.coords, this.props.targetLoc)} m</h3>
+
           </div>
           <div
             style={{
@@ -234,54 +255,103 @@ export const sketchRendererFactory = ({
             marginTop: 0,
             color: 'yellow',
             zIndex: 2002,
-            position: 'absolute'
+            position: 'absolute',
+            display: this.state.isShowInfo ? 'block': 'none'
           }}>
             {this.props.coords
               ? <table>
+                  <p>{this.state.isShowInfo}</p>
                   <tbody>
                     <tr>
-                      <td>latitude</td>
+                      <td>geo-latitude</td>
                       <td>{this.props.coords.latitude}</td>
                     </tr>
                     <tr>
-                      <td>longitude</td>
+                      <td>geo-longitude</td>
                       <td>{this.props.coords.longitude}</td>
                     </tr>
                     <tr>
-                      <td>altitude</td>
+                      <td>geo-altitude</td>
                       <td>{this.props.coords.altitude}</td>
                     </tr>
                     <tr>
-                      <td>heading</td>
-                      <td>{this.props.coords.heading}, {this.state.arrowRotation}</td>
+                      <td>geo-heading</td>
+                      <td>{this.props.coords.heading}</td>
                     </tr>
                     <tr>
-                      <td>heading2</td>
+                      <td>device-heading</td>
                       <td>{this.state.compassHeading}</td>
                     </tr>
                     <tr>
-                      <td>speed</td>
+                      <td>geo-speed</td>
                       <td>{this.props.coords.speed}</td>
                     </tr>
                     <tr>
-                      <td>Bearing (rad)</td>
-                      <td>{getAngle(this.props.coords, this.props.targetLoc)}</td>
+                      <td>Ang. diff</td>
+                      <td>{this.state.arrowRotation} deg</td>
                     </tr>
                     <tr>
-                      <td>distance</td>
-                      <td>{this.getDistance(this.props.coords, this.props.targetLoc)}</td>
+                      <td>Dist. to location</td>
+                      <td>{this.getDistance(this.props.coords, this.props.targetLoc)} m</td>
                     </tr>
                   </tbody>
                 </table>
               : <div>Getting the location data&hellip;
               </div>}
           </div>
-          <div></div>
+          <div
+            style={{
+              position: 'absolute',
+              left:'41%',
+              bottom: '1rem'
+            }}
+          >
+            <Button
+              aria-owns={this.state.anchorEl ? 'fade-menu' : null}
+              aria-haspopup="true"
+              onClick={this.handleClick}
+              variant="fab"
+              color="primary"
+            >
+              <InfoIcon/>
+            </Button>
+            <Menu
+              id="fade-menu"
+              anchorEl={this.state.anchorEl}
+              open={Boolean(this.state.anchorEl)}
+              onClose={this.handleClose}
+            >
+              <FormGroup>
+                <MenuItem>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={this.state.isShowHud}
+                        onChange={(event, checked) => this.setState({ isShowHud: checked })}
+                      />}
+                    label="Toggle HUD"
+                  />
+                </MenuItem>
+                <MenuItem>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={this.state.isShowInfo}
+                        onChange={(event, checked) => this.setState({ isShowInfo: checked })}
+                      />
+                    }
+                    label="Toggle Info"
+                  />
+                </MenuItem>
+              </FormGroup>
+            </Menu>
+          </div>
         </div>
       );
     }
   }
 };
+
 
 export default geolocated({
   positionOptions: {

@@ -10,7 +10,7 @@ import HomePage from './components/pages/HomePage'
 import DestinationPage from './components/pages/DestinationPage'
 import FinishPage from './components/pages/FinishPage'
 import NoMatchPage from './components/pages/NoMatchPage'
-import SketchPage from './Sketch'
+import SketchPage from './components/pages/SketchPage'
 import PlacesManagerPage from './components/pages/PlacesManagerPage'
 
 import AppBar from './components/AppBar'
