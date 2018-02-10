@@ -92,7 +92,7 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
       let targetLoc = this.props.targetLoc
         var loader = new ColladaLoader( );
         loader.options.localImageMode = true
-				loader.load( 'https://storage.cloud.google.com/kanban.wahibhanii.xyz/static/directional-generic-marker.dae', function ( collada ) {
+				loader.load('https://raw.githubusercontent.com/ar-nav/react-arnav/qr-reader-dev/src/assets/directional-generic-marker.dae', function ( collada ) {
           arrow = collada.scene;
           arrow.name = 'PANAH'
           arrow.rotation.y = getAngle(targetLoc, currentLoc) + Math.PI/2
