@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import isEqual from 'lodash.isequal';
 import { connect } from 'react-redux'
 import QrReader from 'react-qr-reader'
+import Button from 'material-ui/Button';
 
 import SketchRenderer from './SketchRenderer';
 import MarkerSearch from './MarkerSearch';
@@ -11,8 +12,8 @@ const styles = {
   backButton: {
     zIndex: 2001,
     position: 'absolute',
-    right: '3rem',
-    top: '3rem',
+    right: '2rem',
+    bottom: '1.5rem',
     marginTop: 10
   }
 }
@@ -68,9 +69,12 @@ class Sketch extends Component {
           targetLoc={this.state.targetLoc}
         ></SketchRenderer>
         {!markerFound && <MarkerSearch />}
-        <button style={styles.backButton}
+        <Button 
+          style={styles.backButton}
+          variant='raised'
+          color='blue'
           onClick = {() => window.location.replace('/finish')}
-        >Finish</button>
+        >Finish</Button>
       </div>
     );
   }

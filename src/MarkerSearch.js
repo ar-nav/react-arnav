@@ -5,7 +5,8 @@ import hiro from './assets/hiro.png';
 const styles = {
     container: {
         position: 'absolute',
-        bottom: '5rem',
+        zIndex: -1,
+        bottom: '7rem',
         left: 0,
         right: 0,
         textAlign: 'center',
@@ -13,8 +14,8 @@ const styles = {
     },
     content: {
         display: 'inline-block',
-        color: 'red',
-        borderColor: 'red',
+        color: 'lime',
+        borderColor: 'lime',
         borderWidth: 2,
         borderStyle: 'solid',
         maxWidth: 200,

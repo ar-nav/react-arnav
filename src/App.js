@@ -36,7 +36,7 @@ class App extends Component {
           <Router>
             <div>
               <MainDrawer />
-              <div>
+              <div style={{marginTop: '80px'}}>
               <Switch>
                 <Route exact path="/" component={HomePage} />
                 <Route path="/destination" component={DestinationPage} />
