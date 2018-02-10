@@ -1,17 +1,16 @@
 import React, { Component } from 'react'
 
 import MainContainer from './MainContainer'
-import PlaceAutoComplete from './PlaceAutoComplete'
 import AutoSuggestion from './AutoSuggestion'
-import TextField from 'material-ui/TextField'
-import Grid from 'material-ui/Grid'
+import TabNavigator from './TabNavigator'
 
 class Destination extends Component {
   render() {
     return (
-      <MainContainer>
-        <AutoSuggestion />
-      </MainContainer>
+      <TabNavigator/>
+      // <MainContainer>
+        // <AutoSuggestion />
+      // </MainContainer>
     )
   }
 }

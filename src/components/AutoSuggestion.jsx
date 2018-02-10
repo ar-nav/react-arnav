@@ -1,156 +1,218 @@
-import React, { Component } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
+import Autosuggest from 'react-autosuggest'
+import match from 'autosuggest-highlight/match'
+import parse from 'autosuggest-highlight/parse'
+import TextField from 'material-ui/TextField'
+import Paper from 'material-ui/Paper'
+import { MenuItem } from 'material-ui/Menu'
+import { withStyles } from 'material-ui/styles'
+
+import { fetchSuggestions } from '../store/action'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
-import { CircularProgress } from 'material-ui/Progress'
-import {storeTargetLocation} from "../store/action";
 
-const renderSuggestion = ({ formattedSuggestion }) => (
-  <div className="Demo__suggestion-item">
-    <i className="fa fa-map-marker Demo__suggestion-icon" />
-    <strong>{formattedSuggestion.mainText}</strong>{' '}
-    <small className="text-muted">{formattedSuggestion.secondaryText}</small>
-  </div>
-)
+const suggestions = [
+  { label: 'Afghanistan' },
+  { label: 'Aland Islands' },
+  { label: 'Albania' },
+  { label: 'Algeria' },
+  { label: 'American Samoa' },
+  { label: 'Andorra' },
+  { label: 'Angola' },
+  { label: 'Anguilla' },
+  { label: 'Antarctica' },
+  { label: 'Antigua and Barbuda' },
+  { label: 'Argentina' },
+  { label: 'Armenia' },
+  { label: 'Aruba' },
+  { label: 'Australia' },
+  { label: 'Austria' },
+  { label: 'Azerbaijan' },
+  { label: 'Bahamas' },
+  { label: 'Bahrain' },
+  { label: 'Bangladesh' },
+  { label: 'Barbados' },
+  { label: 'Belarus' },
+  { label: 'Belgium' },
+  { label: 'Belize' },
+  { label: 'Benin' },
+  { label: 'Bermuda' },
+  { label: 'Bhutan' },
+  { label: 'Bolivia, Plurinational State of' },
+  { label: 'Bonaire, Sint Eustatius and Saba' },
+  { label: 'Bosnia and Herzegovina' },
+  { label: 'Botswana' },
+  { label: 'Bouvet Island' },
+  { label: 'Brazil' },
+  { label: 'British Indian Ocean Territory' },
+  { label: 'Brunei Darussalam' },
+]
 
-const renderFooter = () => (
-  <div className="Demo__dropdown-footer">
-    <div>
-    </div>
-  </div>
-)
+function renderInput(inputProps) {
+  const { classes, ref, ...other } = inputProps
 
-const cssClasses = {
-  root: 'form-group',
-  input: 'Demo__search-input',
-  autocompleteContainer: 'Demo__autocomplete-container',
-}
-
-const shouldFetchSuggestions = ({ value }) => value.length > 2
-
-const onError = (status, clearSuggestions) => {
-  console.log(
-    'Error happened while fetching suggestions from Google Maps API',
-    status
+  return (
+    <TextField
+      label="Search a Place"
+      fullWidth
+      inputRef={ref}
+      InputProps={{
+        classes: {
+          input: classes.input,
+        },
+        ...other,
+      }}
+    />
   )
-  clearSuggestions()
 }
 
-class SearchBar extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      address: '',
-      geocodeResults: null,
-      loading: false,
-    }
-    
-    this.handleSelect = this.handleSelect.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-  }
-  
-  handleSelect(address) {
-    this.setState({
-      address,
-      loading: true,
-    })
-    
-    geocodeByAddress(address)
-    .then(results => getLatLng(results[0]))
-    .then(({ lat, lng }) => {
-      console.log('ini address', address)
-      console.log('Geocode Success', { lat, lng })
-      this.props.storeTargetLocation({
-        latitude: lat,
-        longitude: lng
-      })
-      this.setState({
-        geocodeResults: this.renderGeocodeSuccess(lat, lng),
-        loading: false,
-      })
-    })
-    .catch(error => {
-      console.log('Geocode Error', error)
-      this.setState({
-        geocodeResults: this.renderGeocodeFailure(error),
-        loading: false,
-      })
-    })
-  }
-  
-  handleChange(address) {
-    this.setState({
-      address,
-      geocodeResults: null,
-    })
-  }
-  
-  renderGeocodeFailure(err) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        <strong>Error!</strong> {err}
-      </div>
-    )
-  }
-  
-  renderGeocodeSuccess(lat, lng) {
-    return (
-      <div className="alert alert-success" role="alert">
-        <strong>Success!</strong> Geocoder found latitude and longitude:{' '}
-        <strong>
-          {lat}, {lng}
-        </strong>
-      </div>
-    )
-  }
-  
-  render() {
-    const inputProps = {
-      type: 'text',
-      value: this.state.address,
-      onChange: this.handleChange,
-      onBlur: () => {
-        console.log('Blur event!')
-      },
-      onFocus: () => {
-        console.log('Focused!')
-      },
-      autoFocus: true,
-      placeholder: 'Search Places',
-      name: 'Demo__input',
-      id: 'my-input-id',
-    }
-    
-    // const { classes } = this.props
-    return (
+function renderSuggestion(suggestion, { query, isHighlighted }) {
+  const matches = match(suggestion.label, query)
+  const parts = parse(suggestion.label, matches)
+
+  return (
+    <MenuItem selected={isHighlighted} component="div">
       <div>
-        <PlacesAutocomplete
-          renderSuggestion={renderSuggestion}
-          renderFooter={renderFooter}
-          inputProps={inputProps}
-          classNames={cssClasses}
-          onSelect={this.handleSelect}
-          onEnterKeyDown={this.handleSelect}
-          onError={onError}
-          shouldFetchSuggestions={shouldFetchSuggestions}
-        />
-        {this.state.loading && (
-          <CircularProgress  color="secondary" />
-        )}
-        {this.state.geocodeResults && (
-          <div className="geocoding-results">{this.state.geocodeResults}<Link to="/direction">Go Here</Link></div>
-
-        )}
+        {this.props.state.suggestions.map((part, index) => {
+          return part.highlight ? (
+            <span key={String(index)} style={{ fontWeight: 300 }}>
+              {part.text}
+            </span>
+          ) : (
+            <strong key={String(index)} style={{ fontWeight: 500 }}>
+              {part.text}
+            </strong>
+          )
+        })}
       </div>
+    </MenuItem>
+  )
+}
+
+function renderSuggestionsContainer(options) {
+  const { containerProps, children } = options
+
+  return (
+    <Paper {...containerProps} square>
+      {children}
+    </Paper>
+  )
+}
+
+function getSuggestionValue(suggestion) {
+  return suggestion.label
+}
+
+function getSuggestions(value) {
+  const inputValue = value.trim().toLowerCase()
+  const inputLength = inputValue.length
+  let count = 0
+
+  return inputLength === 0
+    ? []
+    : suggestions.filter(suggestion => {
+        const keep =
+          count < 5 &&
+          suggestion.label.toLowerCase().slice(0, inputLength) === inputValue
+
+        if (keep) {
+          count += 1
+        }
+
+        return keep
+      })
+}
+
+const styles = theme => ({
+  container: {
+    flexGrow: 1,
+    position: 'relative',
+    height: 200,
+  },
+  suggestionsContainerOpen: {
+    position: 'absolute',
+    marginTop: theme.spacing.unit,
+    marginBottom: theme.spacing.unit * 3,
+    left: 0,
+    right: 0,
+  },
+  suggestion: {
+    display: 'block',
+  },
+  suggestionsList: {
+    margin: 0,
+    padding: 0,
+    listStyleType: 'none',
+  },
+})
+
+class IntegrationAutosuggest extends React.Component {
+  state = {
+    value: '',
+    suggestions: [],
+  }
+
+  handleSuggestionsFetchRequested = ({ value }) => {
+    this.setState({
+      suggestions: getSuggestions(value),
+    })
+  }
+
+  handleSuggestionsClearRequested = () => {
+    this.setState({
+      suggestions: [],
+    })
+  }
+
+  handleChange = (event, { newValue }) => {
+    this.props.fetchSuggestions(newValue)
+    this.setState({
+      value: newValue,
+    })
+  }
+
+  render() {
+    const { classes } = this.props
+
+    return (
+      <Autosuggest
+        theme={{
+          container: classes.container,
+          suggestionsContainerOpen: classes.suggestionsContainerOpen,
+          suggestionsList: classes.suggestionsList,
+          suggestion: classes.suggestion,
+        }}
+        renderInputComponent={renderInput}
+        suggestions={this.state.suggestions}
+        onSuggestionsFetchRequested={this.handleSuggestionsFetchRequested}
+        onSuggestionsClearRequested={this.handleSuggestionsClearRequested}
+        renderSuggestionsContainer={renderSuggestionsContainer}
+        getSuggestionValue={getSuggestionValue}
+        renderSuggestion={renderSuggestion}
+        inputProps={{
+          classes,
+          placeholder: 'Search a place',
+          value: this.state.value,
+          onChange: this.handleChange,
+        }}
+      />
     )
   }
 }
+
+IntegrationAutosuggest.propTypes = {
+  classes: PropTypes.object.isRequired,
+}
+
+const placeAutoCompleteWithStyles = withStyles(styles)(IntegrationAutosuggest)
 
 const mapStateToProps = state => ({ ...state })
 
 const mapDispatchToProps = dispatch => ({
-  storeTargetLocation: (latLong) =>
-    dispatch(storeTargetLocation(latLong)),
+  fetchSuggestions: (query) =>
+    dispatch(fetchSuggestions(query, { lat: -6.266, long: 106.7828454 })),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchBar)
+export default connect(mapStateToProps, mapDispatchToProps)(
+  placeAutoCompleteWithStyles
+)
