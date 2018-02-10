@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import isEqual from 'lodash.isequal';
 import { connect } from 'react-redux'
+import QrReader from 'react-qr-reader'
 
 import SketchRenderer from './SketchRenderer';
 import MarkerSearch from './MarkerSearch';
@@ -17,26 +18,31 @@ const styles = {
 }
 
 class Sketch extends Component {
-    state = {
-        showTips: true,
-        markerFound: false,
-        opacity: 1,
-        isDetectingEdge: false,
-        blur: 2,
-        highTreshold: 20,
-        lowTreshold: 50,
-        coord: {
-            x: 0,
-            z: 5,
-        },
-        rotation: 0,
-        scale: {
-            x: 2,
-            y: 2,
-        },
-        targetLoc: this.props.targetLocation,
-       
+  constructor(props){
+    super(props)
+    this.state = {
+      showTips: true,
+      markerFound: false,
+      opacity: 1,
+      isDetectingEdge: false,
+      blur: 2,
+      highTreshold: 20,
+      lowTreshold: 50,
+      coord: {
+          x: 0,
+          z: 5,
+      },
+      rotation: 0,
+      scale: {
+          x: 2,
+          y: 2,
+      },
+      targetLoc: this.props.targetLocation,
+      qrDelay: 10,
+      qrResult: 'No result',
     };
+    this.handleQrScan = this.handleQrScan.bind(this)
+  }
 
     renderer = null;
 
@@ -71,6 +77,18 @@ class Sketch extends Component {
 
     handleMarkerFound = () => this.setState({ markerFound: true });
 
+    handleQrScan(data){
+      if(data){
+        this.setState({
+          qrResult: data,
+        })
+      }
+    }
+
+    handleQrError(err){
+      console.error(err)
+    }
+
     render() {
         const {
             markerFound,
@@ -95,25 +113,33 @@ class Sketch extends Component {
      
           return (
             <div>
-                <SketchRenderer
-                    coordX={coordX}
-                    coordZ={coordZ}
-                    scaleX={scaleX}
-                    scaleY={scaleY}
-                    rotation={rotation}
-                    opacity={opacity}
-                    isDetectingEdge={isDetectingEdge}
-                    blur={blur}
-                    lowTreshold={lowTreshold}
-                    highTreshold={highTreshold}
-                    image={image}
-                    blackImage={blackImage}
-                    onMarkerFound={this.handleMarkerFound}
-                    targetLoc={this.state.targetLoc}
-                />
+              <QrReader
+              delay={this.delay}
+              onError={this.handleQrError}
+              onScan={this.handleQrScan}
+              style={{padding: 0, margin: 0, visibility:'hidden', width: '0%'}}
+              showViewFinder={false}
+            />
+              <p style={{color:'orange', backgroundColor:'#0000ff6f', marginTop:300, marginLeft:0, zIndex:2002, position:'absolute'}}>{this.state.qrResult}</p>
+              <SketchRenderer
+                coordX={coordX}
+                coordZ={coordZ}
+                scaleX={scaleX}
+                scaleY={scaleY}
+                rotation={rotation}
+                opacity={opacity}
+                isDetectingEdge={isDetectingEdge}
+                blur={blur}
+                lowTreshold={lowTreshold}
+                highTreshold={highTreshold}
+                image={image}
+                blackImage={blackImage}
+                onMarkerFound={this.handleMarkerFound}
+                targetLoc={this.state.targetLoc}
+              ></SketchRenderer>
               {!markerFound && <MarkerSearch />}
               <button style={styles.backButton}
-                onClick = {() => window.location.replace('/finish')}
+                onClick = {() => this.props.history.push('/finish')}
               >Finish</button>
           </div>
         );

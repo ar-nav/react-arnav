@@ -26,6 +26,7 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
   const { Camera, DoubleSide, Group, Mesh, MeshBasicMaterial, PlaneGeometry, Scene, Texture } = THREE;
   
   return class SketchRenderer extends Component {
+
     getDistance(startLoc, endLoc) {
       if( startLoc.latitude && startLoc.longitude && endLoc.latitude && endLoc.longitude) {
         let parsedStartLoc = {latitude: startLoc.latitude, longitude: startLoc.longitude}
@@ -54,7 +55,7 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
       const markerRoot = new Group();
       scene.add(markerRoot);
       const onRenderFcts = [];
-      const arToolkitContext = initializeArToolkit(renderer, camera, onRenderFcts);
+      const arToolkitContext = this.arToolkitContext = initializeArToolkit(renderer, camera, onRenderFcts);
       const marker = getMarker(arToolkitContext, markerRoot);
       
       marker.addEventListener('markerFound', onMarkerFound);
@@ -91,7 +92,7 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
       let targetLoc = this.props.targetLoc
         var loader = new ColladaLoader( );
         loader.options.localImageMode = true
-				loader.load( 'https://raw.githubusercontent.com/ar-nav/react-arnav/3d-model/src/assets/directional-generic-marker.dae', function ( collada ) {
+				loader.load( 'https://storage.cloud.google.com/kanban.wahibhanii.xyz/static/directional-generic-marker.dae', function ( collada ) {
           arrow = collada.scene;
           arrow.name = 'PANAH'
           arrow.rotation.y = getAngle(targetLoc, currentLoc) + Math.PI/2
@@ -105,14 +106,16 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
 
           // render the scene
           onRenderFcts.push(() => {
-            let newCurrentLoc = {
-              latitude: (this.props.coords===null) ? 0 : this.props.coords.latitude,
-              longitude: (this.props.coords===null) ? 0 : this.props.coords.longitude
+            if (scene.children[1]) {
+              let newCurrentLoc = {
+                latitude: (this.props.coords===null) ? 0 : this.props.coords.latitude,
+                longitude: (this.props.coords===null) ? 0 : this.props.coords.longitude
+              }
+              if (scene.children[1].children[1]) {
+                scene.children[1].children[1].rotation.y = getAngle(targetLoc, newCurrentLoc) + Math.PI/2
+              }
+                renderer.render(scene, camera);
             }
-            if (scene.children[1].children[1]) {
-              scene.children[1].children[1].rotation.y = getAngle(targetLoc, newCurrentLoc) + Math.PI/2
-            }
-              renderer.render(scene, camera);
           });
 
           // run the rendering loop
@@ -135,6 +138,13 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
 
         componentWillUnmount() {
             this.renderer.dispose();
+            // this.arToolkitContext = undef ined
+            let video = document.getElementsByTagName('video')[0]
+        
+            video.pause()
+            video.src = ''
+            video.load()
+            console.log('---------will unmount: ',this.arToolkitContext)
         }
 
         storeRef = node => {
@@ -189,20 +199,14 @@ export const sketchRendererFactory = ({ THREE, initializeArToolkit, initializeRe
                   </table>
                   : <div>Getting the location data&hellip; </div>}
                 </div>
+                <div>
+
+                </div>
               </div>
             );
         }
     }
 };
-
-// export default sketchRendererFactory({
-//     THREE,
-//     initializeArToolkit,
-//     getMarker,
-//     initializeRenderer,
-//     requestAnimationFrame: requestAnimationFrame,
-//     detectEdge,
-// });
 
 export default geolocated({
   positionOptions: {
