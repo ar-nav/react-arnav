@@ -9,8 +9,9 @@ import store from './store'
 import HomePage from './components/HomePage'
 import DestinationPage from './components/Destination'
 import FinishPage from './components/FinishPage'
-import NoMatch from './components/NoMatch'
-import Sketch from './Sketch'
+import NoMatchPage from './components/NoMatch'
+import SketchPage from './Sketch'
+import PlacesManagerPage from './components/PlacesManagerPage'
 
 import AppBar from './components/AppBar'
 import MainDrawer from './components/MainDrawer'
@@ -38,11 +39,12 @@ class App extends Component {
               <MainDrawer />
               <div style={{marginTop: '100px'}}>
               <Switch>
-                <Route exact path="/" render={() => <HomePage />} />
+                <Route exact path="/" component={HomePage} />
                 <Route path="/destination" component={DestinationPage} />
-                <Route path="/direction" component={Sketch} />
-                <Route path="/finish" render={() => <FinishPage />} />
-                <Route render={() => <NoMatch />} />
+                <Route path="/manager" component={PlacesManagerPage} />
+                <Route path="/direction" component={SketchPage} />
+                <Route path="/finish" component={FinishPage} />
+                <Route component={NoMatchPage} />
               </Switch>
               </div>
             </div>
