@@ -2,9 +2,9 @@ const initialState = {
   drawerOpen: false,
   targetLocation: {latitude: -6.2615663, longitude: 106.78280080000002},
   suggestions: [
-    {label: 'Afghanistan'},
-    {label: 'Aland Islands'},
-    {label: 'Albania'},
+    {description: 'Afghanistan'},
+    {description: 'Aland Islands'},
+    {description: 'Albania'},
   ],
 }
 
@@ -23,8 +23,9 @@ const reducer = (state = initialState, action) => {
         targetLocation: action.payload.targetLocation
       }
     case 'GET_SUGGESTIONS':
+    console.log(action.payload)
       return {
-        ...state,
+        ...state, suggestions: action.payload
       }
     default:
       return state

@@ -7,28 +7,42 @@ import Grid from 'material-ui/Grid'
 import Button from 'material-ui/Button'
 import Typography from 'material-ui/Typography'
 import Card, { CardActions, CardContent } from 'material-ui/Card'
+import BottomNavigation, {
+  BottomNavigationAction,
+} from 'material-ui/BottomNavigation'
 // import Avatar from 'material-ui/Avatar'
 // import IconButton from 'material-ui/IconButton'
 
-import { FacebookBox, GooglePlusBox, TwitterBox, GithubBox } from 'mdi-material-ui'
+import {
+  FacebookBox,
+  GooglePlusBox,
+  TwitterBox,
+  GithubBox,
+} from 'mdi-material-ui'
 
 import { withRouter } from 'react-router-dom'
 import firebase from 'firebase'
 
 const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    marginTop: 30,
+  contain: {
+    display: 'flex',
+    justifyContent: 'center',
   },
   paper: {
     display: 'flex',
     justifyContent: 'center',
-    padding: 20,
+    padding: 8,
     textAlign: 'left',
     color: theme.palette.text.secondary,
   },
   button: {
     flex: 1,
+    width: 200,
+  },
+  text: {
+    // margin: 10,
+    padding: 10,
+    fontSize: 20,
   },
 })
 
@@ -81,77 +95,91 @@ class LoginComponent extends Component {
             <Button size="small">Learn More</Button>
           </CardActions>
         </Card>
+
+        <div className={classes.contain}>
+          <h1>LOGIN</h1>
+        </div>
+
         <div className={classes.paper}>
           <div className={classes.paper}>
-            <Paper className={classes.paper}>
-              <Grid container wrap="nowrap">
-                <Grid item xs>
-                  <Button
-                    variant="fab"
-                    color="primary"
-                    aria-label="add"
-                    className={classes.button}
-                    onClick={() => { this.handleClick(facebookProvider)}}
-                  >
-                    <FacebookBox />
-                  </Button>
-                </Grid>
+            <Grid container wrap="nowrap">
+              <Grid item xs>
+                <Button
+                  className={classes.button}
+                  variant="raised"
+                  color="primary"
+                  size="large"
+                  onClick={() => {
+                    this.handleClick(facebookProvider)
+                  }}
+                >
+                  <FacebookBox />
+                  <div className={classes.text}>Facebook</div>
+                </Button>
               </Grid>
-            </Paper>
+            </Grid>
           </div>
-          
-          <div className={classes.paper}>
-            <Paper className={classes.paper}>
-              <Grid container wrap="nowrap">
-                <Grid item xs>
-                  <Button
-                    variant="fab"
-                    color="secondary"
-                    aria-label="add"
-                    className={classes.button}
-                    onClick={() => {this.handleClick(googleProvider)}}
-                  >
-                    <GooglePlusBox />
-                  </Button>
-                </Grid>
-              </Grid>
-            </Paper>
-          </div>
+        </div>
 
+        <div className={classes.paper}>
           <div className={classes.paper}>
-            <Paper className={classes.paper}>
-              <Grid container wrap="nowrap">
-                <Grid item xs>
-                  <Button
-                    variant="fab"
-                    color="primary"
-                    aria-label="add"
-                    className={classes.button}
-                    onClick={() => { this.handleClick(twitterProvider)}}
-                  >
-                    <TwitterBox />
-                  </Button>
-                </Grid>
+            <Grid container wrap="nowrap">
+              <Grid item xs>
+                <Button
+                  className={classes.button}
+                  variant="raised"
+                  color="secondary"
+                  size="large"
+                  onClick={() => {
+                    this.handleClick(googleProvider)
+                  }}
+                >
+                  <GooglePlusBox />
+                  <div className={classes.text}>Google</div>
+                </Button>
               </Grid>
-            </Paper>
+            </Grid>
           </div>
-
+        </div>
+        <div className={classes.paper}>
           <div className={classes.paper}>
-            <Paper className={classes.paper}>
-              <Grid container wrap="nowrap">
-                <Grid item xs>
-                  <Button
-                    variant="fab"
-                    color="default"
-                    aria-label="add"
-                    className={classes.button}
-                    onClick={() => { this.handleClick(githubProvider)}}
-                  >
-                    <GithubBox />
-                  </Button>
-                </Grid>
+            <Grid container wrap="nowrap">
+              <Grid item xs>
+                <Button
+                  className={classes.button}
+                  variant="raised"
+                  color="default"
+                  size="large"
+                  onClick={() => {
+                    this.handleClick(githubProvider)
+                  }}
+                >
+                  <GithubBox />
+                  <div className={classes.text}>Github</div>
+                </Button>
               </Grid>
-            </Paper>
+            </Grid>
+          </div>
+        </div>
+
+        <div className={classes.paper}>
+          <div className={classes.paper}>
+            <Grid container wrap="nowrap">
+              <Grid item xs>
+                <Button
+                  className={classes.button}
+                  variant="raised"
+                  color="primary"
+                  size="large"
+                  onClick={() => {
+                    this.handleClick(twitterProvider)
+                  }}
+                >
+                  <TwitterBox />
+                  <div className={classes.text}>Twitter</div>
+                </Button>
+              </Grid>
+            </Grid>
           </div>
         </div>
       </div>
