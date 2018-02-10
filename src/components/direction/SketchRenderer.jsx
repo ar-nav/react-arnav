@@ -1,21 +1,19 @@
 /* globals THREE, requestAnimationFrame */
-import React, {Component} from 'react';
-import {geolocated} from 'react-geolocated';
+import React, {Component} from 'react'
+import {geolocated} from 'react-geolocated'
 import geolib from 'geolib'
-import Switch from 'material-ui/Switch';
-import InfoIcon from 'material-ui-icons/Info';
-import { FormControlLabel, FormGroup } from 'material-ui/Form';
-import Grid from 'material-ui/Grid';
-
-import Button from 'material-ui/Button';
-import Menu, { MenuItem } from 'material-ui/Menu';
-import Fade from 'material-ui/transitions/Fade';
-
-import yerrow from "./assets/green-arrow.png"
-import initializeRenderer from './utils/initializeRenderer';
-import {initializeArToolkit, getMarker} from './utils/arToolkit';
-import detectEdge from './utils/detectEdge';
+import Switch from 'material-ui/Switch'
+import InfoIcon from 'material-ui-icons/Info'
+import { FormControlLabel, FormGroup } from 'material-ui/Form'
+import Button from 'material-ui/Button'
+import Menu, { MenuItem } from 'material-ui/Menu'
 import ColladaLoader from 'three-collada-loader'
+
+import yerrow from "../../assets/green-arrow.png"
+import initializeRenderer from '../../utils/initializeRenderer'
+import {initializeArToolkit, getMarker} from '../../utils/arToolkit'
+import detectEdge from '../../utils/detectEdge'
+
 
 const getAngle = (targetLoc, currentLoc) => {
   let parsedTargetLoc = {

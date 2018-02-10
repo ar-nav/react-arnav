@@ -19,6 +19,7 @@ import { toggleDrawer } from '../../store/action'
 const styles = {
   list: {
     width: 250,
+    zIndex:2002,
   },
   listFull: {
     width: 'auto',

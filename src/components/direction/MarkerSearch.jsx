@@ -1,6 +1,6 @@
 
 import React from 'react';
-import hiro from './assets/hiro.png';
+import hiro from '../../assets/hiro.png';
 
 const styles = {
     container: {

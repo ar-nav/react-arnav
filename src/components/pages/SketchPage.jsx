@@ -5,8 +5,9 @@ import { connect } from 'react-redux'
 import QrReader from 'react-qr-reader'
 import Button from 'material-ui/Button';
 
-import SketchRenderer from './SketchRenderer';
-import MarkerSearch from './MarkerSearch';
+import SketchRenderer from '../direction/SketchRenderer';
+import MarkerSearch from '../direction/MarkerSearch';
+import MainAppBar from '../common/MainAppBar'
 
 const styles = {
   backButton: {
@@ -56,6 +57,11 @@ class Sketch extends Component {
   
     return (
       <div>
+        <MainAppBar 
+          title='Direction' 
+          position='absolute'
+          style={{zIndex:2000}}
+        />
         <QrReader
         delay={this.delay}
         onError={this.handleQrError}
