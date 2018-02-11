@@ -12,7 +12,7 @@ import ColladaLoader from 'three-collada-loader'
 import yerrow from "../../assets/green-arrow.png"
 import initializeRenderer from '../../utils/initializeRenderer'
 import {initializeArToolkit, getMarker} from '../../utils/arToolkit'
-import detectEdge from '../../utils/detectEdge'
+// import detectEdge from '../../utils/detectEdge'
 
 
 const getAngle = (targetLoc, currentLoc) => {
@@ -66,7 +66,7 @@ export const sketchRendererFactory = ({
   initializeRenderer,
   getMarker,
   requestAnimationFrame,
-  detectEdge
+  // detectEdge
 }) => {
   const {
     Camera,
@@ -365,5 +365,5 @@ export default geolocated({
   getMarker,
   initializeRenderer,
   requestAnimationFrame: requestAnimationFrame,
-  detectEdge
+  // detectEdge
 }));

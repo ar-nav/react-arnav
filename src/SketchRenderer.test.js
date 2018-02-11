@@ -27,7 +27,7 @@ describe('SketchRenderer', () => {
         initializeArToolkit: createSpy(),
         initializeRenderer: createSpy().andReturn({ render: createSpy() }),
         requestAnimationFrame: createSpy(),
-        detectEdge: createSpy().andReturn({ image: 'edge' }),
+        // detectEdge: createSpy().andReturn({ image: 'edge' }),
     });
 
     it('should update mesh based on props', () => {
