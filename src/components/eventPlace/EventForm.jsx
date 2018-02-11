@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux'
 import Button from 'material-ui/Button';
 import {withStyles} from 'material-ui/styles';
 import TextField from 'material-ui/TextField';

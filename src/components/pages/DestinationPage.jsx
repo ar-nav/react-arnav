@@ -3,18 +3,15 @@ import PropTypes from 'prop-types'
 import {
   BrowserRouter as Router,
   Route,
-  Switch,
+
   withRouter,
   Link
 } from 'react-router-dom'
 import {withStyles} from 'material-ui/styles'
-import SwipeableViews from 'react-swipeable-views'
 import Tabs, {Tab} from 'material-ui/Tabs'
 import Typography from 'material-ui/Typography'
 
 import MainAppBar from '../common/MainAppBar'
-import MainContainer from '../common/MainContainer'
-import GeneralMapTabPage from '../destination/GeneralMapTabPage'
 import ByLocationTabPage from '../destination/ByLocationTabPage'
 import EventsTabPage from '../destination/EventsTabPage'
 

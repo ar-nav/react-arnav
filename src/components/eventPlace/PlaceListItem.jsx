@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux'
-import { withStyles } from 'material-ui/styles';
 import Divider from 'material-ui/Divider';
 
 import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';

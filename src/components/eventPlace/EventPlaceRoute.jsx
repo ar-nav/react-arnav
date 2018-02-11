@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import AddIcon from 'material-ui-icons/Add';
-import Button from 'material-ui/Button';
+
 import { withStyles } from 'material-ui/styles';
 import {withRouter} from 'react-router-dom'
 
@@ -20,7 +19,6 @@ const styles = theme => ({
 
 class EventPlaceRoute extends Component {
   render() {
-    const {classes} = this.props
     return (
       <Router>
         <Switch>
