@@ -46,14 +46,13 @@ class TemporaryDrawer extends React.Component {
 
           <ListItem
             button
-            onClick={() => this.props.history.push('/destination')}
+            onClick={() => this.props.history.push('/destination/location')}
           >
             <ListItemIcon>
               <BeachAccessIcon />
             </ListItemIcon>
             <ListItemText primary="Destination" />
           </ListItem>
-
           <ListItem
             button
             onClick={() => this.props.history.push('/direction')}

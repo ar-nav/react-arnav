@@ -35,7 +35,7 @@ class App extends Component {
               <div style={{overflowY:'scroll'}}>
               <Switch>
                 <Route exact path="/" component={HomePage} />
-                <Route path="/destination" component={DestinationPage} />
+                <Route path="/destination/" component={DestinationPage} />
                 <Route path="/manager" component={PlacesManagerPage} />
                 <Route path="/direction" component={SketchPage} />
                 <Route path="/finish" component={FinishPage} />
