@@ -58,8 +58,8 @@ class Destination extends React.Component {
             centered={true}
             fullWidth
           >
-            <Tab label="Map"/>
-            <Tab label="Events"/>
+            <Tab label="By Location"/>
+            <Tab label="By Events"/>
           </Tabs>
         </MainAppBar>
         <SwipeableViews

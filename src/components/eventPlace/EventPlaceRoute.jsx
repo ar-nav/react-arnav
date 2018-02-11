@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import AddIcon from 'material-ui-icons/Add';
 import Button from 'material-ui/Button';
 import { withStyles } from 'material-ui/styles';
+import {withRouter} from 'react-router-dom'
 
 import EventList from './EventList'
 import PlaceList from './PlaceList'
@@ -30,28 +31,16 @@ class EventPlaceRoute extends Component {
           <Route path={'/destination'} render={()=>(
             <EventList goTo={'destination'} />
           )}/>
+
+          <Route path="/manager/addevent" render={()=> <EventForm/>}/>
           <Route path={'/manager/addplace/:eventId'} component={PlaceForm}/>
-          <Route path={'/manager/addevent'} component={EventForm}/>
-          <Route path="/manager/places" render={()=>(
-            <div>
-              <PlaceList/>
-              <Button variant="fab" color="secondary" aria-label="Add Place" className={classes.fab}>
-                <AddIcon/>
-              </Button>
-            </div>
-          )} />
-          <Route path="/manager" render={()=>(
-            <div>
-              <EventList goTo={'manager'}/>
-              <Button variant="fab" color="primary" aria-label="Add Event" className={classes.fab}>
-                <AddIcon/>
-              </Button>
-            </div>
-          )} />
+
+          <Route path="/manager/places" render={()=> <PlaceList goTo={'manager'}/>} />
+          <Route path="/manager" render={()=> <EventList goTo={'manager'}/>} />
         </Switch>
       </Router>
     );
   }
 }
 
-export default withStyles(styles)(EventPlaceRoute);
+export default withStyles(styles)(withRouter(EventPlaceRoute));
