@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from 'material-ui/styles'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import {withStyles} from 'material-ui/styles'
 import SwipeableViews from 'react-swipeable-views'
-import AppBar from 'material-ui/AppBar'
-import Tabs, { Tab } from 'material-ui/Tabs'
+import Tabs, {Tab} from 'material-ui/Tabs'
 import Typography from 'material-ui/Typography'
 
 import MainAppBar from '../common/MainAppBar'
@@ -11,9 +11,9 @@ import MainContainer from '../common/MainContainer'
 import GeneralMapTabPage from '../destination/GeneralMapTabPage'
 import EventsTabPage from '../destination/EventsTabPage'
 
-function TabContainer({ children, dir }) {
+function TabContainer({children, dir}) {
   return (
-    <Typography component="div" dir={dir} style={{ padding: 8 * 3 }}>
+    <Typography component="div" dir={dir}>
       {children}
     </Typography>
   )
@@ -25,9 +25,7 @@ TabContainer.propTypes = {
 }
 
 const styles = theme => ({
-  root: {
-    backgroundColor: theme.palette.background.paper,
-  },
+  root: {},
   navigator: {
     display: 'flex',
   },
@@ -39,15 +37,15 @@ class Destination extends React.Component {
   }
 
   handleChange = (event, value) => {
-    this.setState({ value })
+    this.setState({value})
   }
 
   handleChangeIndex = index => {
-    this.setState({ value: index })
+    this.setState({value: index})
   }
 
   render() {
-    const { classes, theme } = this.props
+    const {classes, theme} = this.props
 
     return (
       <div className={classes.root}>
@@ -60,26 +58,22 @@ class Destination extends React.Component {
             centered={true}
             fullWidth
           >
-            <Tab label="Map" />
-            <Tab label="Events" />
+            <Tab label="Map"/>
+            <Tab label="Events"/>
           </Tabs>
         </MainAppBar>
         <SwipeableViews
           axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
+          style={{backgroundColor:'yellow'}}
         >
           <TabContainer dir={theme.direction}>
-            <MainContainer>
-              <GeneralMapTabPage />
-            </MainContainer>
+            <GeneralMapTabPage/>
           </TabContainer>
           <TabContainer dir={theme.direction}>
-            <MainContainer>
-              <EventsTabPage />
-            </MainContainer>
+            <EventsTabPage/>
           </TabContainer>
-          <TabContainer dir={theme.direction}>Item Three</TabContainer>
         </SwipeableViews>
       </div>
     )
@@ -91,4 +85,4 @@ Destination.propTypes = {
   theme: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles, { withTheme: true })(Destination)
+export default withStyles(styles, {withTheme: true})(Destination)

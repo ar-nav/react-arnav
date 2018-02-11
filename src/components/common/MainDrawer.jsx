@@ -1,14 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-
 import { withRouter } from 'react-router-dom'
-
 import PropTypes from 'prop-types'
 import { withStyles } from 'material-ui/styles'
 import Drawer from 'material-ui/Drawer'
 import List from 'material-ui/List'
 import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List'
-
 import HomeIcon from 'material-ui-icons/Home'
 import DoneIcon from 'material-ui-icons/Done'
 import DirectionsWalk from 'material-ui-icons/DirectionsWalk'

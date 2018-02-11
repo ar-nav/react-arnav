@@ -15,15 +15,19 @@ const styles = {
   root: {
     width: '100%',
   },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20,
+  },
 };
 
 function ButtonAppBar(props) {  
   const { classes } = props
   return (
-    <div className={classes.root}>
-      <AppBar position="static" color="default" position={props.position} >
+
+      <AppBar color="default" position={props.position || 'static'} >
         <Toolbar>
-          <IconButton onClick={() => props.openDrawer()} color="inherit" aria-label="Menu">
+          <IconButton onClick={() => props.openDrawer()} color="inherit" className={classes.menuButton} aria-label="Menu">
             <MenuIcon />
           </IconButton>
           <Typography variant="title" color="inherit" className={classes.flex}>
@@ -32,7 +36,7 @@ function ButtonAppBar(props) {
         </Toolbar>
         {props.children}
       </AppBar>
-    </div>
+
   );
 }
 

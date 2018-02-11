@@ -32,7 +32,7 @@ class App extends Component {
           <Router>
             <div>
               <MainDrawer />
-              <div>
+              <div style={{overflowY:'scroll'}}>
               <Switch>
                 <Route exact path="/" component={HomePage} />
                 <Route path="/destination" component={DestinationPage} />
