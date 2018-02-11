@@ -1,18 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom'
+import firebase from 'firebase'
 import { withStyles } from 'material-ui/styles'
-// import Paper from 'material-ui/Paper'
 import Grid from 'material-ui/Grid'
 import Button from 'material-ui/Button'
-import Typography from 'material-ui/Typography'
-import Card, { CardActions, CardContent } from 'material-ui/Card'
-// import BottomNavigation, {
-//   BottomNavigationAction,
-// } from 'material-ui/BottomNavigation'
-// import Avatar from 'material-ui/Avatar'
-// import IconButton from 'material-ui/IconButton'
-
 import {
   FacebookBox,
   GooglePlusBox,
@@ -20,8 +12,7 @@ import {
   GithubBox,
 } from 'mdi-material-ui'
 
-import { withRouter } from 'react-router-dom'
-import firebase from 'firebase'
+
 
 const styles = theme => ({
   contain: {
@@ -172,10 +163,6 @@ class LoginComponent extends Component {
       </div>
     )
   }
-}
-
-LoginComponent.propTypes = {
-  classes: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state => ({
