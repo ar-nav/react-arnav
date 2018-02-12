@@ -15,7 +15,7 @@ import {initializeArToolkit, getMarker} from '../../utils/arToolkit'
 // import detectEdge from '../../utils/detectEdge'
 
 
-const getAngle = (targetLoc, currentLoc) => {
+export const getAngle = (targetLoc, currentLoc) => {
   let parsedTargetLoc = {
     latitude: targetLoc.latitude,
     longitude: targetLoc.longitude
@@ -31,7 +31,7 @@ const getAngle = (targetLoc, currentLoc) => {
   }
 }
 
-const compassHeading = (alpha, beta, gamma) => {
+export const compassHeading = (alpha, beta, gamma) => {
   // Convert degrees to radians
   let alphaRad = alpha * (Math.PI / 180);
   let betaRad = beta * (Math.PI / 180);
@@ -60,7 +60,7 @@ const compassHeading = (alpha, beta, gamma) => {
   return compassHeading;
 }
 
-export const sketchRendererFactory = ({
+export const directionRendererFactory = ({
   THREE,
   initializeArToolkit,
   initializeRenderer,
@@ -74,7 +74,7 @@ export const sketchRendererFactory = ({
     Scene,
   } = THREE;
 
-  return class SketchRenderer extends Component {
+  return class DirectionRenderer extends Component {
     constructor(props) {
       super(props)
       this.state = {
@@ -90,7 +90,7 @@ export const sketchRendererFactory = ({
     }
 
     getDistance(startLoc, endLoc) {
-      if (startLoc.latitude && startLoc.longitude && endLoc.latitude && endLoc.longitude) {
+      if (startLoc && endLoc) {
         let parsedStartLoc = {
           latitude: startLoc.latitude,
           longitude: startLoc.longitude
@@ -260,7 +260,6 @@ export const sketchRendererFactory = ({
           }}>
             {this.props.coords
               ? <table>
-                  <p>{this.state.isShowInfo}</p>
                   <tbody>
                     <tr>
                       <td>geo-latitude</td>
@@ -359,7 +358,7 @@ export default geolocated({
   },
   userDecisionTimeout: 5000,
   watchPosition: true
-})(sketchRendererFactory({
+})(directionRendererFactory({
   THREE,
   initializeArToolkit,
   getMarker,

@@ -8,7 +8,7 @@ import HomePage from './components/pages/HomePage'
 import DestinationPage from './components/pages/DestinationPage'
 import FinishPage from './components/pages/FinishPage'
 import NoMatchPage from './components/pages/NoMatchPage'
-import SketchPage from './components/pages/SketchPage'
+import DirectionPage from './components/pages/DirectionPage'
 import PlacesManagerPage from './components/pages/PlacesManagerPage'
 import MainDrawer from './components/common/MainDrawer'
 
@@ -37,7 +37,7 @@ class App extends Component {
                 <Route exact path="/" component={HomePage} />
                 <Route path="/destination/" component={DestinationPage} />
                 <Route path="/manager" component={PlacesManagerPage} />
-                <Route path="/direction" component={SketchPage} />
+                <Route path="/direction" component={DirectionPage} />
                 <Route path="/finish" component={FinishPage} />
                 <Route component={NoMatchPage} />
               </Switch>
