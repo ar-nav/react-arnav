@@ -130,6 +130,7 @@ export const directionRendererFactory = ({
       marker.addEventListener('markerFound', onMarkerFound);
 
       let arrow
+
       let currentLoc = {
         latitude: (this.props.coords === null)
           ? 0
@@ -138,6 +139,13 @@ export const directionRendererFactory = ({
           ? 0
           : this.props.coords.longitude
       }
+
+      if (this.props.isTargetEvent) {
+        if (this.props.qrLocation !== null) {
+          currentLoc = this.props.qrLocation
+        }
+      }
+
       let targetLoc = this.props.targetLoc
       this.setState({arrowRotation: getAngle(targetLoc, currentLoc)*180/Math.PI})
       var loader = new ColladaLoader();

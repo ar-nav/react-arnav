@@ -40,8 +40,15 @@ class Direction extends Component {
 
   handleQrScan(data){
     if(data){
+      //1. query GET location by ID to GraphQL
+      let qrLocation = {
+        latitude: 5,
+        longitude: -5
+      }
+      // 2. hasil query
+
       this.setState({
-        qrResult: data,
+        targetLoc: qrLocation,
       })
     }
   }
@@ -71,6 +78,8 @@ class Direction extends Component {
       />
         <p style={{color:'orange', backgroundColor:'#0000ff6f', marginTop:300, marginLeft:0, zIndex:2002, position:'absolute'}}>{this.state.qrResult}</p>
         <DirectionRenderer
+          isTargetEvent={this.props.isTargetEvent}
+          qrLocation={this.props.qrLocation}
           onMarkerFound={this.handleMarkerFound}
           targetLoc={this.state.targetLoc}
         ></DirectionRenderer>

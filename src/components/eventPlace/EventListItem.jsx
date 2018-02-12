@@ -23,9 +23,9 @@ function SimpleMediaCard(props) {
     console.log('yolo')
     if(props.goTo === 'manager'){
       // props.history.push(`manager/addplace/${props.id}`)
-      props.history.push(`/manager/places/${props.ID}`)
+      props.history.push(`/manager/places/${props.id}`)
     }else{
-      props.history.push(`/destination/places/${props.ID}`)
+      props.history.push(`/destination/places/${props.id}`)
     }
   }
   const { classes, goTo } = props;

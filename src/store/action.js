@@ -75,3 +75,13 @@ export const fetchDetailTarget = (id) => {
     console.log('ini di actions', id)
   }
 }
+export const setPlacesLocation = (location) => {
+  
+  return {
+    type: 'SET_PLACES_LOCATION',
+    payload: {
+      targetLocation: location
+    }
+  }
+}
+
