@@ -10,6 +10,7 @@ import {
 import {withStyles} from 'material-ui/styles'
 import Tabs, {Tab} from 'material-ui/Tabs'
 import Typography from 'material-ui/Typography'
+import SwipeableViews from 'react-swipeable-views';
 
 import MainAppBar from '../common/MainAppBar'
 import ByLocationTabPage from '../destination/ByLocationTabPage'
@@ -51,9 +52,9 @@ class Destination extends Component {
   }
 
   render() {
-    const {classes} = this.props
+    const {classes, theme} = this.props
     return (
-      <Router>
+      // <Router>
         <div className={classes.root}>
           <MainAppBar title='Choose Destination'>
             <Tabs
@@ -68,11 +69,19 @@ class Destination extends Component {
               <Tab label="By Events" component={Link} to="/destination/events"/>
             </Tabs>
           </MainAppBar>
-          <Route exact path={'/destination/location'} component={ByLocationTabPage}/>
+          <SwipeableViews
+            axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+            index={this.state.value}
+            onChangeIndex={this.handleChangeIndex}
+          >
+            <TabContainer dir={theme.direction}><GeneralMapTabPage/></TabContainer>
+            <TabContainer dir={theme.direction}><EventsTabPage/></TabContainer>
+          </SwipeableViews>
+          {/* <Route exact path={'/destination/location'} component={ByLocationTabPage}/> */}
           {/*<Route exact path={'/destination/location'} component={GeneralMapTabPage}/>*/}
-          <Route path={'/destination/events'} component={EventsTabPage} />
+          {/* <Route path={'/destination/events'} component={EventsTabPage} /> */}
         </div>
-      </Router>
+      // </Router>
     )
   }
 }

@@ -76,7 +76,7 @@ export const fetchDetailTarget = (id) => {
   }
 }
 export const setPlacesLocation = (location) => {
-  
+  console.log('setting location by places......', location)
   return {
     type: 'SET_PLACES_LOCATION',
     payload: {

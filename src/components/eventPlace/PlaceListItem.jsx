@@ -4,30 +4,48 @@ import { connect } from 'react-redux'
 import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import LocationIcon from 'material-ui-icons/Place';
 import {withRouter} from 'react-router-dom'
+import Button from 'material-ui/Button';
+import Icon from 'material-ui/Icon';
 
+import generatePDF from '../../utils/pdfGenerator'
 import { setPlacesLocation } from '../../store/action'
 
 class PlaceListItem extends Component {
 
-  handleClick(latitude, longitude) {
-    let location = {
-      latitude,
-      longitude
+  handleClick(qrLocation) {
+    console.log('ini location diklik', qrLocation)
+    if (this.props.parentRoute === 'destination') {
+      this.props.setPlacesLocation(qrLocation)
+      this.props.history.push('/direction')
     }
+  }
 
-    this.props.setPlacesLocation(location)
-    this.props.history.push('/direction')
-    console.log('ini location diklik', location)
+  downloadMarker(placeId, placeName) {
+    generatePDF(placeId, placeName)
   }
   
   render() {
+    console.log('>>>><<',this.props)
+    const qrLocation = {
+      latitude: this.props.latitude,
+      longitude: this.props.longitude
+    }
     return (
       <div>
-        <ListItem button onClick={() => this.handleClick(this.props.latitude, this.props.longitude)}>
+        <ListItem 
+          button={this.props.parentRoute === 'destination'} 
+          onClick={() => this.handleClick(qrLocation)}
+        >
           <ListItemIcon>
             <LocationIcon/>
           </ListItemIcon>
           <ListItemText primary={this.props.name} />
+          {(this.props.parentRoute === 'manager') && 
+            <Button
+              variant="flat"
+              onClick={() => this.downloadMarker(this.props.ID, this.props.name)}
+            >< Icon>file_download</Icon> Marker</Button>
+          }
         </ListItem>
         <Divider/>
       </div>
