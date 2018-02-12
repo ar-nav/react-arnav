@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import QrReader from 'react-qr-reader'
 import Button from 'material-ui/Button';
 
-import SketchRenderer from '../direction/SketchRenderer';
+import DirectionRenderer from '../direction/DirectionRenderer';
 import MarkerSearch from '../direction/MarkerSearch';
 import MainAppBar from '../common/MainAppBar'
 
@@ -19,7 +19,7 @@ const styles = {
   }
 }
 
-class Sketch extends Component {
+class Direction extends Component {
   constructor(props){
     super(props)
     this.state = {
@@ -70,10 +70,10 @@ class Sketch extends Component {
         showViewFinder={false}
       />
         <p style={{color:'orange', backgroundColor:'#0000ff6f', marginTop:300, marginLeft:0, zIndex:2002, position:'absolute'}}>{this.state.qrResult}</p>
-        <SketchRenderer
+        <DirectionRenderer
           onMarkerFound={this.handleMarkerFound}
           targetLoc={this.state.targetLoc}
-        ></SketchRenderer>
+        ></DirectionRenderer>
         {!markerFound && <MarkerSearch />}
         <Button 
           style={styles.backButton}
@@ -91,4 +91,4 @@ const mapStateToProps = state => ({ ...state })
 const mapDispatchToProps = dispatch => ({
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sketch)
+export default connect(mapStateToProps, mapDispatchToProps)(Direction)
