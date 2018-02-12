@@ -7,6 +7,8 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import {withRouter} from 'react-router-dom'
 
+import MainAppBar from '../common/MainAppBar'
+
 const styles = theme => ({
   root: {
     padding: theme.spacing.unit
@@ -51,30 +53,33 @@ class EventForm extends Component {
   render() {
     const {classes} = this.props
     return (
-      <div className={classes.root}>
-        <Typography variant="title" gutterBottom>
-          Create new event
-        </Typography>
-        <TextField
-          fullWidth
-          label="Event name"
-          placeholder="For example: The Great Expo"
-          className={classes.textField}
-          margin="normal"
-          onChange={this.handleChange('name')}
-        />
-        <TextField
-          fullWidth
-          label="Event image URL"
-          placeholder="http://example.com/eventphoto.jpg"
-          className={classes.textField}
-          margin="normal"
-          onChange={this.handleChange('imageUrl')}
-        />
-        <Button onClick={this.handleSubmit} color={'primary'} fullWidth
-                variant="raised" className={classes.button}>
-          Submit
-        </Button>
+      <div>
+        <MainAppBar title='Add new Event'/>
+        <div className={classes.root}>
+          <Typography variant="title" gutterBottom>
+            Create new event
+          </Typography>
+          <TextField
+            fullWidth
+            label="Event name"
+            placeholder="For example: The Great Expo"
+            className={classes.textField}
+            margin="normal"
+            onChange={this.handleChange('name')}
+          />
+          <TextField
+            fullWidth
+            label="Event image URL"
+            placeholder="http://example.com/eventphoto.jpg"
+            className={classes.textField}
+            margin="normal"
+            onChange={this.handleChange('imageUrl')}
+          />
+          <Button onClick={this.handleSubmit} color={'primary'} fullWidth
+                  variant="raised" className={classes.button}>
+            Submit
+          </Button>
+        </div>
       </div>
     );
   }

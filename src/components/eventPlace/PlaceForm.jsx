@@ -3,10 +3,11 @@ import Button from 'material-ui/Button';
 import {withStyles} from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 import Typography from 'material-ui/Typography';
-
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import {withRouter} from 'react-router-dom'
+
+import MainAppBar from '../common/MainAppBar'
 
 
 const styles = theme => ({
@@ -41,40 +42,43 @@ class PlaceForm extends Component {
 
   render() {
     console.log(this.props  )
-    const {classes} = this.props
+    const {classes, match} = this.props
     return (
-      <div className={classes.root}>
-        <Typography variant="title" gutterBottom>
-          Register Place to this Event
-        </Typography>
-        <TextField
-          fullWidth
-          label="Place name"
-          placeholder="For example: My Great Tenant"
-          className={classes.textField}
-          onChange={this.handleChange('name')}
-          margin="normal"
-        />
-        <TextField
-          fullWidth
-          label="Latitude"
-          placeholder="Latitude"
-          className={classes.textField}
-          onChange={this.handleChange('latitude')}
-          margin="normal"
-        />
-        <TextField
-          fullWidth
-          label="Longitude"
-          placeholder="Longitude"
-          className={classes.textField}
-          onChange={this.handleChange('longitude')}
-          margin="normal"
-        />
-        <Button onClick={this.handleSubmit} color={'primary'} fullWidth
-                variant="raised" className={classes.button}>
-          Submit
-        </Button>
+      <div>
+        <MainAppBar title='Add new Place'/>
+        <div className={classes.root}>
+          <Typography variant="title" gutterBottom>
+            Register Place to {match.params.event.split('-')[0]}
+          </Typography>
+          <TextField
+            fullWidth
+            label="Place name"
+            placeholder="For example: My Great Tenant"
+            className={classes.textField}
+            onChange={this.handleChange('name')}
+            margin="normal"
+          />
+          <TextField
+            fullWidth
+            label="Latitude"
+            placeholder="Latitude"
+            className={classes.textField}
+            onChange={this.handleChange('latitude')}
+            margin="normal"
+          />
+          <TextField
+            fullWidth
+            label="Longitude"
+            placeholder="Longitude"
+            className={classes.textField}
+            onChange={this.handleChange('longitude')}
+            margin="normal"
+          />
+          <Button onClick={this.handleSubmit} color={'primary'} fullWidth
+                  variant="raised" className={classes.button}>
+            Submit
+          </Button>
+        </div>
       </div>
     )
   }

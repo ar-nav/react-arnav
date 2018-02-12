@@ -33,7 +33,7 @@ class EventList extends Component {
         </List>
         {parentRoute === 'manager' && (
           <Button onClick={() => {
-            this.props.history.push('/manager/addevent')
+            this.props.history.push('/addevent')
           }} variant="fab" color="primary" aria-label="Add Event"
                   className={classes.fab}>
             <AddIcon/>

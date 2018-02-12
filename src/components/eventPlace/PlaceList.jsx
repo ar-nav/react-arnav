@@ -27,7 +27,9 @@ const styles = theme => ({
 class PlaceList extends Component {
   render() {
     const {parentRoute, classes, data, match} = this.props
-    let titleName = parentRoute==='destination' ? match.params.eventName : `manage event: ${match.params.eventName}`
+    let titleName = parentRoute==='destination' ? 
+      match.params.event.split('-')[0] : 
+      `manage event: ${match.params.event.split('-')[0]}`
     console.log(data)
     return data.loading ? (<div>Loading</div>) : (
       <div>
@@ -37,7 +39,7 @@ class PlaceList extends Component {
         </List>
         {parentRoute === 'manager' && (
           <Button onClick={() => {
-            this.props.history.push('/manager/addplace/1')
+            this.props.history.push(`/addplace/${match.params.event.split('-')[0] }-${match.params.event.split('-')[1]}`)
           }} variant="fab" color="secondary" aria-label="Add Places"
                   className={classes.fab}>
             <AddIcon/>

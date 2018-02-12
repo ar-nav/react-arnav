@@ -21,18 +21,18 @@ export default () => (
           <Route exact path="/" component={HomePage} />
           <Route path="/destination" component={DestinationPage}/>
           <Route 
-            path="/:eventName/:eventId/places" 
+            path="/:event/places" 
             render={()=> (<PlaceList parentRoute={'destination'}/>)}
           />
           {/* <Route path="/destination/location" component={FinishPage} /> */}
           {/* <Route path="/destination/events" component={FinishPage} /> */}
           <Route path="/manager" component={PlacesManagerPage} />
           <Route 
-            path="/eventmanager/:eventName/:eventId/places" 
+            path="/eventmanager/:event/places" 
             render={()=> (<PlaceList parentRoute={'manager'}/>)}
           />
           <Route path="/addevent" render={()=> <EventForm/>}/>
-          <Route path={'/addplace/:eventId'} component={PlaceForm}/>
+          <Route path={'/addplace/:event'} component={PlaceForm}/>
           <Route path="/direction" component={DirectionPage} />
           <Route path="/finish" component={FinishPage} />
           
