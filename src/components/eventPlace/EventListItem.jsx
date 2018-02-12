@@ -5,6 +5,7 @@ import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 import {withRouter} from 'react-router-dom'
+import { graphql } from 'react-apollo';
 
 const styles = {
   card: {
@@ -19,11 +20,12 @@ const styles = {
 
 function SimpleMediaCard(props) {
   function handleClick () {
+    console.log('yolo')
     if(props.goTo === 'manager'){
       // props.history.push(`manager/addplace/${props.id}`)
-      props.history.push(`manager/places/${props.id}`)
+      props.history.push(`/manager/places/${props.ID}`)
     }else{
-      props.history.push(`destination/places/${props.id}`)
+      props.history.push(`/destination/places/${props.ID}`)
     }
   }
   const { classes, goTo } = props;
@@ -53,5 +55,6 @@ function SimpleMediaCard(props) {
 SimpleMediaCard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
+
 
 export default withStyles(styles)(withRouter(SimpleMediaCard));

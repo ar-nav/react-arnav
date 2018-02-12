@@ -4,6 +4,10 @@ import {withStyles} from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 import Typography from 'material-ui/Typography';
 
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+import {withRouter} from 'react-router-dom'
+
 
 const styles = theme => ({
   root: {
@@ -24,7 +28,7 @@ class PlaceForm extends Component {
       name: '',
       latitude: '',
       longitude: '',
-      eventId: '1'
+      eventId: this.props.match.params.eventId
     }
   }
 
@@ -34,11 +38,9 @@ class PlaceForm extends Component {
     });
   };
 
-  handleSubmit = () => {
-    alert(JSON.stringify(this.state, null, 2))
-  }
 
   render() {
+    console.log(this.props  )
     const {classes} = this.props
     return (
       <div className={classes.root}>
@@ -74,8 +76,47 @@ class PlaceForm extends Component {
           Submit
         </Button>
       </div>
-    );
+    )
   }
+  handleSubmit = () => {
+    const {name, latitude, longitude, eventId} = this.state
+    console.log(this.state)
+    this.props.mutate({
+      variables: { name, latitude, longitude, eventId}
+    })
+      .then(({ data }) => {
+        console.log('jadi', data)
+        this.props.history.push('/manager/places')
+      })
+      .catch((error) => {
+        console.log('there was an error sending the query', error);
+      });
+  }
+
 }
 
-export default withStyles(styles)(PlaceForm);
+
+const createPlacea = gql`
+    mutation createPlace(
+        $name: String!,
+        $latitude: Int!,
+        $longitude: Int!,
+        $eventId: String!, 
+    ) {
+        createPlace(input: {
+            name: $name,
+            latitude: $latitude,
+            longitude: $longitude,
+            eventId: $eventId
+            
+        }){
+           ID
+           name 
+        }
+    }
+`;
+
+
+const withGraphQL = graphql(createPlacea)(PlaceForm)
+
+export default withStyles(styles)(withRouter(withGraphQL));

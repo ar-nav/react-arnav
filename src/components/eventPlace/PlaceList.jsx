@@ -6,6 +6,8 @@ import AddIcon from 'material-ui-icons/Add';
 import Button from 'material-ui/Button';
 
 import PlaceListItem from './PlaceListItem'
+import gql from "graphql-tag";
+import {graphql} from "react-apollo/index";
 
 
 
@@ -23,13 +25,12 @@ const styles = theme => ({
 
 class PlaceList extends Component {
   render() {
-    const {goTo, classes} = this.props
-
-    const places = [{id: 1, name: 'Daihatsu'},{id: 2, name: 'Ferarri'}]
-    return (
+    const {goTo, classes, data} = this.props
+    console.log(data)
+    return data.loading ? (<div>Loading</div>) : (
       <div>
         <List component={'nav'}>
-          {places.map((place, i) => <PlaceListItem key={i} {...place}/>)}
+          {data.getAllPlaces.map((place, i) => <PlaceListItem key={place.ID} {...place}/>)}
         </List>
         {goTo === 'manager' && (
           <Button onClick={() => {
@@ -45,4 +46,13 @@ class PlaceList extends Component {
   }
 }
 
-export default withStyles(styles)(withRouter(PlaceList));
+const WithGraphQL = gql`
+    query hola{
+        getAllPlaces {
+            ID
+            name
+        }
+    }
+`;
+
+export default withStyles(styles)(withRouter(graphql(WithGraphQL)(PlaceList)));
