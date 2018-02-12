@@ -5,6 +5,8 @@ import List from 'material-ui/List';
 import AddIcon from 'material-ui-icons/Add';
 import Button from 'material-ui/Button';
 import EventListItem from './EventListItem'
+import gql from "graphql-tag";
+import {graphql} from "react-apollo/index";
 
 const styles = theme => ({
   root: {
@@ -20,15 +22,13 @@ const styles = theme => ({
 class EventList extends Component {
 
   render() {
-    const {classes, goTo} = this.props
-    const events = [{id: 1, name: 'GIASS Expo'}, {
-      id: 2,
-      name: 'Weaboo Conventionxdd'
-    }, {id: 3, name: 'Hello World'}]
-    return (
+    const {classes, goTo, data} = this.props
+    console.log('data:',data.getEvents)
+
+    return data.loading ? (<div>Loading</div>) : (
       <div className={classes.root}>
         <List component="nav">
-          {events.map((event, i) => <EventListItem key={i} {...event}
+          {data.getEvents.map((event, i) => <EventListItem key={event.ID} {...event}
                                                    goTo={this.props.goTo}/>)}
         </List>
         {goTo === 'manager' && (
@@ -45,4 +45,16 @@ class EventList extends Component {
   }
 }
 
-export default withStyles(styles)(withRouter(EventList));
+const WithGraphQL = gql`
+    query hola{
+        getEvents {
+            ID
+            name
+        }
+    }
+`;
+
+
+const ProfileWithData = graphql(WithGraphQL)(EventList);
+
+export default withStyles(styles)(withRouter(ProfileWithData));

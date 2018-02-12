@@ -13,6 +13,7 @@ import Typography from 'material-ui/Typography'
 
 import MainAppBar from '../common/MainAppBar'
 import ByLocationTabPage from '../destination/ByLocationTabPage'
+import GeneralMapTabPage from '../destination/GeneralMapTabPage'
 import EventsTabPage from '../destination/EventsTabPage'
 
 function TabContainer({children, dir}) {
@@ -68,6 +69,7 @@ class Destination extends Component {
             </Tabs>
           </MainAppBar>
           <Route exact path={'/destination/location'} component={ByLocationTabPage}/>
+          {/*<Route exact path={'/destination/location'} component={GeneralMapTabPage}/>*/}
           <Route path={'/destination/events'} component={EventsTabPage} />
         </div>
       </Router>

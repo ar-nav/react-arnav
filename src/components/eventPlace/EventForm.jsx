@@ -3,7 +3,9 @@ import Button from 'material-ui/Button';
 import {withStyles} from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 import Typography from 'material-ui/Typography';
-
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+import {withRouter} from 'react-router-dom'
 
 const styles = theme => ({
   root: {
@@ -31,10 +33,19 @@ class EventForm extends Component {
     this.setState({
       [name]: event.target.value,
     });
-  };
+  };i
 
   handleSubmit = () => {
-    alert(JSON.stringify(this.state, null, 2))
+    // alert(JSON.stringify(this.state, null, 2))
+    this.props.mutate({
+      variables: { eventName: this.state.name }
+    })
+      .then(({ data }) => {
+        this.props.history.push('/manager/events')
+      })
+      .catch((error) => {
+        console.log('there was an error sending the query', error);
+    });
   }
 
   render() {
@@ -69,6 +80,18 @@ class EventForm extends Component {
   }
 }
 
+const createEvent = gql`
+    mutation createEvent($eventName: String!) {
+        createEvent(input: {
+            eventName: $eventName
+        }) {
+            ID,
+            name
+        }
+    }
+`;
 
 
-export default withStyles(styles)(EventForm);
+const withGraphQL = graphql(createEvent)(EventForm)
+
+export default withStyles(styles)(withRouter(withGraphQL));

@@ -1,50 +1,44 @@
 import React, { Component } from 'react'
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
 import { Provider } from 'react-redux'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import './assets/css/main.css'
-import store from './store'
-import HomePage from './components/pages/HomePage'
-import DestinationPage from './components/pages/DestinationPage'
-import FinishPage from './components/pages/FinishPage'
-import NoMatchPage from './components/pages/NoMatchPage'
-import DirectionPage from './components/pages/DirectionPage'
-import PlacesManagerPage from './components/pages/PlacesManagerPage'
-import MainDrawer from './components/common/MainDrawer'
+import { HttpLink } from 'apollo-link-http';
+import ApolloClient from 'apollo-client';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloProvider } from 'react-apollo';
+import { setContext } from 'apollo-link-context';
 
-const theme = createMuiTheme()
+import './assets/css/main.css'
+import {store} from './store'
+import MainRouter from './MainRouter'
+import mainTheme from './mainTheme'
+
+const link = new HttpLink({ uri: 'https://ael3l4ewpbffzmehxdpvxlfigm.appsync-api.us-east-1.amazonaws.com/graphql' });
+
+const authLink = setContext((_, { headers }) => {
+  const APIKEY = 'da2-arau223jmbbiddhflcebwwxhuq'
+  return {
+    headers: {
+      ...headers,
+      'x-api-key': APIKEY
+    }
+  }
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(link),
+  cache: new InMemoryCache()
+});
+
 
 class App extends Component {
-  state = {
-    image: null,
-  }
-
-  handleFileSelected = ({ image, whiteImage, blackImage }) => {
-    this.setState({ image, whiteImage, blackImage })
-  }
-
   render() {
-    // const { image, whiteImage, blackImage } = this.state
-    console.log(this.state)
     return (
       <Provider store={store}>
-        <MuiThemeProvider theme={theme}>
-          <Router>
-            <div>
-              <MainDrawer />
-              <div style={{overflowY:'scroll'}}>
-              <Switch>
-                <Route exact path="/" component={HomePage} />
-                <Route path="/destination/" component={DestinationPage} />
-                <Route path="/manager" component={PlacesManagerPage} />
-                <Route path="/direction" component={DirectionPage} />
-                <Route path="/finish" component={FinishPage} />
-                <Route component={NoMatchPage} />
-              </Switch>
-              </div>
-            </div>
-          </Router>
-        </MuiThemeProvider>
+        <ApolloProvider client={client} >
+          <MuiThemeProvider theme={mainTheme}>
+            <MainRouter/>
+          </MuiThemeProvider>
+        </ApolloProvider>
       </Provider>
     )
   }
