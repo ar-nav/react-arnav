@@ -16,6 +16,13 @@ export const storeTargetLocation = targetLocation => ({
   },
 })
 
+export const storeFormLocation = formPlaceLocation => ({
+  type: 'STORE_FORM_LOCATION',
+  payload: {
+    formPlaceLocation,
+  },
+})
+
 export const getSuggestions = query => ({
   type: 'GET_SUGGESTIONS',
   payload: {

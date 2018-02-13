@@ -1,9 +1,10 @@
 import { createMuiTheme } from 'material-ui/styles';
-import indigo from 'material-ui/colors/indigo';
+import green from 'material-ui/colors/green';
 import pink from 'material-ui/colors/pink';
 import red from 'material-ui/colors/red';
-import purple from 'material-ui/colors/purple';
-import green from 'material-ui/colors/green';
+// import indigo from 'material-ui/colors/indigo';
+// import purple from 'material-ui/colors/purple';
+
 
 // All the following keys are optional.
 // We try our best to provide a great default value.
@@ -15,8 +16,8 @@ export  default createMuiTheme({
       dark: green.A700,
       contrastText: '#fff',
     },
-    secondary: indigo,
-    // error: red,
+    secondary: pink,
+    error: red,
     // Used by `getContrastText()` to maximize the contrast between the background and
     // the text.
     // contrastThreshold: 3,
