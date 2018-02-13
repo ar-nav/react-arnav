@@ -179,6 +179,12 @@ export const directionRendererFactory = ({
               ? 0
               : this.props.coords.longitude
           }
+
+          if (this.props.isTargetEvent) {
+            if (this.props.qrLocation !== null) {
+              newCurrentLoc = this.props.qrLocation
+            }
+          }
           if (scene.children[1].children[1]) {
             scene.children[1].children[1].rotation.y = getAngle(targetLoc, newCurrentLoc) + Math.PI / 2
           }
@@ -228,6 +234,7 @@ export const directionRendererFactory = ({
     };
 
     render() {
+      console.log('==========>>>>>>>>>',this.props.qrLocation)
       return (
         <div>
           <canvas id="arpage" ref={this.storeRef}/>
@@ -301,6 +308,10 @@ export const directionRendererFactory = ({
                       <td>Dist. to location</td>
                       <td>{this.getDistance(this.props.coords, this.props.targetLoc)} m</td>
                     </tr>
+                    {/* <tr>
+                      <td>QR location</td>
+                      <td>{(this.props.qrLocation !== null ? this.props.qrLocation : 0)}</td>
+                    </tr> */}
                   </tbody>
                 </table>
               : <div>Getting the location data&hellip;
