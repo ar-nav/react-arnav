@@ -58,8 +58,8 @@ class PlaceList extends Component {
   }
 }
 
-const WithGraphQL = gql`
-    query hola{
+const query = gql`
+    query getAllPlaces{
         getAllPlaces {
             ID
             name
@@ -72,4 +72,10 @@ const WithGraphQL = gql`
     }
 `;
 
-export default withStyles(styles)(withRouter(graphql(WithGraphQL)(PlaceList)));
+const WithGraphQl = graphql(query, {
+  options: {
+    fetchPolicy: 'network-only'
+  }
+})(PlaceList)
+
+export default withStyles(styles)(withRouter(WithGraphQl));
