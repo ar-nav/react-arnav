@@ -153,7 +153,7 @@ export const directionRendererFactory = ({
       this.setState({currentLoc: currentLoc} )
 
       let targetLoc = this.props.targetLoc
-      this.setState({arrowRotation: getAngle(targetLoc, this.state.currentLoc)*180/Math.PI}, ()=>console.log('arrow>>>', this.state.arrowRotation))
+      this.setState({arrowRotation: getAngle(targetLoc, this.state.currentLoc)*180/Math.PI})
       var loader = new ColladaLoader();
       loader.options.localImageMode = true
       loader.load('https://raw.githubusercontent.com/ar-nav/react-arnav/qr-reader-dev/src/assets/di' +
@@ -192,7 +192,7 @@ export const directionRendererFactory = ({
             }
           }
           this.setState({currentLoc: newCurrentLoc}, () => {
-            this.setState({arrowRotation: getAngle(targetLoc, this.state.currentLoc)*180/Math.PI}, ()=>console.log('arrow>>>', this.state.arrowRotation))
+            this.setState({arrowRotation: getAngle(targetLoc, this.state.currentLoc)*180/Math.PI})
             // if (scene.children[1].children[1]) {
               // console.log('update----------',arrow)
               if (arrow){
