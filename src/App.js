@@ -10,23 +10,24 @@ import './assets/css/main.css'
 import {store} from './store'
 import MainRouter from './MainRouter'
 import mainTheme from './mainTheme'
+import client from './client'
 
-const link = new HttpLink({ uri: 'https://ael3l4ewpbffzmehxdpvxlfigm.appsync-api.us-east-1.amazonaws.com/graphql' });
+// const link = new HttpLink({ uri: 'https://ael3l4ewpbffzmehxdpvxlfigm.appsync-api.us-east-1.amazonaws.com/graphql' });
 
-const authLink = setContext((_, { headers }) => {
-  const APIKEY = 'da2-arau223jmbbiddhflcebwwxhuq'
-  return {
-    headers: {
-      ...headers,
-      'x-api-key': APIKEY
-    }
-  }
-});
+// const authLink = setContext((_, { headers }) => {
+//   const APIKEY = 'da2-arau223jmbbiddhflcebwwxhuq'
+//   return {
+//     headers: {
+//       ...headers,
+//       'x-api-key': APIKEY
+//     }
+//   }
+// });
 
-const client = new ApolloClient({
-  link: authLink.concat(link),
-  cache: new InMemoryCache()
-});
+// const client = new ApolloClient({
+//   link: authLink.concat(link),
+//   cache: new InMemoryCache()
+// });
 
 
 

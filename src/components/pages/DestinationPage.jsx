@@ -53,10 +53,11 @@ class Destination extends Component {
 
   render() {
     const {classes, theme} = this.props
+    console.log('inithis------------',this)
     return (
-      // <Router>
-        <div className={classes.root}>
-          <MainAppBar title='Choose Destination'>
+      <div className={classes.root}>
+        <div style={{ height:'80vh', marginTop:'20vh'}}>
+          <MainAppBar title='Choose Destination' ref='hula'>
             <Tabs
               value={this.state.value}
               onChange={this.handleChange}
@@ -81,7 +82,7 @@ class Destination extends Component {
           {/*<Route exact path={'/destination/location'} component={GeneralMapTabPage}/>*/}
           {/* <Route path={'/destination/events'} component={EventsTabPage} /> */}
         </div>
-      // </Router>
+      </div>
     )
   }
 }

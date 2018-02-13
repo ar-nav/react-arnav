@@ -86,14 +86,14 @@ class EventForm extends Component {
 }
 
 const createEvent = gql`
-    mutation createEvent($eventName: String!) {
-        createEvent(input: {
-            eventName: $eventName
-        }) {
-            ID,
-            name
-        }
+  mutation createEvent($eventName: String!) {
+    createEvent(input: {
+        eventName: $eventName
+    }) {
+        ID,
+        name
     }
+  }
 `;
 
 
