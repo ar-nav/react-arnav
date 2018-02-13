@@ -56,7 +56,7 @@ const query = gql`
 
 const WithGraphQl = graphql(query, {
   options: {
-    fetchPolicy: 'network-only'
+    fetchPolicy: 'cache-and-network'
   }
 })(EventList)
 

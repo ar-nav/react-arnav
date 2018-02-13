@@ -53,12 +53,9 @@ class EventForm extends Component {
   render() {
     const {classes} = this.props
     return (
-      <div>
-        <MainAppBar title='Add new Event'/>
+      <div style={{marginTop: 56}}>
+        <MainAppBar title='Create new event'/>
         <div className={classes.root}>
-          <Typography variant="title" gutterBottom>
-            Create new event
-          </Typography>
           <TextField
             fullWidth
             label="Event name"
@@ -67,15 +64,15 @@ class EventForm extends Component {
             margin="normal"
             onChange={this.handleChange('name')}
           />
-          <TextField
-            fullWidth
-            label="Event image URL"
-            placeholder="http://example.com/eventphoto.jpg"
-            className={classes.textField}
-            margin="normal"
-            onChange={this.handleChange('imageUrl')}
-          />
-          <Button onClick={this.handleSubmit} color={'primary'} fullWidth
+          {/*<TextField*/}
+            {/*fullWidth*/}
+            {/*label="Event image URL"*/}
+            {/*placeholder="http://example.com/eventphoto.jpg"*/}
+            {/*className={classes.textField}*/}
+            {/*margin="normal"*/}
+            {/*onChange={this.handleChange('imageUrl')}*/}
+          {/*/>*/}
+          <Button size={'large'} onClick={this.handleSubmit} color={'primary'} fullWidth
                   variant="raised" className={classes.button}>
             Submit
           </Button>

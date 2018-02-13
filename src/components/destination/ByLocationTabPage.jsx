@@ -20,10 +20,20 @@ const styles = theme => ({
 })
 
 class ByLocationTabPage extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      height: 0
+    }
+
+  }
+  componentDidMount(){
+    this.setState({height: window.innerHeight });
+  }
   render() {
     const {classes} = this.props
     return (
-      <div>
+      <div style={{ height: this.state.height - 104, marginTop:'104px'}}>
         <MapWithSeachBox/>
         <Button onClick={() => {
           this.props.history.push('/direction')

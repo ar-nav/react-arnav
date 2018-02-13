@@ -3,14 +3,14 @@ import {fetchDetailTarget, fetchSuggestions} from "../../store/action";
 import {connect} from 'react-redux'
 import { withStyles } from 'material-ui/styles';
 
-import {storeTargetLocation} from "../../store/action";
+import gmapstyle from './gmapstyle'
+import {storeTargetLocation, storeFormLocation} from "../../store/action";
 
 const styles = theme => ({
   button: {
     margin: theme.spacing.unit,
   },
 });
-
 const _ = require("lodash");
 const { compose, withProps, lifecycle } = require("recompose");
 const {
@@ -26,17 +26,17 @@ const MapWithSearchBox = compose(
   withProps({
     googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${GMAP_API_KEY}&v=3.exp&libraries=geometry,drawing,places`,
     loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: window.innerHeight - 104 }} />,
-    mapElement: <div style={{ height: `100%` }} />,
+    containerElement: <div style={{ height: '100%', minHeight: '100%' }} />,
+    mapElement: <div style={{ height: `100%`, minHeight: '100%' }} />,
   }),
   lifecycle({
     componentWillMount() {
       const refs = {}
-
+      //hacktiv 8 latitude: -6.2607187, longitude: 106.78161620000003
       this.setState({
         bounds: null,
         center: {
-          lat: 41.9, lng: -87.624
+          lat: -6.2607187, lng: 106.78161620000003
         },
         markers: [],
         onMapMounted: ref => {
@@ -65,16 +65,29 @@ const MapWithSearchBox = compose(
           const nextMarkers = places.map(place => ({
             position: place.geometry.location,
           }));
+          console.log(places[0])
           const nextCenter = _.get(nextMarkers, '0.position', this.state.center);
           console.log('onPlacesChanged', nextCenter.lat(), nextCenter.lng())
           this.setState({
             center: nextCenter,
             markers: nextMarkers,
           }, () => {
-            this.props.storeLocation({
-              latitude : nextCenter.lat(),
-              longitude: nextCenter.lng()
-            })
+            console.log('isManager', this.props.isManager)
+            const namex = places[0] ? places[0].name : ''
+            if(this.props.isManager){
+              this.props.storeFormLocation({
+                // name:namex ,
+                latitude : nextCenter.lat(),
+                longitude: nextCenter.lng()
+              })
+            }else{
+              this.props.storeLocation({
+                // name: namex,
+                latitude : nextCenter.lat(),
+                longitude: nextCenter.lng()
+              })
+            }
+
           });
           // refs.map.fitBounds(bounds);
         },
@@ -89,12 +102,15 @@ const MapWithSearchBox = compose(
     defaultZoom={15}
     center={props.center}
     onBoundsChanged={props.onBoundsChanged}
+    defaultOptions={{ styles: gmapstyle, disableDefaultUI: true }}
+
   >
     <SearchBox
       ref={props.onSearchBoxMounted}
       bounds={props.bounds}
       controlPosition={window.google.maps.ControlPosition.TOP_LEFT}
       onPlacesChanged={props.onPlacesChanged}
+
     >
       <input
         type="text"
@@ -102,11 +118,11 @@ const MapWithSearchBox = compose(
         style={{
           boxSizing: `border-box`,
           border: `1px solid transparent`,
-          width: `260px`,
+          width: '90% ',
           height: `42px`,
-          marginTop: `47px`,
-          marginLeft: `10px`,
-
+          marginTop: `20px`,
+          marginLeft: '5%',
+          marginRight:'5%',
           padding: `0 12px`,
           borderRadius: `3px`,
           boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
@@ -125,9 +141,7 @@ const mapStateToProps = state => ({ ...state })
 
 const mapDispatchToProps = dispatch => ({
   storeLocation: (loc) => dispatch(storeTargetLocation(loc)),
-  fetchSuggestions: (query) =>
-    dispatch(fetchSuggestions(query, { lat: -6.266, long: 106.7828454 })),
-  fetchDetailTarget: (id) => dispatch(fetchDetailTarget(id))
+  storeFormLocation: (loc) => dispatch(storeFormLocation(loc)),
 })
 
 

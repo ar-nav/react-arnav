@@ -6,13 +6,16 @@ import Typography from 'material-ui/Typography';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import {withRouter} from 'react-router-dom'
-
+import {connect} from 'react-redux'
+import MapWithSearchBox from '../destination/MapWithSearchBox'
 import MainAppBar from '../common/MainAppBar'
+import {setPlacesLocation} from "../../store/action";
 
 
 const styles = theme => ({
   root: {
-    padding: theme.spacing.unit
+    padding: theme.spacing.unit,
+    marginTop: '30px'
   },
   textField: {
 
@@ -20,6 +23,9 @@ const styles = theme => ({
   button: {
     marginTop: theme.spacing.unit * 2,
   },
+  wrapTop:{
+    marginTop: 56
+  }
 })
 
 class PlaceForm extends Component {
@@ -39,18 +45,29 @@ class PlaceForm extends Component {
     });
   };
 
+  componentWillReceiveProps(nextProps){
+
+    console.log('formPlaceLocation', nextProps.formPlaceLocation)
+    this.setState({
+      // name: nextProps.formPlaceLocation.latitude,
+      latitude : nextProps.formPlaceLocation.latitude,
+      longitude: nextProps.formPlaceLocation.longitude
+    })
+  }
 
   render() {
-    console.log(this.props  )
+    console.log(this.state.latitude, this.state.longitude  )
     const {classes, match, location} = this.props
     return (
-      <div>
+      <div className={classes.wrapTop}>
         <MainAppBar title='Add new Place'/>
+        <div style={{height: '50vh'}}>
+          <MapWithSearchBox isManager={true}/>
+        </div>
         <div className={classes.root}>
           <Typography variant="title" gutterBottom>
-            Register Place to {location.state.eventName}
+            Register your place to {location.state.eventName}
           </Typography>
-          Events: {this.state.eventId}
           <TextField
             fullWidth
             label="Place name"
@@ -59,7 +76,10 @@ class PlaceForm extends Component {
             onChange={this.handleChange('name')}
             margin="normal"
           />
+
+
           <TextField
+            value={this.state.latitude}
             fullWidth
             label="Latitude"
             placeholder="Latitude"
@@ -68,6 +88,7 @@ class PlaceForm extends Component {
             margin="normal"
           />
           <TextField
+            value={this.state.longitude}
             fullWidth
             label="Longitude"
             placeholder="Longitude"
@@ -75,9 +96,10 @@ class PlaceForm extends Component {
             onChange={this.handleChange('longitude')}
             margin="normal"
           />
-          <Button onClick={this.handleSubmit} color={'primary'} fullWidth
+
+          <Button size={'large'} onClick={this.handleSubmit} color={'primary'} fullWidth
                   variant="raised" className={classes.button}>
-            Submit
+            Register Place
           </Button>
         </div>
       </div>
@@ -85,7 +107,7 @@ class PlaceForm extends Component {
   }
   handleSubmit = () => {
     const {name, latitude, longitude, eventId} = this.state
-    console.log(this.state)
+
     this.props.mutate({
       variables: { name, latitude, longitude, eventId}
     })
@@ -125,6 +147,11 @@ const query = gql`
 `;
 
 
-const withGraphQL = graphql(query)(PlaceForm)
+const mapStateToProps = state => ({
+  formPlaceLocation: state.formPlaceLocation
+})
 
-export default withStyles(styles)(withRouter(withGraphQL));
+
+const withGraphQL = graphql(query)(PlaceForm)
+const withConnect = connect(mapStateToProps, null)(withGraphQL)
+export default withStyles(styles)(withRouter(withConnect));

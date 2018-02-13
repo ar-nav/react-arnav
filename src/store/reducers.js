@@ -2,7 +2,8 @@ const initialState = {
   drawerOpen: false,
   isTargetEvent: false,
   qrLocation: null,
-  targetLocation: {latitude: -6.2615663, longitude: 106.78280080000002},
+  targetLocation: {name: 'Hacktiv8 Indonesia', latitude: -6.2615663, longitude: 106.78280080000002},
+  formPlaceLocation: {name: 'Hacktiv8 Indonesia', latitude: -6.2615663, longitude: 106.78280080000002},
   suggestions: [
     {description: 'Afghanistan'},
     {description: 'Aland Islands'},
@@ -21,11 +22,17 @@ const reducer = (state = initialState, action) => {
         drawerOpen: action.payload.toggle,
       }
     case 'STORE_TARGET_LOCATION':
-      console.log(action.payload.targetLocation, 'boom')
+      console.log(action.payload.targetLocation, 'STORE_TARGET_LOCATION')
       return {
         ...state,
         isTargetEvent: false,
         targetLocation: action.payload.targetLocation
+      }
+    case 'STORE_FORM_LOCATION':
+      console.log(action.payload.formPlaceLocation, 'STORE_FORM_LOCATION')
+      return {
+        ...state,
+        formPlaceLocation: action.payload.formPlaceLocation
       }
     case 'GET_SUGGESTIONS':
       return {

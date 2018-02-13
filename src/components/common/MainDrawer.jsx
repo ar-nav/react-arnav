@@ -54,15 +54,15 @@ class TemporaryDrawer extends React.Component {
             </ListItemIcon>
             <ListItemText primary="Destination"/>
           </ListItem>
-          <ListItem
-            button
-            onClick={() => this.props.history.push('/direction')}
-          >
-            <ListItemIcon>
-              <DirectionsWalk/>
-            </ListItemIcon>
-            <ListItemText primary="Direction"/>
-          </ListItem>
+          {/*<ListItem*/}
+            {/*button*/}
+            {/*onClick={() => this.props.history.push('/direction')}*/}
+          {/*>*/}
+            {/*<ListItemIcon>*/}
+              {/*<DirectionsWalk/>*/}
+            {/*</ListItemIcon>*/}
+            {/*<ListItemText primary="Direction"/>*/}
+          {/*</ListItem>*/}
           <ListItem
             button
             onClick={() => this.props.history.push('/manager')}

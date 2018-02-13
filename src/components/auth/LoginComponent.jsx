@@ -17,10 +17,14 @@ import {
 
 const styles = theme => ({
   root: {
+    position: 'absolute',
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
-    height:'100vh'
+    width:'100%',
+    height:'100%',
+    overflow: 'hidden',
+    background: 'url("./main-cover.jpg")'
   },
   mainHead: {
     display: 'flex',
@@ -57,7 +61,7 @@ const styles = theme => ({
   },
   button: {
 
-    width: '90%',
+    width: '300px',
     height: '50px',
     marginTop: theme.spacing.unit * 1.5
   },
@@ -114,10 +118,9 @@ class LoginComponent extends Component {
           <img className={classes.mainLogo} src="main-logo.png"/>
         </div>
         <div className={classes.buttonsWrapper}>
-          <Typography variant="caption" gutterBottom align="center">
+          <Typography variant="caption" gutterBottom align="center" style={{color:'white'}}>
             Please login to continue
           </Typography>
-
           <Button
             className={classes.button}
             variant="raised"
@@ -134,7 +137,6 @@ class LoginComponent extends Component {
           <Button
             className={classes.button}
             variant="raised"
-            color=""
             size="small"
             style={{backgroundColor: '#3b5998', color: 'white'}}
             onClick={() => {
