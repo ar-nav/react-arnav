@@ -194,7 +194,7 @@ export const directionRendererFactory = ({
           this.setState({currentLoc: newCurrentLoc}, () => {
             this.setState({arrowRotation: getAngle(targetLoc, this.state.currentLoc)*180/Math.PI}, ()=>console.log('arrow>>>', this.state.arrowRotation))
             // if (scene.children[1].children[1]) {
-              console.log('update----------',arrow)
+              // console.log('update----------',arrow)
               if (arrow){
                 arrow.rotation.y = (this.state.arrowRotation + 90) * Math.PI / 180
               }
