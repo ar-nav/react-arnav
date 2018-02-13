@@ -60,11 +60,11 @@ class Direction extends Component {
         longitude
       }
     }`}).then(queryResult => {
-      console.log('qrresult----------', queryResult)
       let newQrLocation = {
         latitude:Number(queryResult.data.getPlace.latitude),
         longitude: Number(queryResult.data.getPlace.longitude)
       }
+      console.log('qrresult----------', newQrLocation)
       this.setState({
         qrLocation: newQrLocation,
 

@@ -82,7 +82,11 @@ export const directionRendererFactory = ({
         arrowRotation: 0,
         isShowInfo: false,
         isShowHud: true,
-        anchorEl: null
+        anchorEl: null,
+        currentLoc: {
+          latitude:0,
+          longitude:0,
+        }
       }
       this.getCompassHeading = this
         .getCompassHeading
@@ -146,6 +150,8 @@ export const directionRendererFactory = ({
         }
       }
 
+      this.setState({currentLoc: currentLoc} )
+
       let targetLoc = this.props.targetLoc
       this.setState({arrowRotation: getAngle(targetLoc, currentLoc)*180/Math.PI})
       var loader = new ColladaLoader();
@@ -185,10 +191,12 @@ export const directionRendererFactory = ({
               newCurrentLoc = this.props.qrLocation
             }
           }
-          if (scene.children[1].children[1]) {
-            scene.children[1].children[1].rotation.y = getAngle(targetLoc, newCurrentLoc) + Math.PI / 2
-          }
-          renderer.render(scene, camera);
+          this.setState({currentLoc: newCurrentLoc}, () => {
+            if (scene.children[1].children[1]) {
+              scene.children[1].children[1].rotation.y = getAngle(targetLoc, newCurrentLoc) + Math.PI / 2
+            }
+            renderer.render(scene, camera);
+          })
         }
       });
 
@@ -234,7 +242,7 @@ export const directionRendererFactory = ({
     };
 
     render() {
-      console.log('==========>>>>>>>>>',this.props.qrLocation)
+      // console.log('==========>>>>>>>>>',this.props.qrLocation)
       return (
         <div>
           <canvas id="arpage" ref={this.storeRef}/>
@@ -261,7 +269,7 @@ export const directionRendererFactory = ({
                   width: 50
                 }}
             />
-            <h3>{this.props.coords && this.getDistance(this.props.coords, this.props.targetLoc)} m</h3>
+            <h3>{(this.props.coords && this.state.currentLoc) && this.getDistance(this.state.currentLoc, this.props.targetLoc)} m</h3>
 
           </div>
           <div
@@ -285,10 +293,6 @@ export const directionRendererFactory = ({
                       <td>{this.props.coords.longitude}</td>
                     </tr>
                     <tr>
-                      <td>geo-altitude</td>
-                      <td>{this.props.coords.altitude}</td>
-                    </tr>
-                    <tr>
                       <td>geo-heading</td>
                       <td>{this.props.coords.heading}</td>
                     </tr>
@@ -306,12 +310,20 @@ export const directionRendererFactory = ({
                     </tr>
                     <tr>
                       <td>Dist. to location</td>
-                      <td>{this.getDistance(this.props.coords, this.props.targetLoc)} m</td>
+                      <td>{this.getDistance(this.state.currentLoc, this.props.targetLoc)} m</td>
                     </tr>
-                    {/* <tr>
+                    <tr>
                       <td>QR location</td>
-                      <td>{(this.props.qrLocation !== null ? this.props.qrLocation : 0)}</td>
-                    </tr> */}
+                      <td>{(this.props.qrLocation !== null ? JSON.stringify(this.props.qrLocation) : 0)}</td>
+                    </tr>
+                    <tr>
+                      <td>Current Loc</td>
+                      <td>{JSON.stringify(this.state.currentLoc)}</td>
+                    </tr>
+                    <tr>
+                      <td>Target Loc</td>
+                      <td>{JSON.stringify(this.props.targetLoc)}</td>
+                    </tr>
                   </tbody>
                 </table>
               : <div>Getting the location data&hellip;
