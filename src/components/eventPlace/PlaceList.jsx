@@ -8,6 +8,7 @@ import Button from 'material-ui/Button';
 import PlaceListItem from './PlaceListItem'
 import gql from "graphql-tag";
 import {graphql} from "react-apollo/index";
+import MainAppBar from '../common/MainAppBar'
 
 
 
@@ -25,16 +26,19 @@ const styles = theme => ({
 
 class PlaceList extends Component {
   render() {
-    const {goTo, classes, data} = this.props
-    console.log(data)
+    const {parentRoute, classes, data, match} = this.props
+    let titleName = parentRoute==='destination' ? 
+      match.params.event.split('-')[0] : 
+      `manage event: ${match.params.event.split('-')[0]}`
     return data.loading ? (<div>Loading</div>) : (
       <div>
+        <MainAppBar title={titleName}/>
         <List component={'nav'}>
-          {data.getAllPlaces.map((place, i) => <PlaceListItem key={place.ID} {...place}/>)}
+          {data.getAllPlaces.map((place, i) => <PlaceListItem key={place.ID} {...place} parentRoute={parentRoute}/>)}
         </List>
-        {goTo === 'manager' && (
+        {parentRoute === 'manager' && (
           <Button onClick={() => {
-            this.props.history.push('/manager/addplace/1')
+            this.props.history.push(`/addplace/${match.params.event.split('-')[0] }-${match.params.event.split('-')[1]}`)
           }} variant="fab" color="secondary" aria-label="Add Places"
                   className={classes.fab}>
             <AddIcon/>
@@ -51,6 +55,8 @@ const WithGraphQL = gql`
         getAllPlaces {
             ID
             name
+            latitude
+            longitude
         }
     }
 `;

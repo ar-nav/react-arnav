@@ -22,18 +22,16 @@ const styles = theme => ({
 class EventList extends Component {
 
   render() {
-    const {classes, goTo, data} = this.props
-    console.log('data:',data.getEvents)
-
+    const {classes, parentRoute, data} = this.props
     return data.loading ? (<div>Loading</div>) : (
       <div className={classes.root}>
         <List component="nav">
           {data.getEvents.map((event, i) => <EventListItem key={event.ID} {...event}
-                                                   goTo={this.props.goTo}/>)}
+                                                   parentRoute={parentRoute}/>)}
         </List>
-        {goTo === 'manager' && (
+        {parentRoute === 'manager' && (
           <Button onClick={() => {
-            this.props.history.push('/manager/addevent')
+            this.props.history.push('/addevent')
           }} variant="fab" color="primary" aria-label="Add Event"
                   className={classes.fab}>
             <AddIcon/>

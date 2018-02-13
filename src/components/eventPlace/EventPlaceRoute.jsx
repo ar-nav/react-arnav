@@ -19,24 +19,30 @@ const styles = theme => ({
 
 class EventPlaceRoute extends Component {
   render() {
+    let parentRoute = 'destination'
+    if (this.props.history.location.pathname !== '/destination/events'){
+      parentRoute = 'manager'
+    }
     return (
-      <Router>
-        <Switch>
+      
+      <EventList parentRoute={parentRoute} />
+      // <Router>
+      //   <Switch>
 
-          <Route path={'/destination/places/:eventId'} render={()=> (
-            <PlaceList/>
-          )}/>
-          <Route path={'/destination'} render={()=>(
-            <EventList goTo={'destination'} />
-          )}/>
+      //     <Route path={'/destination/places/:eventId'} render={()=> (
+      //       <PlaceList/>
+      //     )}/>
+      //     <Route path={'/destination'} render={()=>(
+      //       <EventList goTo={'destination'} />
+      //     )}/>
 
-          <Route path="/manager/addevent" render={()=> <EventForm/>}/>
-          <Route path={'/manager/addplace/:eventId'} component={PlaceForm}/>
+      //     <Route path="/manager/addevent" render={()=> <EventForm/>}/>
+      //     <Route path={'/manager/addplace/:eventId'} component={PlaceForm}/>
 
-          <Route path="/manager/places" render={()=> <PlaceList goTo={'manager'}/>} />
-          <Route path="/manager" render={()=> <EventList goTo={'manager'}/>} />
-        </Switch>
-      </Router>
+      //     <Route path="/manager/places" render={()=> <PlaceList goTo={'manager'}/>} />
+      //     <Route path="/manager" render={()=> <EventList goTo={'manager'}/>} />
+      //   </Switch>
+      // </Router>
     );
   }
 }

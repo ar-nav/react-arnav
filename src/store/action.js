@@ -72,6 +72,14 @@ export const fetchSuggestions = (query, {lat, long}) => {
 
 export const fetchDetailTarget = (id) => {
   return (dispatch, state) => {
-    console.log('ini di actions', id)
   }
 }
+export const setPlacesLocation = (location) => {
+  return {
+    type: 'SET_PLACES_LOCATION',
+    payload: {
+      targetLocation: location
+    }
+  }
+}
+

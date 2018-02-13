@@ -20,15 +20,15 @@ const styles = {
 
 function SimpleMediaCard(props) {
   function handleClick () {
-    console.log('yolo')
-    if(props.goTo === 'manager'){
+    console.log('yolo', props.parentRoute, props)
+    if(props.parentRoute === 'manager'){
       // props.history.push(`manager/addplace/${props.id}`)
-      props.history.push(`/manager/places/${props.ID}`)
+      props.history.push(`/eventmanager/${props.name}-${props.ID}/places`)
     }else{
-      props.history.push(`/destination/places/${props.ID}`)
+      props.history.push(`/${props.name}-${props.ID}/places`)
     }
   }
-  const { classes, goTo } = props;
+  const { classes, parentRoute } = props;
   return (
     <div>
       <Card className={classes.card}>
@@ -44,7 +44,7 @@ function SimpleMediaCard(props) {
         </CardContent>
         <CardActions>
           <Button onClick={handleClick} variant={'raised'} fullWidth size="small" color="primary">
-            {goTo === 'manager' ? 'Register your place here': 'View Places'}
+            {parentRoute === 'manager' ? 'Register your place here': 'View Places'}
           </Button>
         </CardActions>
       </Card>

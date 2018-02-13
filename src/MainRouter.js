@@ -6,8 +6,11 @@ import NoMatchPage from "./components/pages/NoMatchPage";
 import DestinationPage from "./components/pages/DestinationPage";
 import FinishPage from "./components/pages/FinishPage";
 import HomePage from "./components/pages/HomePage";
-import SketchPage from "./components/pages/SketchPage";
+import DirectionPage from "./components/pages/DirectionPage";
 import PlacesManagerPage from "./components/pages/PlacesManagerPage";
+import EventForm from './components/eventPlace/EventForm'
+import PlaceList from './components/eventPlace/PlaceList'
+import PlaceForm from './components/eventPlace/PlaceForm'
 
 export default () => (
   <Router>
@@ -16,10 +19,23 @@ export default () => (
       <div style={{overflowY:'scroll'}}>
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route path="/destination" component={DestinationPage} />
+          <Route path="/destination" component={DestinationPage}/>
+          <Route 
+            path="/:event/places" 
+            render={()=> (<PlaceList parentRoute={'destination'}/>)}
+          />
+          {/* <Route path="/destination/location" component={FinishPage} /> */}
+          {/* <Route path="/destination/events" component={FinishPage} /> */}
           <Route path="/manager" component={PlacesManagerPage} />
-          <Route path="/direction" component={SketchPage} />
+          <Route 
+            path="/eventmanager/:event/places" 
+            render={()=> (<PlaceList parentRoute={'manager'}/>)}
+          />
+          <Route path="/addevent" render={()=> <EventForm/>}/>
+          <Route path={'/addplace/:event'} component={PlaceForm}/>
+          <Route path="/direction" component={DirectionPage} />
           <Route path="/finish" component={FinishPage} />
+          
           <Route component={NoMatchPage} />
         </Switch>
       </div>
