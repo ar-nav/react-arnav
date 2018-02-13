@@ -29,7 +29,7 @@ class PlaceForm extends Component {
       name: '',
       latitude: '',
       longitude: '',
-      eventId: this.props.match.params.event.split('-')[1]
+      eventId: this.props.match.params.eventId
     }
   }
 
@@ -104,7 +104,7 @@ class PlaceForm extends Component {
 }
 
 
-const createPlacea = gql`
+const query = gql`
     mutation createPlace(
         $name: String!,
         $latitude: Int!,
@@ -125,6 +125,6 @@ const createPlacea = gql`
 `;
 
 
-const withGraphQL = graphql(createPlacea)(PlaceForm)
+const withGraphQL = graphql(query)(PlaceForm)
 
 export default withStyles(styles)(withRouter(withGraphQL));

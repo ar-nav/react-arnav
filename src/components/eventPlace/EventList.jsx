@@ -43,7 +43,7 @@ class EventList extends Component {
   }
 }
 
-const WithGraphQL = gql`
+const query = gql`
     query hola{
         getEvents {
             ID
@@ -52,7 +52,11 @@ const WithGraphQL = gql`
     }
 `;
 
+const WithGraphQl = graphql(query, {
+  options: {
+    fetchPolicy: 'network-only'
+  }
+})(EventList)
 
-const ProfileWithData = graphql(WithGraphQL)(EventList);
 
-export default withStyles(styles)(withRouter(ProfileWithData));
+export default withStyles(styles)(withRouter(WithGraphQl));
