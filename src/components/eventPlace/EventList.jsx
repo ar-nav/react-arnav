@@ -23,8 +23,6 @@ class EventList extends Component {
 
   render() {
     const {classes, parentRoute, data} = this.props
-    console.log('data:',data.getEvents)
-
     return data.loading ? (<div>Loading</div>) : (
       <div className={classes.root}>
         <List component="nav">

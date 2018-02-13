@@ -19,7 +19,6 @@ const styles = theme => ({
 
 class EventPlaceRoute extends Component {
   render() {
-    console.log(this.props.history)
     let parentRoute = 'destination'
     if (this.props.history.location.pathname !== '/destination/events'){
       parentRoute = 'manager'

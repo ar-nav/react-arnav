@@ -30,7 +30,6 @@ class PlaceList extends Component {
     let titleName = parentRoute==='destination' ? 
       match.params.event.split('-')[0] : 
       `manage event: ${match.params.event.split('-')[0]}`
-    console.log(data)
     return data.loading ? (<div>Loading</div>) : (
       <div>
         <MainAppBar title={titleName}/>

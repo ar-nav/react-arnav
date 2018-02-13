@@ -13,7 +13,6 @@ import { setPlacesLocation } from '../../store/action'
 class PlaceListItem extends Component {
 
   handleClick(qrLocation) {
-    console.log('ini location diklik', qrLocation)
     if (this.props.parentRoute === 'destination') {
       this.props.setPlacesLocation(qrLocation)
       this.props.history.push('/direction')
@@ -25,7 +24,6 @@ class PlaceListItem extends Component {
   }
   
   render() {
-    console.log('>>>><<',this.props)
     const qrLocation = {
       latitude: this.props.latitude,
       longitude: this.props.longitude
