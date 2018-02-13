@@ -6,7 +6,6 @@ import ApolloClient from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from 'react-apollo';
 import { setContext } from 'apollo-link-context';
-
 import './assets/css/main.css'
 import {store} from './store'
 import MainRouter from './MainRouter'
@@ -28,6 +27,8 @@ const client = new ApolloClient({
   link: authLink.concat(link),
   cache: new InMemoryCache()
 });
+
+
 
 
 class App extends Component {

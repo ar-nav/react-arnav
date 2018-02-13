@@ -69,14 +69,14 @@ class Destination extends Component {
               <Tab label="By Events" component={Link} to="/destination/events"/>
             </Tabs>
           </MainAppBar>
-          <SwipeableViews
-            axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-            index={this.state.value}
-            onChangeIndex={this.handleChangeIndex}
-          >
-            <TabContainer dir={theme.direction}><GeneralMapTabPage/></TabContainer>
-            <TabContainer dir={theme.direction}><EventsTabPage/></TabContainer>
-          </SwipeableViews>
+            {this.state.value === 0 ? (
+              <TabContainer dir={theme.direction}><ByLocationTabPage/></TabContainer>
+            ):(
+              <TabContainer dir={theme.direction}><EventsTabPage/></TabContainer>
+            )}
+
+
+
           {/* <Route exact path={'/destination/location'} component={ByLocationTabPage}/> */}
           {/*<Route exact path={'/destination/location'} component={GeneralMapTabPage}/>*/}
           {/* <Route path={'/destination/events'} component={EventsTabPage} /> */}
