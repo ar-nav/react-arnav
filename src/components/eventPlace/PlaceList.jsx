@@ -29,7 +29,7 @@ class PlaceList extends Component {
     const {parentRoute, classes, data, match, location} = this.props
     console.log('----------->>',location.state.eventName)
     let titleName = parentRoute==='destination' ? 
-      match.params.eventId: 
+    location.state.eventName: 
       `manage event: ${location.state.eventName}`
     return data.loading ? (<div>Loading</div>) : (
       <div>
