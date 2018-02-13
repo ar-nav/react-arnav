@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Button from 'material-ui/Button';
 import {withStyles} from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 import Typography from 'material-ui/Typography';
-import { graphql } from 'react-apollo';
+import {graphql} from 'react-apollo';
 import gql from 'graphql-tag';
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
@@ -17,13 +17,11 @@ const styles = theme => ({
     padding: theme.spacing.unit,
     marginTop: '30px'
   },
-  textField: {
-
-  },
+  textField: {},
   button: {
     marginTop: theme.spacing.unit * 2,
   },
-  wrapTop:{
+  wrapTop: {
     marginTop: 56
   }
 })
@@ -45,18 +43,18 @@ class PlaceForm extends Component {
     });
   };
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
 
     console.log('formPlaceLocation', nextProps.formPlaceLocation)
     this.setState({
-      // name: nextProps.formPlaceLocation.latitude,
-      latitude : nextProps.formPlaceLocation.latitude,
+      name: nextProps.formPlaceLocation.name,
+      latitude: nextProps.formPlaceLocation.latitude,
       longitude: nextProps.formPlaceLocation.longitude
     })
   }
 
   render() {
-    console.log(this.state.latitude, this.state.longitude  )
+    console.log(this.state.latitude, this.state.longitude)
     const {classes, match, location} = this.props
     return (
       <div className={classes.wrapTop}>
@@ -69,6 +67,7 @@ class PlaceForm extends Component {
             Register your place to {location.state.eventName}
           </Typography>
           <TextField
+            value={this.state.name}
             fullWidth
             label="Place name"
             placeholder="For example: My Great Tenant"
@@ -97,7 +96,8 @@ class PlaceForm extends Component {
             margin="normal"
           />
 
-          <Button size={'large'} onClick={this.handleSubmit} color={'primary'} fullWidth
+          <Button size={'large'} onClick={this.handleSubmit} color={'primary'}
+                  fullWidth
                   variant="raised" className={classes.button}>
             Register Place
           </Button>
@@ -105,18 +105,21 @@ class PlaceForm extends Component {
       </div>
     )
   }
+
   handleSubmit = () => {
     const {name, latitude, longitude, eventId} = this.state
 
     this.props.mutate({
-      variables: { name, latitude, longitude, eventId}
+      variables: {name, latitude, longitude, eventId}
     })
-      .then(({ data }) => {
+      .then(({data}) => {
         console.log('jadi', data)
-        this.props.history.push({pathname:`/eventmanager/${eventId}/places`,
-      state: {
-        eventName: this.props.location.state.eventName
-      }})
+        this.props.history.push({
+          pathname: `/eventmanager/${eventId}/places`,
+          state: {
+            eventName: this.props.location.state.eventName
+          }
+        })
       })
       .catch((error) => {
         console.log('there was an error sending the query', error);
@@ -128,20 +131,20 @@ class PlaceForm extends Component {
 
 const query = gql`
     mutation createPlace(
-        $name: String!,
-        $latitude: String!,
-        $longitude: String!,
-        $eventId: String!, 
+    $name: String!,
+    $latitude: String!,
+    $longitude: String!,
+    $eventId: String!,
     ) {
         createPlace(input: {
             name: $name,
             latitude: $latitude,
             longitude: $longitude,
             eventId: $eventId
-            
+
         }){
-           ID
-           name 
+            ID
+            name
         }
     }
 `;

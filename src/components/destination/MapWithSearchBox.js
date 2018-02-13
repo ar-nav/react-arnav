@@ -76,13 +76,13 @@ const MapWithSearchBox = compose(
             const namex = places[0] ? places[0].name : ''
             if(this.props.isManager){
               this.props.storeFormLocation({
-                // name:namex ,
+                name:namex ,
                 latitude : nextCenter.lat(),
                 longitude: nextCenter.lng()
               })
             }else{
               this.props.storeLocation({
-                // name: namex,
+                name: namex,
                 latitude : nextCenter.lat(),
                 longitude: nextCenter.lng()
               })
