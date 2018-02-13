@@ -10,7 +10,10 @@ class PlacesManagerPage extends Component {
     return (
       <div>
         <MainAppBar title={'Event Manager'}/>
-        <EventPlaceRoute/>
+        <div style={{marginTop: '56px'}}>
+          <EventPlaceRoute/>
+        </div>
+
       </div>
     );
   }

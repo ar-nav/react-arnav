@@ -42,9 +42,13 @@ class Destination extends Component {
     super(props)
     this.state = {
       value: this.getActiveIndex(),
+      height: 0
     }
-  }
 
+  }
+  componentDidMount(){
+    this.setState({height: window.innerHeight });
+  }
   getActiveIndex = () => this.props.location.pathname === '/destination/location' ? 0 : 1
 
   handleChange = (event, value) => {
@@ -53,10 +57,9 @@ class Destination extends Component {
 
   render() {
     const {classes, theme} = this.props
-    console.log('inithis------------',this)
     return (
-      <div className={classes.root}>
-        <div style={{ height:'80vh', marginTop:'20vh'}}>
+
+        <div style={{ height: this.state.height - 104, marginTop:'104px'}}>
           <MainAppBar title='Choose Destination' ref='hula'>
             <Tabs
               value={this.state.value}
@@ -71,6 +74,7 @@ class Destination extends Component {
             </Tabs>
           </MainAppBar>
             {this.state.value === 0 ? (
+
               <TabContainer dir={theme.direction}><ByLocationTabPage/></TabContainer>
             ):(
               <TabContainer dir={theme.direction}><EventsTabPage/></TabContainer>
@@ -82,7 +86,7 @@ class Destination extends Component {
           {/*<Route exact path={'/destination/location'} component={GeneralMapTabPage}/>*/}
           {/* <Route path={'/destination/events'} component={EventsTabPage} /> */}
         </div>
-      </div>
+
     )
   }
 }

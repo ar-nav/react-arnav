@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import Divider from 'material-ui/Divider';
 import { connect } from 'react-redux'
 import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
-import LocationIcon from 'material-ui-icons/Place';
+import LocationIcon from 'material-ui-icons/MyLocation';
 import {withRouter} from 'react-router-dom'
 import Button from 'material-ui/Button';
 import Icon from 'material-ui/Icon';
 
 import generatePDF from '../../utils/pdfGenerator'
 import { setPlacesLocation } from '../../store/action'
+import Typography from 'material-ui/Typography';
+
 
 class PlaceListItem extends Component {
 

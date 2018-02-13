@@ -8,6 +8,8 @@ import EventListItem from './EventListItem'
 import gql from "graphql-tag";
 import {graphql} from "react-apollo/index";
 
+import LoaderCircular from '../common/LoaderCircular'
+
 const styles = theme => ({
   root: {
     width: '100%',
@@ -23,7 +25,7 @@ class EventList extends Component {
 
   render() {
     const {classes, parentRoute, data} = this.props
-    return data.loading ? (<div>Loading</div>) : (
+    return data.loading ? (<LoaderCircular/>) : (
       <div className={classes.root}>
         <List component="nav">
           {data.getEvents.map((event, i) => <EventListItem key={event.ID} {...event}

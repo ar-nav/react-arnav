@@ -10,7 +10,7 @@ import gql from "graphql-tag";
 import {graphql} from "react-apollo/index";
 import MainAppBar from '../common/MainAppBar'
 
-
+import CircularLoader from '../common/LoaderCircular'
 
 const styles = theme => ({
   root: {
@@ -31,10 +31,18 @@ class PlaceList extends Component {
     let titleName = parentRoute==='destination' ? 
     location.state.eventName: 
       `manage event: ${location.state.eventName}`
-    return data.loading ? (<div>Loading</div>) : (
+    return data.loading ? (
       <div>
         <MainAppBar title={titleName}/>
-        <List component={'nav'}>
+        <div style={{marginTop: '56px'}}>
+          <CircularLoader/>
+        </div>
+
+      </div>
+    ) : (
+      <div>
+        <MainAppBar title={titleName}/>
+        <List component={'nav'} style={{marginTop: '56px'}}>
           {data.getAllPlaces.filter(place => place.event.ID===match.params.eventId)
           .map((place, i) => <PlaceListItem key={place.ID} {...place} parentRoute={parentRoute}/>)
           }

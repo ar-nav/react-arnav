@@ -42,11 +42,6 @@ function SimpleMediaCard(props) {
   return (
     <div>
       <Card className={classes.card}>
-        <CardMedia
-          className={classes.media}
-          image={`https://placeimg.com/150/150/any?random=${Math.random()}`}
-          title="Contemplative Reptile"
-        />
         <CardContent>
           <Typography variant="headline" component="h2">
             {props.name}

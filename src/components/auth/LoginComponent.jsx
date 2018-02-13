@@ -1,9 +1,12 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {withRouter} from 'react-router-dom'
 import firebase from 'firebase'
-import { withStyles } from 'material-ui/styles'
+import {withStyles} from 'material-ui/styles'
 import Grid from 'material-ui/Grid'
+import NavIcon from 'material-ui-icons/Navigation'
+import Typography from 'material-ui/Typography';
+
 import Button from 'material-ui/Button'
 import {
   FacebookBox,
@@ -12,12 +15,38 @@ import {
   GithubBox,
 } from 'mdi-material-ui'
 
-
-
 const styles = theme => ({
-  contain: {
+  root: {
     display: 'flex',
     justifyContent: 'center',
+    flexDirection: 'column',
+    height:'100vh'
+  },
+  mainHead: {
+    display: 'flex',
+    flexGrow: 2,
+    // backgroundColor: 'yellow',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  navIcon: {
+    color: '#00C853',
+    backgroundColor: theme.palette.primary,
+    fontSize: 200,
+  },
+  buttonsWrapper:{
+    flexGrow: 1,
+    display:'flex',
+    // backgroundColor: 'green',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  mainLogo:{
+    // width: '70%',
+
+    height:'40px'
   },
   paper: {
     display: 'flex',
@@ -27,8 +56,10 @@ const styles = theme => ({
     color: theme.palette.text.secondary,
   },
   button: {
-    flex: 1,
-    width: 200,
+
+    width: '90%',
+    height: '50px',
+    marginTop: theme.spacing.unit * 1.5
   },
   text: {
     // margin: 10,
@@ -58,10 +89,10 @@ class LoginComponent extends Component {
         // var token = result.credential.accessToken;
         // The signed-in user info.
         // var user = result.user;
-        this.props.history.push('/destination')
+        this.props.history.push('/destination/location')
         // ...
       })
-      .catch(function(error) {
+      .catch(function (error) {
         // Handle Errors here.
         // var errorCode = error.code;
         // var errorMessage = error.message;
@@ -75,90 +106,69 @@ class LoginComponent extends Component {
   }
 
   render() {
-    const { classes } = this.props
+    const {classes} = this.props
     return (
-      <div>
-        <div className={classes.paper}>
-          <div className={classes.paper}>
-            <Grid container wrap="nowrap">
-              <Grid item xs>
-                <Button
-                  className={classes.button}
-                  variant="raised"
-                  color="primary"
-                  size="large"
-                  onClick={() => {
-                    this.handleClick(facebookProvider)
-                  }}
-                >
-                  <FacebookBox />
-                  <div className={classes.text}>Facebook</div>
-                </Button>
-              </Grid>
-            </Grid>
-          </div>
+      <div className={classes.root}>
+        <div className={classes.mainHead}>
+          <NavIcon className={classes.navIcon} fontSize/>
+          <img className={classes.mainLogo} src="main-logo.png"/>
         </div>
+        <div className={classes.buttonsWrapper}>
+          <Typography variant="caption" gutterBottom align="center">
+            Please login to continue
+          </Typography>
 
-        <div className={classes.paper}>
-          <div className={classes.paper}>
-            <Grid container wrap="nowrap">
-              <Grid item xs>
-                <Button
-                  className={classes.button}
-                  variant="raised"
-                  color="secondary"
-                  size="large"
-                  onClick={() => {
-                    this.handleClick(googleProvider)
-                  }}
-                >
-                  <GooglePlusBox />
-                  <div className={classes.text}>Google</div>
-                </Button>
-              </Grid>
-            </Grid>
-          </div>
-        </div>
-        <div className={classes.paper}>
-          <div className={classes.paper}>
-            <Grid container wrap="nowrap">
-              <Grid item xs>
-                <Button
-                  className={classes.button}
-                  variant="raised"
-                  color="default"
-                  size="large"
-                  onClick={() => {
-                    this.handleClick(githubProvider)
-                  }}
-                >
-                  <GithubBox />
-                  <div className={classes.text}>Github</div>
-                </Button>
-              </Grid>
-            </Grid>
-          </div>
-        </div>
+          <Button
+            className={classes.button}
+            variant="raised"
+            // color="secondary"
+            size="small"
+            style={{backgroundColor: '#db3236', color: 'white'}}
+            onClick={() => {
+              this.handleClick(googleProvider)
+            }}
+          >
+            <GooglePlusBox/>
+            <div className={classes.text}>Google</div>
+          </Button>
+          <Button
+            className={classes.button}
+            variant="raised"
+            color=""
+            size="small"
+            style={{backgroundColor: '#3b5998', color: 'white'}}
+            onClick={() => {
+              this.handleClick(facebookProvider)
+            }}
+          >
+            <FacebookBox/>
+            <div className={classes.text}>Facebook</div>
+          </Button>
 
-        <div className={classes.paper}>
-          <div className={classes.paper}>
-            <Grid container wrap="nowrap">
-              <Grid item xs>
-                <Button
-                  className={classes.button}
-                  variant="raised"
-                  color="primary"
-                  size="large"
-                  onClick={() => {
-                    this.handleClick(twitterProvider)
-                  }}
-                >
-                  <TwitterBox />
-                  <div className={classes.text}>Twitter</div>
-                </Button>
-              </Grid>
-            </Grid>
-          </div>
+          {/*<Button*/}
+            {/*className={classes.button}*/}
+            {/*variant="raised"*/}
+            {/*color="primary"*/}
+            {/*size="large"*/}
+            {/*onClick={() => {*/}
+              {/*this.handleClick(twitterProvider)*/}
+            {/*}}*/}
+          {/*>*/}
+            {/*<TwitterBox/>*/}
+            {/*<div className={classes.text}>Twitter</div>*/}
+          {/*</Button>*/}
+          {/*<Button*/}
+            {/*className={classes.button}*/}
+            {/*variant="raised"*/}
+            {/*color="default"*/}
+            {/*size="large"*/}
+            {/*onClick={() => {*/}
+              {/*this.handleClick(githubProvider)*/}
+            {/*}}*/}
+          {/*>*/}
+            {/*<GithubBox/>*/}
+            {/*<div className={classes.text}>Github</div>*/}
+          {/*</Button>*/}
         </div>
       </div>
     )
