@@ -42,14 +42,13 @@ class PlaceForm extends Component {
 
   render() {
     console.log(this.props  )
-    const {classes, match} = this.props
+    const {classes, match, location} = this.props
     return (
       <div>
         <MainAppBar title='Add new Place'/>
         <div className={classes.root}>
           <Typography variant="title" gutterBottom>
-            Register Place to {match.params.event.split('-')[0]}
-
+            Register Place to {location.state.eventName}
           </Typography>
           Events: {this.state.eventId}
           <TextField
@@ -92,7 +91,10 @@ class PlaceForm extends Component {
     })
       .then(({ data }) => {
         console.log('jadi', data)
-        this.props.history.push('/manager/places')
+        this.props.history.push({pathname:`/eventmanager/${eventId}/places`,
+      state: {
+        eventName: this.props.location.state.eventName
+      }})
       })
       .catch((error) => {
         console.log('there was an error sending the query', error);

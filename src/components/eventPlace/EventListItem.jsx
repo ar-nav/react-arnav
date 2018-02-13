@@ -23,9 +23,19 @@ function SimpleMediaCard(props) {
     console.log('yolo', props.parentRoute, props)
     if(props.parentRoute === 'manager'){
       // props.history.push(`manager/addplace/${props.id}`)
-      props.history.push(`/eventmanager/${props.name}-${props.ID}/places`)
+      console.log('----------',props)
+      props.history.push({
+        pathname:`/eventmanager/${props.ID}/places`,
+        state:{
+          eventName: props.name
+        }
+      })
     }else{
-      props.history.push(`/${props.name}-${props.ID}/places`)
+      props.history.push({pathname:`/${props.ID}/places`,
+      state:{
+        eventName: props.name
+      }
+    })
     }
   }
   const { classes, parentRoute } = props;

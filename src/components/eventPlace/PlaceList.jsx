@@ -26,19 +26,27 @@ const styles = theme => ({
 
 class PlaceList extends Component {
   render() {
-    const {parentRoute, classes, data, match} = this.props
+    const {parentRoute, classes, data, match, location} = this.props
+    console.log('----------->>',location.state.eventName)
     let titleName = parentRoute==='destination' ? 
-      match.params.event.split('-')[0] : 
-      `manage event: ${match.params.event.split('-')[0]}`
+    location.state.eventName: 
+      `manage event: ${location.state.eventName}`
     return data.loading ? (<div>Loading</div>) : (
       <div>
         <MainAppBar title={titleName}/>
         <List component={'nav'}>
-          {data.getAllPlaces.map((place, i) => <PlaceListItem key={place.ID} {...place} parentRoute={parentRoute}/>)}
+          {data.getAllPlaces.filter(place => place.event.ID===match.params.eventId)
+          .map((place, i) => <PlaceListItem key={place.ID} {...place} parentRoute={parentRoute}/>)
+          }
         </List>
         {parentRoute === 'manager' && (
           <Button onClick={() => {
-            this.props.history.push(`/addplace/${match.params.event.split('-')[0] }-${match.params.event.split('-')[1]}`)
+            this.props.history.push({
+              pathname:`/addplace/${match.params.eventId}`,
+              state:{
+                eventName: location.state.eventName
+              }
+            })
           }} variant="fab" color="secondary" aria-label="Add Places"
                   className={classes.fab}>
             <AddIcon/>
@@ -57,6 +65,9 @@ const WithGraphQL = gql`
             name
             latitude
             longitude
+            event{
+              ID
+            }
         }
     }
 `;
