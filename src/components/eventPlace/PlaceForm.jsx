@@ -29,7 +29,7 @@ class PlaceForm extends Component {
       name: '',
       latitude: '',
       longitude: '',
-      eventId: this.props.match.params.eventId
+      eventId: this.props.match.params.eventId,
     }
   }
 

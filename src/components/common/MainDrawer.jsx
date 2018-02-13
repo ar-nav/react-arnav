@@ -1,22 +1,23 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import {connect} from 'react-redux'
+import {withRouter} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { withStyles } from 'material-ui/styles'
+import {withStyles} from 'material-ui/styles'
 import Drawer from 'material-ui/Drawer'
 import List from 'material-ui/List'
-import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List'
+import {ListItem, ListItemIcon, ListItemText} from 'material-ui/List'
 import HomeIcon from 'material-ui-icons/Home'
-import DoneIcon from 'material-ui-icons/Done'
+import NavIcon from 'material-ui-icons/Navigation'
 import DirectionsWalk from 'material-ui-icons/DirectionsWalk'
 import BeachAccessIcon from 'material-ui-icons/BeachAccess'
+import ManagerIcon from 'material-ui-icons/TrackChanges'
 
-import { toggleDrawer } from '../../store/action'
+import {toggleDrawer} from '../../store/action'
 
 const styles = {
   list: {
     width: 250,
-    zIndex:2002,
+    zIndex: 2002,
   },
   listFull: {
     width: 'auto',
@@ -24,7 +25,8 @@ const styles = {
 }
 
 class TemporaryDrawer extends React.Component {
-  toggleDrawer = (side, open) => () => {}
+  toggleDrawer = (side, open) => () => {
+  }
 
   handleClick(routeName) {
     this.props.closeDrawer()
@@ -32,50 +34,43 @@ class TemporaryDrawer extends React.Component {
   }
 
   render() {
-    const { classes } = this.props
+    const {classes} = this.props
 
     const sideList = (
       <div className={classes.list}>
         <List>
           <ListItem button onClick={() => this.props.history.push('/')}>
             <ListItemIcon>
-              <HomeIcon />
+              <HomeIcon/>
             </ListItemIcon>
-            <ListItemText primary="Home" />
+            <ListItemText primary="Home"/>
           </ListItem>
-
           <ListItem
             button
             onClick={() => this.props.history.push('/destination/location')}
           >
             <ListItemIcon>
-              <BeachAccessIcon />
+              <NavIcon/>
             </ListItemIcon>
-            <ListItemText primary="Destination" />
+            <ListItemText primary="Destination"/>
           </ListItem>
           <ListItem
             button
             onClick={() => this.props.history.push('/direction')}
           >
             <ListItemIcon>
-              <DirectionsWalk />
+              <DirectionsWalk/>
             </ListItemIcon>
-            <ListItemText primary="Direction" />
+            <ListItemText primary="Direction"/>
           </ListItem>
           <ListItem
             button
             onClick={() => this.props.history.push('/manager')}
           >
             <ListItemIcon>
-              <DirectionsWalk />
+              <ManagerIcon/>
             </ListItemIcon>
-            <ListItemText primary="Manager" />
-          </ListItem>
-          <ListItem button onClick={() => this.props.history.push('/finish')}>
-            <ListItemIcon>
-              <DoneIcon />
-            </ListItemIcon>
-            <ListItemText primary="Finish" />
+            <ListItemText primary="Manager"/>
           </ListItem>
         </List>
       </div>
