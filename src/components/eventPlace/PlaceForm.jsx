@@ -29,7 +29,7 @@ class PlaceForm extends Component {
       name: '',
       latitude: '',
       longitude: '',
-      eventId: this.props.match.params.eventId
+      eventId: this.props.match.params.event.split('-')[1]
     }
   }
 
@@ -49,7 +49,9 @@ class PlaceForm extends Component {
         <div className={classes.root}>
           <Typography variant="title" gutterBottom>
             Register Place to {match.params.event.split('-')[0]}
+
           </Typography>
+          Events: {this.state.eventId}
           <TextField
             fullWidth
             label="Place name"

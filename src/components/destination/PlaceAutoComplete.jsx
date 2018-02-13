@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
+import {fetchDetailTarget, fetchSuggestions} from "../../store/action";
 
 class SimpleForm extends Component {
   constructor(props) {
@@ -31,5 +32,7 @@ class SimpleForm extends Component {
     )
   }
 }
+
+
 
 export default SimpleForm
