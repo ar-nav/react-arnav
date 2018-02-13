@@ -64,7 +64,6 @@ class Direction extends Component {
         latitude:Number(queryResult.data.getPlace.latitude),
         longitude: Number(queryResult.data.getPlace.longitude)
       }
-      console.log('qrresult----------', newQrLocation)
       this.setState({
         qrLocation: newQrLocation,
 

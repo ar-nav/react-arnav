@@ -107,8 +107,8 @@ class PlaceForm extends Component {
 const query = gql`
     mutation createPlace(
         $name: String!,
-        $latitude: Int!,
-        $longitude: Int!,
+        $latitude: String!,
+        $longitude: String!,
         $eventId: String!, 
     ) {
         createPlace(input: {

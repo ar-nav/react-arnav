@@ -153,15 +153,15 @@ export const directionRendererFactory = ({
       this.setState({currentLoc: currentLoc} )
 
       let targetLoc = this.props.targetLoc
-      this.setState({arrowRotation: getAngle(targetLoc, currentLoc)*180/Math.PI})
+      this.setState({arrowRotation: getAngle(targetLoc, this.state.currentLoc)*180/Math.PI}, ()=>console.log('arrow>>>', this.state.arrowRotation))
       var loader = new ColladaLoader();
       loader.options.localImageMode = true
       loader.load('https://raw.githubusercontent.com/ar-nav/react-arnav/qr-reader-dev/src/assets/di' +
           'rectional-generic-marker.dae',
-      function (collada) {
+       (collada) => {
         arrow = collada.scene;
         arrow.name = 'PANAH'
-        arrow.rotation.y = getAngle(targetLoc, currentLoc) + Math.PI / 2
+        arrow.rotation.y = this.state.arrowRotation + Math.PI / 2
         arrow.rotation.z = 0 //Math.abs(rotation)*0.7 ||0.2
         arrow.rotation.x = 0 //Math.abs(rotation)*0.4 ||0.2
         arrow
@@ -192,9 +192,13 @@ export const directionRendererFactory = ({
             }
           }
           this.setState({currentLoc: newCurrentLoc}, () => {
-            if (scene.children[1].children[1]) {
-              scene.children[1].children[1].rotation.y = getAngle(targetLoc, newCurrentLoc) + Math.PI / 2
-            }
+            this.setState({arrowRotation: getAngle(targetLoc, this.state.currentLoc)*180/Math.PI}, ()=>console.log('arrow>>>', this.state.arrowRotation))
+            // if (scene.children[1].children[1]) {
+              console.log('update----------',arrow)
+              if (arrow){
+                arrow.rotation.y = (this.state.arrowRotation + 90) * Math.PI / 180
+              }
+            // }
             renderer.render(scene, camera);
           })
         }
@@ -242,7 +246,6 @@ export const directionRendererFactory = ({
     };
 
     render() {
-      // console.log('==========>>>>>>>>>',this.props.qrLocation)
       return (
         <div>
           <canvas id="arpage" ref={this.storeRef}/>
