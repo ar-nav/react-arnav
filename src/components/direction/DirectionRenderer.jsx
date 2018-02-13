@@ -82,7 +82,11 @@ export const directionRendererFactory = ({
         arrowRotation: 0,
         isShowInfo: false,
         isShowHud: true,
-        anchorEl: null
+        anchorEl: null,
+        currentLoc: {
+          latitude:0,
+          longitude:0,
+        }
       }
       this.getCompassHeading = this
         .getCompassHeading
@@ -146,16 +150,18 @@ export const directionRendererFactory = ({
         }
       }
 
+      this.setState({currentLoc: currentLoc} )
+
       let targetLoc = this.props.targetLoc
-      this.setState({arrowRotation: getAngle(targetLoc, currentLoc)*180/Math.PI})
+      this.setState({arrowRotation: getAngle(targetLoc, this.state.currentLoc)*180/Math.PI}, ()=>console.log('arrow>>>', this.state.arrowRotation))
       var loader = new ColladaLoader();
       loader.options.localImageMode = true
       loader.load('https://raw.githubusercontent.com/ar-nav/react-arnav/qr-reader-dev/src/assets/di' +
           'rectional-generic-marker.dae',
-      function (collada) {
+       (collada) => {
         arrow = collada.scene;
         arrow.name = 'PANAH'
-        arrow.rotation.y = getAngle(targetLoc, currentLoc) + Math.PI / 2
+        arrow.rotation.y = this.state.arrowRotation + Math.PI / 2
         arrow.rotation.z = 0 //Math.abs(rotation)*0.7 ||0.2
         arrow.rotation.x = 0 //Math.abs(rotation)*0.4 ||0.2
         arrow
@@ -179,10 +185,22 @@ export const directionRendererFactory = ({
               ? 0
               : this.props.coords.longitude
           }
-          if (scene.children[1].children[1]) {
-            scene.children[1].children[1].rotation.y = getAngle(targetLoc, newCurrentLoc) + Math.PI / 2
+
+          if (this.props.isTargetEvent) {
+            if (this.props.qrLocation !== null) {
+              newCurrentLoc = this.props.qrLocation
+            }
           }
-          renderer.render(scene, camera);
+          this.setState({currentLoc: newCurrentLoc}, () => {
+            this.setState({arrowRotation: getAngle(targetLoc, this.state.currentLoc)*180/Math.PI}, ()=>console.log('arrow>>>', this.state.arrowRotation))
+            // if (scene.children[1].children[1]) {
+              // console.log('update----------',arrow)
+              if (arrow){
+                arrow.rotation.y = (this.state.arrowRotation + 90) * Math.PI / 180
+              }
+            // }
+            renderer.render(scene, camera);
+          })
         }
       });
 
@@ -254,7 +272,7 @@ export const directionRendererFactory = ({
                   width: 50
                 }}
             />
-            <h3>{this.props.coords && this.getDistance(this.props.coords, this.props.targetLoc)} m</h3>
+            <h3>{(this.props.coords && this.state.currentLoc) && this.getDistance(this.state.currentLoc, this.props.targetLoc)} m</h3>
 
           </div>
           <div
@@ -278,10 +296,6 @@ export const directionRendererFactory = ({
                       <td>{this.props.coords.longitude}</td>
                     </tr>
                     <tr>
-                      <td>geo-altitude</td>
-                      <td>{this.props.coords.altitude}</td>
-                    </tr>
-                    <tr>
                       <td>geo-heading</td>
                       <td>{this.props.coords.heading}</td>
                     </tr>
@@ -299,7 +313,19 @@ export const directionRendererFactory = ({
                     </tr>
                     <tr>
                       <td>Dist. to location</td>
-                      <td>{this.getDistance(this.props.coords, this.props.targetLoc)} m</td>
+                      <td>{this.getDistance(this.state.currentLoc, this.props.targetLoc)} m</td>
+                    </tr>
+                    <tr>
+                      <td>QR location</td>
+                      <td>{(this.props.qrLocation !== null ? JSON.stringify(this.props.qrLocation) : 0)}</td>
+                    </tr>
+                    <tr>
+                      <td>Current Loc</td>
+                      <td>{JSON.stringify(this.state.currentLoc)}</td>
+                    </tr>
+                    <tr>
+                      <td>Target Loc</td>
+                      <td>{JSON.stringify(this.props.targetLoc)}</td>
                     </tr>
                   </tbody>
                 </table>

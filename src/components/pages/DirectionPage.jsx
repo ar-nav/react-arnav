@@ -28,7 +28,10 @@ class Direction extends Component {
     super(props)
     this.state = {
       targetLoc: this.props.targetLocation,
-      qrLocation: null,
+      qrLocation: {
+        latitude:0,
+        longitude: 0
+      },
       qrDelay: 10,
       qrResult: 'No result',
     };
@@ -57,13 +60,12 @@ class Direction extends Component {
         longitude
       }
     }`}).then(queryResult => {
-      console.log('qrresult----------', queryResult)
       let newQrLocation = {
-        latitude:queryResult.data.getPlace.latitude,
-        longitude: queryResult.data.getPlace.longitude
+        latitude:Number(queryResult.data.getPlace.latitude),
+        longitude: Number(queryResult.data.getPlace.longitude)
       }
       this.setState({
-        qrResult: newQrLocation,
+        qrLocation: newQrLocation,
 
       })
 
