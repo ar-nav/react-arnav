@@ -13,7 +13,7 @@ import PlaceList from './components/eventPlace/PlaceList'
 import PlaceForm from './components/eventPlace/PlaceForm'
 
 export default (props) => (
-  <Router onChange={(event) => props.onChange(event)}>
+  <Router>
     <div>
       <MainDrawer />
       <div style={{overflowY:'scroll'}}>

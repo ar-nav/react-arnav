@@ -10,7 +10,7 @@ import Menu, { MenuItem } from 'material-ui/Menu'
 import ColladaLoader from 'three-collada-loader'
 import Typography from 'material-ui/Typography';
 
-import yerrow from "../../assets/green-arrow.png"
+import yerrow from "../../assets/nav-dua-stroke.png"
 import initializeRenderer from '../../utils/initializeRenderer'
 import {initializeArToolkit, getMarker} from '../../utils/arToolkit'
 // import detectEdge from '../../utils/detectEdge'

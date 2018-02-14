@@ -8,6 +8,16 @@ import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 
 class FinishPage extends Component {
+
+  onBackButtonEvent(e) {
+    e.preventDefault()
+    window.location.replace('/destination/location')
+  }
+
+  componentDidMount() {
+    window.onpopstate = this.onBackButtonEvent
+  }
+  
   render() {
     const {classes} = this.props
     return (

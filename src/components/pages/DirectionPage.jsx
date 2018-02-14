@@ -46,18 +46,19 @@ class Direction extends Component {
       return !isEqual(state, this.state);
   }
 
-
-  onBackButtonEvent = (e) => {
-    e.preventDefault();
-    // console.log('yolo yolo', e)
-
+  onBackButtonEvent(e) {
+    // e.preventDefault()
+    // window.location.replace('/destination/location')
   }
 
-  componentDidMount = () => {
-    window.onpopstate = this.onBackButtonEvent;
+  componentDidMount() {
+    // window.onpopstate = this.onBackButtonEvent
   }
 
-
+  componentWillUnmount(){
+    console.log('location,.,.', this.props.history.location)
+    window.location.replace(this.props.history.location.pathname)
+  }
   handleMarkerFound = () => this.setState({ markerFound: true });
 
   handleQrScan(data){ 
