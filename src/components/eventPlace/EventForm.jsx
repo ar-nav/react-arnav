@@ -20,6 +20,10 @@ const styles = theme => ({
   button: {
     marginTop: theme.spacing.unit * 2,
   },
+  wrapper: {
+    margin: theme.spacing.unit,
+    position: 'relative',
+  },
   buttonProgress: {
     // color: green[500],
     position: 'absolute',
@@ -90,6 +94,7 @@ class EventForm extends Component {
             {/*onChange={this.handleChange('imageUrl')}*/}
           {/*/>*/}
           <div className={classes.wrapper}>
+
             <Button
               variant="raised"
               color="primary"
@@ -103,10 +108,6 @@ class EventForm extends Component {
             </Button>
             {this.state.loading && <LoaderCircular size={24} className={classes.buttonProgress} />}
           </div>
-          <Button size={'large'} onClick={this.handleSubmit} color={'primary'} fullWidth
-                  variant="raised" className={classes.button}>
-            Submit
-          </Button>
         </div>
       </div>
     );
