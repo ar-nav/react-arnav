@@ -6,6 +6,7 @@ import LocationIcon from 'material-ui-icons/MyLocation';
 import {withRouter} from 'react-router-dom'
 import Button from 'material-ui/Button';
 import Icon from 'material-ui/Icon';
+import { withStyles } from 'material-ui/styles';
 
 import generatePDF from '../../utils/pdfGenerator'
 import { setPlacesLocation } from '../../store/action'
@@ -40,11 +41,17 @@ class PlaceListItem extends Component {
             <LocationIcon/>
           </ListItemIcon>
           <ListItemText primary={this.props.name} />
-          {(this.props.parentRoute === 'manager') && 
-            <Button
-              variant="flat"
-              onClick={() => this.downloadMarker(this.props.ID, this.props.name)}
-            >< Icon>file_download</Icon> Marker</Button>
+          {(this.props.parentRoute === 'manager') &&
+            <div
+              className={this.props.classes.markerButton}
+            >
+              <Button
+                style={{ paddingRight: '6px', paddingLeft: '6px',}}
+                variant="flat"
+                onClick={() => this.downloadMarker(this.props.ID, this.props.name)}
+              >< Icon>file_download</Icon> Marker</Button>
+            </div>
+
           }
         </ListItem>
         <Divider/>
@@ -53,6 +60,15 @@ class PlaceListItem extends Component {
   }
 }
 
+const style = theme => ({
+  markerButton: {
+    // width: 20,
+    // paddingLeft: - 10,
+    // paddingRight: 3,
+    display: 'flex'
+  }
+})
+
 const mapStateToProps = state => ({ ...state })
 
 const mapDispatchToProps = dispatch => ({
@@ -60,6 +76,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-  (withRouter(PlaceListItem))
+  (withRouter(withStyles(style)(PlaceListItem)))
 );
 

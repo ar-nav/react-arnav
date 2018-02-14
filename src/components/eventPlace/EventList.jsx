@@ -13,7 +13,8 @@ import LoaderCircular from '../common/LoaderCircular'
 const styles = theme => ({
   root: {
     width: '100%',
-    paddingTop: 10
+    paddingTop: 10,
+    marginBottom: 70
   },
   fab: {
     position: 'fixed',
@@ -23,13 +24,12 @@ const styles = theme => ({
 });
 
 class EventList extends Component {
-
   render() {
     const {classes, parentRoute, data} = this.props
     return data.loading ? (<LoaderCircular/>) : (
       <div className={classes.root}>
         <List component="nav">
-          {data.getEvents.map((event, i) => <EventListItem key={event.ID} {...event}
+          {data.getEvents.map((event, i) => <EventListItem  key={event.ID} {...event}
                                                    parentRoute={parentRoute}/>)}
         </List>
         {parentRoute === 'manager' && (
@@ -47,7 +47,7 @@ class EventList extends Component {
 }
 
 const query = gql`
-    query hola{
+    query getEventsQuery{
         getEvents {
             ID
             name
@@ -57,7 +57,7 @@ const query = gql`
 
 const WithGraphQl = graphql(query, {
   options: {
-    fetchPolicy: 'cache-and-network'
+    fetchPolicy: 'network-only'
   }
 })(EventList)
 

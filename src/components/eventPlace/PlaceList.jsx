@@ -4,19 +4,20 @@ import {withStyles} from 'material-ui/styles';
 import List from 'material-ui/List';
 import AddIcon from 'material-ui-icons/Add';
 import Button from 'material-ui/Button';
-import Typography from 'material-ui/Typography';
 import CemberutIcon from 'material-ui-icons/SentimentNeutral'
 import PlaceListItem from './PlaceListItem'
 import gql from "graphql-tag";
 import {graphql} from "react-apollo/index";
-import MainAppBar from '../common/MainAppBar'
+import Typography from 'material-ui/Typography';
 
+import MainAppBar from '../common/MainAppBar'
 import CircularLoader from '../common/LoaderCircular'
 
 const styles = theme => ({
   root: {
     // width: '100%',
     paddingTop: 20,
+    marginBottom: 70
 
   },
   fab: {
@@ -31,11 +32,12 @@ class PlaceList extends Component {
   render() {
     const {parentRoute, classes, data, match, location} = this.props
     let titleName = parentRoute ==='destination' ?
-    location.state.eventName: 
-      `Manage Event: ${location.state.eventName}`
+    'Places':
+      `Manage Event`
     return (
       <div className={classes.root}>
         <MainAppBar title={titleName}/>
+
         {data.loading ? (
           <div style={{marginTop: '56px'}}>
             <CircularLoader/>
@@ -43,10 +45,12 @@ class PlaceList extends Component {
         ) : (
 
           <div style={{marginTop: '56px', minHeight: 50}}>
-
+            <Typography variant="headline" gutterBottom style={{textAlign: 'center'}}>
+              {location.state.eventName}
+            </Typography>
             <List component={'nav'}>
               {data.getAllPlaces.filter(place => place.event && place.event.ID===match.params.eventId).length === 0 ? (
-                <div style={{textAlign: 'center', marginTop: 30}}>
+                <div style={{textAlign: 'center', marginTop: 10}}>
                   <CemberutIcon/>
                   <Typography  gutterBottom>
                     No place registered to this event
@@ -100,7 +104,7 @@ const query = gql`
 
 const WithGraphQl = graphql(query, {
   options: {
-    fetchPolicy: 'cache-and-network'
+    fetchPolicy: 'network-only'
   }
 })(PlaceList)
 
