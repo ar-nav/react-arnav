@@ -29,7 +29,8 @@ class PlaceListItem extends Component {
   render() {
     const qrLocation = {
       latitude: this.props.latitude,
-      longitude: this.props.longitude
+      longitude: this.props.longitude,
+      name: this.props.name
     }
     return (
       <div>
