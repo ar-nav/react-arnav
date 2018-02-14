@@ -33,12 +33,16 @@ import client from './client'
 
 
 class App extends Component {
+  handleRouteChange(event) {
+    console.log('event----------', event)
+
+  }
   render() {
     return (
       <Provider store={store}>
         <ApolloProvider client={client} >
           <MuiThemeProvider theme={mainTheme}>
-            <MainRouter/>
+            <MainRouter onChange={(event) => this.handleRouteChange(event)}/>
           </MuiThemeProvider>
         </ApolloProvider>
       </Provider>
