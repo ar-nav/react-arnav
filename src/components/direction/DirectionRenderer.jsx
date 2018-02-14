@@ -295,10 +295,10 @@ export const directionRendererFactory = ({
           </div>
           <div
             style={{
-            backgroundColor: '#0000ff6f',
-            marginTop: 0,
-            right:0,
-            color: 'yellow',
+            backgroundColor: '#FFEA008f',
+            top:'10vh',
+            left:'30vw',
+            color: '#32792F',
             zIndex: 1199,
             position: 'absolute',
             display: this.state.isShowInfo ? 'block': 'none'
@@ -328,7 +328,7 @@ export const directionRendererFactory = ({
                     </tr>
                     <tr>
                       <td>Ang. diff</td>
-                      <td>: {this.state.arrowRotation} deg</td>
+                      <td>: {Math.round(this.state.arrowRotation, 2)} deg</td>
                     </tr>
                     <tr>
                       <td>Dist. to loc</td>
@@ -337,15 +337,15 @@ export const directionRendererFactory = ({
                     <tr>
                       <td>QR loc</td>
                       <td>
-                        : {(this.props.qrLocation && this.props.qrLocation.latitude)},
-                        {(this.props.qrLocation && this.props.qrLocation.longitude)}
+                        : {(this.props.qrLocation && Math.round(this.props.qrLocation.latitude,4))},
+                        {(this.props.qrLocation && Math.round(this.props.qrLocation.longitude,4))}
                       </td>
                     </tr>
                     <tr>
                       <td>Current Loc</td>
                       <td>
-                        : {(this.state.currentLoc && this.state.currentLoc.latitude)}, 
-                        {(this.state.currentLoc && this.state.currentLoc.longitude)}
+                        : {(this.state.currentLoc && Math.round(this.state.currentLoc.latitude,4))}, 
+                        {(this.state.currentLoc && Math.round(this.state.currentLoc.longitude,4))}
                       </td>
                     </tr>
                     <tr>
