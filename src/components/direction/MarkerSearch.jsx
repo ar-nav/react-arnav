@@ -14,9 +14,9 @@ const styles = {
     },
     content: {
         display: 'inline-block',
-        color: 'lime',
-        borderColor: 'lime',
-        borderWidth: 2,
+        color: '#00E676',
+        borderColor: '#00E676',
+        borderWidth: 1,
         borderStyle: 'solid',
         maxWidth: 200,
         fontWeight: 'bold',

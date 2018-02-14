@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import QrReader from 'react-qr-reader'
 import Button from 'material-ui/Button';
 import gql from 'graphql-tag'
-import { graphql } from 'react-apollo/index'
 
 import DirectionRenderer from '../direction/DirectionRenderer';
 import MarkerSearch from '../direction/MarkerSearch';
@@ -14,10 +13,11 @@ import { withApollo } from 'react-apollo'
 // import client from '../../client'
 
 const styles = {
-  backButton: {
-    zIndex: 2001,
+  finishButton: {
+    backgroundColor: '#FFEA00',
+    zIndex: 1000,
     position: 'absolute',
-    right: '2rem',
+    left: '37%',
     bottom: '1.5rem',
     marginTop: 10
   }
@@ -29,6 +29,7 @@ class Direction extends Component {
     this.state = {
       targetLoc: this.props.targetLocation,
       qrLocation: {
+        name: null,
         latitude:0,
         longitude: 0
       },
@@ -45,18 +46,19 @@ class Direction extends Component {
       return !isEqual(state, this.state);
   }
 
-
-  onBackButtonEvent = (e) => {
-    e.preventDefault();
-    // console.log('yolo yolo', e)
-
+  onBackButtonEvent(e) {
+    // e.preventDefault()
+    // window.location.replace('/destination/location')
   }
 
-  componentDidMount = () => {
-    window.onpopstate = this.onBackButtonEvent;
+  componentDidMount() {
+    // window.onpopstate = this.onBackButtonEvent
   }
 
-
+  componentWillUnmount(){
+    console.log('location,.,.', this.props.history.location)
+    window.location.replace(this.props.history.location.pathname)
+  }
   handleMarkerFound = () => this.setState({ markerFound: true });
 
   handleQrScan(data){ 
@@ -73,6 +75,7 @@ class Direction extends Component {
       }
     }`}).then(queryResult => {
       let newQrLocation = {
+        name: queryResult.data.getPlace.name,
         latitude:Number(queryResult.data.getPlace.latitude),
         longitude: Number(queryResult.data.getPlace.longitude)
       }
@@ -84,12 +87,6 @@ class Direction extends Component {
     }).catch (err => {
       console.log(err)
     })
-      //1. query GET location by ID to GraphQL
-      // let qrLocation = {
-      //   latitude: 5,
-      //   longitude: -5
-      // }
-      // 2. hasil query
       this.setState({
         qrResult: data,
       })
@@ -119,7 +116,6 @@ class Direction extends Component {
         style={{padding: 0, margin: 0, visibility:'hidden', width: '0%'}}
         showViewFinder={false}
       />
-        <p style={{color:'orange', backgroundColor:'#0000ff6f', marginTop:300, marginLeft:0, zIndex:2002, position:'absolute'}}>{this.state.qrResult}</p>
         <DirectionRenderer
           isTargetEvent={this.props.isTargetEvent}
           qrLocation={this.state.qrLocation}
@@ -128,9 +124,8 @@ class Direction extends Component {
         ></DirectionRenderer>
         {!markerFound && <MarkerSearch />}
         <Button 
-          style={styles.backButton}
+          style={styles.finishButton}
           variant='raised'
-          color='blue'
           onClick = {() => window.location.replace('/finish')}
         >Finish</Button>
       </div>
@@ -142,16 +137,5 @@ const mapStateToProps = state => ({ ...state })
 
 const mapDispatchToProps = dispatch => ({
 })
-
-// const WithGraphQL = gql`
-//   query getLocation($placeId: String!){
-//     getPlace(ID:$placeId){
-//       ID
-//       name
-//       latitude
-//       longitude
-//     }
-//   }
-// `
 
 export default connect(mapStateToProps, mapDispatchToProps)(withApollo(Direction))

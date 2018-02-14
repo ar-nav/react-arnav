@@ -34,6 +34,7 @@ class TemporaryDrawer extends React.Component {
   }
 
   render() {
+    console.log('----->>',this.props.history.location)
     const {classes} = this.props
 
     const sideList = (

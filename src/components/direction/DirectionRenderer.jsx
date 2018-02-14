@@ -8,8 +8,9 @@ import { FormControlLabel, FormGroup } from 'material-ui/Form'
 import Button from 'material-ui/Button'
 import Menu, { MenuItem } from 'material-ui/Menu'
 import ColladaLoader from 'three-collada-loader'
+import Typography from 'material-ui/Typography';
 
-import yerrow from "../../assets/green-arrow.png"
+import yerrow from "../../assets/nav-dua-stroke.png"
 import initializeRenderer from '../../utils/initializeRenderer'
 import {initializeArToolkit, getMarker} from '../../utils/arToolkit'
 // import detectEdge from '../../utils/detectEdge'
@@ -153,7 +154,7 @@ export const directionRendererFactory = ({
       this.setState({currentLoc: currentLoc} )
 
       let targetLoc = this.props.targetLoc
-      this.setState({arrowRotation: getAngle(targetLoc, this.state.currentLoc)*180/Math.PI}, ()=>console.log('arrow>>>', this.state.arrowRotation))
+      this.setState({arrowRotation: getAngle(targetLoc, this.state.currentLoc)*180/Math.PI})
       var loader = new ColladaLoader();
       loader.options.localImageMode = true
       loader.load('https://raw.githubusercontent.com/ar-nav/react-arnav/qr-reader-dev/src/assets/di' +
@@ -166,7 +167,7 @@ export const directionRendererFactory = ({
         arrow.rotation.x = 0 //Math.abs(rotation)*0.4 ||0.2
         arrow
           .position
-          .set(0, 0, 0)
+          .set(0, 1.4, 0)
         arrow
           .scale
           .set(2, 1, 1)
@@ -192,7 +193,7 @@ export const directionRendererFactory = ({
             }
           }
           this.setState({currentLoc: newCurrentLoc}, () => {
-            this.setState({arrowRotation: getAngle(targetLoc, this.state.currentLoc)*180/Math.PI}, ()=>console.log('arrow>>>', this.state.arrowRotation))
+            this.setState({arrowRotation: getAngle(targetLoc, this.state.currentLoc)*180/Math.PI})
             // if (scene.children[1].children[1]) {
               // console.log('update----------',arrow)
               if (arrow){
@@ -251,15 +252,33 @@ export const directionRendererFactory = ({
           <canvas id="arpage" ref={this.storeRef}/>
           <div
             style={{
-            marginTop: 0,
+            top: '10vh',
             padding: '10px',
             color: '#32792F',
-            zIndex: 2002,
+            zIndex: 1002,
             position: 'absolute',
             display: this.state.isShowHud ? 'block': 'none',
-            backgroundColor: '#FFFFFF8f',
-            right:'0rem'
+            backgroundColor: '#FFEA008f',
+            left:'0rem'
           }}>
+            {this.props.qrLocation.name && 
+              <Typography
+                variant='title'
+                style={{color:'#32792F'}}
+              >From: {this.props.qrLocation.name}</Typography>
+            }
+            <Typography
+              variant='title'
+              style={{color:'#32792F'}}
+            >
+              {(this.props.coords && this.state.currentLoc) && this.getDistance(this.state.currentLoc, this.props.targetLoc)} m
+            </Typography>
+            {this.props.targetLoc.name && 
+              <Typography
+                variant='title'
+                style={{color:'#32792F'}}
+              >To: {this.props.targetLoc.name}</Typography>
+            }
             <img
               id="yerrow"
               src={yerrow}
@@ -272,15 +291,15 @@ export const directionRendererFactory = ({
                   width: 50
                 }}
             />
-            <h3>{(this.props.coords && this.state.currentLoc) && this.getDistance(this.state.currentLoc, this.props.targetLoc)} m</h3>
 
           </div>
           <div
             style={{
-            backgroundColor: '#0000ff6f',
-            marginTop: 0,
-            color: 'yellow',
-            zIndex: 2002,
+            backgroundColor: '#FFEA008f',
+            top:'10vh',
+            left:'30vw',
+            color: '#32792F',
+            zIndex: 1199,
             position: 'absolute',
             display: this.state.isShowInfo ? 'block': 'none'
           }}>
@@ -289,43 +308,52 @@ export const directionRendererFactory = ({
                   <tbody>
                     <tr>
                       <td>geo-latitude</td>
-                      <td>{this.props.coords.latitude}</td>
+                      <td>: {this.props.coords.latitude}</td>
                     </tr>
                     <tr>
                       <td>geo-longitude</td>
-                      <td>{this.props.coords.longitude}</td>
+                      <td>: {this.props.coords.longitude}</td>
                     </tr>
                     <tr>
                       <td>geo-heading</td>
-                      <td>{this.props.coords.heading}</td>
+                      <td>: {this.props.coords.heading}</td>
                     </tr>
                     <tr>
                       <td>device-heading</td>
-                      <td>{this.state.compassHeading}</td>
+                      <td>: {this.state.compassHeading}</td>
                     </tr>
                     <tr>
                       <td>geo-speed</td>
-                      <td>{this.props.coords.speed}</td>
+                      <td>: {this.props.coords.speed}</td>
                     </tr>
                     <tr>
                       <td>Ang. diff</td>
-                      <td>{this.state.arrowRotation} deg</td>
+                      <td>: {Math.round(this.state.arrowRotation, 2)} deg</td>
                     </tr>
                     <tr>
-                      <td>Dist. to location</td>
-                      <td>{this.getDistance(this.state.currentLoc, this.props.targetLoc)} m</td>
+                      <td>Dist. to loc</td>
+                      <td>: {this.getDistance(this.state.currentLoc, this.props.targetLoc)} m</td>
                     </tr>
                     <tr>
-                      <td>QR location</td>
-                      <td>{(this.props.qrLocation !== null ? JSON.stringify(this.props.qrLocation) : 0)}</td>
+                      <td>QR loc</td>
+                      <td>
+                        : {(this.props.qrLocation && Math.round(this.props.qrLocation.latitude,4))},
+                        {(this.props.qrLocation && Math.round(this.props.qrLocation.longitude,4))}
+                      </td>
                     </tr>
                     <tr>
                       <td>Current Loc</td>
-                      <td>{JSON.stringify(this.state.currentLoc)}</td>
+                      <td>
+                        : {(this.state.currentLoc && Math.round(this.state.currentLoc.latitude,4))}, 
+                        {(this.state.currentLoc && Math.round(this.state.currentLoc.longitude,4))}
+                      </td>
                     </tr>
                     <tr>
                       <td>Target Loc</td>
-                      <td>{JSON.stringify(this.props.targetLoc)}</td>
+                      <td>
+                        : {(this.props.targetLoc && this.props.targetLoc.latitude)},
+                        {(this.props.targetLoc && this.props.targetLoc.latitude)}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -335,7 +363,7 @@ export const directionRendererFactory = ({
           <div
             style={{
               position: 'absolute',
-              left:'41%',
+              left:'2rem',
               bottom: '1rem'
             }}
           >
@@ -398,5 +426,4 @@ export default geolocated({
   getMarker,
   initializeRenderer,
   requestAnimationFrame: requestAnimationFrame,
-  // detectEdge
 }));

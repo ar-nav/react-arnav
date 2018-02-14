@@ -2,7 +2,7 @@ const initialState = {
   drawerOpen: false,
   isTargetEvent: false,
   qrLocation: null,
-  targetLocation: {name: 'Hacktiv8 Indonesia', latitude: -6.2615663, longitude: 106.78280080000002},
+  targetLocation: {name: null, latitude: -6.2615663, longitude: 106.78280080000002},
   formPlaceLocation: {name: 'Hacktiv8 Indonesia', latitude: -6.2615663, longitude: 106.78280080000002},
   suggestions: [
     {description: 'Afghanistan'},
