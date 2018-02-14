@@ -19,7 +19,7 @@ class FinishPage extends Component {
             Congratulation!
           </Typography>
           <Typography variant="title" gutterBottom>
-            You've reach your destination
+            You've reached your destination
           </Typography>
           <div style={{marginTop:30}}>
             <Button

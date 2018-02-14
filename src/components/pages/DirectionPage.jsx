@@ -45,6 +45,18 @@ class Direction extends Component {
       return !isEqual(state, this.state);
   }
 
+
+  onBackButtonEvent = (e) => {
+    e.preventDefault();
+    // console.log('yolo yolo', e)
+
+  }
+
+  componentDidMount = () => {
+    window.onpopstate = this.onBackButtonEvent;
+  }
+
+
   handleMarkerFound = () => this.setState({ markerFound: true });
 
   handleQrScan(data){ 
