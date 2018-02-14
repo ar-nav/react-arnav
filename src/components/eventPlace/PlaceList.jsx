@@ -15,7 +15,9 @@ import CircularLoader from '../common/LoaderCircular'
 
 const styles = theme => ({
   root: {
-    width: '100%',
+    // width: '100%',
+    paddingTop: 20,
+
   },
   fab: {
     position: 'fixed',
@@ -34,7 +36,7 @@ class PlaceList extends Component {
     location.state.eventName: 
       `Manage Event: ${location.state.eventName}`
     return (
-      <div>
+      <div className={classes.root}>
         <MainAppBar title={titleName}/>
         {data.loading ? (
           <div style={{marginTop: '56px'}}>

@@ -126,7 +126,7 @@ class LoginComponent extends Component {
             variant="raised"
             // color="secondary"
             size="small"
-            style={{backgroundColor: '#db3236', color: 'white'}}
+            style={{background: '#db3236', color: 'white'}}
             onClick={() => {
               this.handleClick(googleProvider)
             }}
@@ -138,7 +138,7 @@ class LoginComponent extends Component {
             className={classes.button}
             variant="raised"
             size="small"
-            style={{backgroundColor: '#3b5998', color: 'white'}}
+            style={{background: '#3b5998', color: 'white'}}
             onClick={() => {
               this.handleClick(facebookProvider)
             }}

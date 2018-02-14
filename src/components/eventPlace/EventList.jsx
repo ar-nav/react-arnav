@@ -13,6 +13,7 @@ import LoaderCircular from '../common/LoaderCircular'
 const styles = theme => ({
   root: {
     width: '100%',
+    paddingTop: 10
   },
   fab: {
     position: 'fixed',

@@ -9,9 +9,10 @@ import { graphql } from 'react-apollo';
 
 const styles = {
   card: {
-    marginBottom: 10,
+    marginBottom: 15,
     marginLeft: 10,
-    marginRight: 10
+    marginRight: 10,
+    paddingBottom:10
   },
   media: {
     height: 150,
@@ -48,7 +49,7 @@ function SimpleMediaCard(props) {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button onClick={handleClick} variant={'raised'} fullWidth size="small" color="primary">
+          <Button onClick={handleClick} variant={'raised'} fullWidth size="large" color="primary">
             {parentRoute === 'manager' ? 'Register your place here': 'View Places'}
           </Button>
         </CardActions>

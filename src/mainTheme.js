@@ -9,6 +9,20 @@ import red from 'material-ui/colors/red';
 // All the following keys are optional.
 // We try our best to provide a great default value.
 export  default createMuiTheme({
+  overrides: {
+    MuiButton: {
+      // Name of the styleSheet
+      root: {
+        // Name of the rule
+        background: 'linear-gradient(45deg, #64e87b 30%, #49d896 90%)',
+        borderRadius: 3,
+        border: 0,
+        color: 'white',
+        padding: '0 30px',
+        // boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .30)',
+      },
+    },
+  },
   palette: {
     primary: {
       light:green.A700,
