@@ -30,8 +30,6 @@ const styles = theme => ({
 class PlaceList extends Component {
   render() {
     const {parentRoute, classes, data, match, location} = this.props
-
-    console.log('----------->>',data)
     let titleName = parentRoute ==='destination' ?
     location.state.eventName: 
       `Manage Event: ${location.state.eventName}`
