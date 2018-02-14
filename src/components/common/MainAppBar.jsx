@@ -12,8 +12,12 @@ import MenuIcon from 'material-ui-icons/Menu';
 import {toggleDrawer} from '../../store/action'
 
 const styles = {
+  bar: {
+    backgroundColor: 'white'
+  },
   root: {
     width: '100%',
+
   },
   menuButton: {
     marginLeft: -12,
@@ -25,7 +29,7 @@ function ButtonAppBar(props) {
   const { classes } = props
   return (
 
-      <AppBar color="default" position={props.position || 'fixed'} >
+      <AppBar className={classes.bar} color="default" position={props.position || 'fixed'} >
         <Toolbar>
           <IconButton onClick={() => props.openDrawer()} color="inherit" className={classes.menuButton} aria-label="Menu">
             <MenuIcon />
