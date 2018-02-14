@@ -1,40 +1,53 @@
-import React, { Component } from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import FileSelection from './FileSelection';
-import Sketch from './Sketch';
+import React, { Component } from 'react'
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
+import { Provider } from 'react-redux'
+import { HttpLink } from 'apollo-link-http';
+import ApolloClient from 'apollo-client';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloProvider } from 'react-apollo';
+import { setContext } from 'apollo-link-context';
+import './assets/css/main.css'
+import {store} from './store'
+import MainRouter from './MainRouter'
+import mainTheme from './mainTheme'
+import client from './client'
 
-const styles = {
-    container: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        fontFamily: "'Roboto', sans-serif",
-    },
-};
+// const link = new HttpLink({ uri: 'https://ael3l4ewpbffzmehxdpvxlfigm.appsync-api.us-east-1.amazonaws.com/graphql' });
+
+// const authLink = setContext((_, { headers }) => {
+//   const APIKEY = 'da2-arau223jmbbiddhflcebwwxhuq'
+//   return {
+//     headers: {
+//       ...headers,
+//       'x-api-key': APIKEY
+//     }
+//   }
+// });
+
+// const client = new ApolloClient({
+//   link: authLink.concat(link),
+//   cache: new InMemoryCache()
+// });
+
+
+
 
 class App extends Component {
-    state = {
-        image: null,
-    };
+  handleRouteChange(event) {
+    console.log('event----------', event)
 
-    handleFileSelected = ({ image, whiteImage, blackImage }) => {
-        this.setState({ image, whiteImage, blackImage });
-    }
-
-    render() {
-        const { image, whiteImage, blackImage } = this.state;
-
-        return (
-            <MuiThemeProvider>
-                <div style={styles.container}>
-                    {!image && <FileSelection onFileSelected={this.handleFileSelected} />}
-                    {image && <Sketch image={image} whiteImage={whiteImage} blackImage={blackImage} />}
-                </div>
-            </MuiThemeProvider>
-        )
-    }
+  }
+  render() {
+    return (
+      <Provider store={store}>
+        <ApolloProvider client={client} >
+          <MuiThemeProvider theme={mainTheme}>
+            <MainRouter onChange={(event) => this.handleRouteChange(event)}/>
+          </MuiThemeProvider>
+        </ApolloProvider>
+      </Provider>
+    )
+  }
 }
 
-export default App;
+export default App

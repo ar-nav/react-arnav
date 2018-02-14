@@ -1,0 +1,39 @@
+{
+  "events": [
+   {
+    "id": "e1",
+    "name": "GIAS Expo"
+   },
+   {
+    "id": "e2",
+    "name": "Wibu Meetup"
+   }
+  ],
+  "places": [
+    {
+      "id": 1,
+      "eventId": "e1",
+      "name": "Ferarri",
+      "loc": {
+        "lat": "",
+        "long": ""
+      }
+    },
+    {
+      "id": 2,
+      "name": "Delta",
+      "loc": {
+        "lat": "",
+        "long": ""
+      }
+    },
+    {
+      "id": 3,
+      "name": "Pondok Indah Mall",
+      "loc": {
+        "lat": "",
+        "long": ""
+      }
+    }
+  ]
+}
